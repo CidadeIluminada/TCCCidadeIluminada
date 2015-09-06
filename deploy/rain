@@ -1,0 +1,38 @@
+# instalação
+locale-gen en_US.UTF-8
+dpkg-reconfigure locales
+apt-get update
+apt-get install -y python-dev vim python-pip python-virtualenv git nginx postgresql postgresql-contrib libpq-dev
+
+# ssh
+# ssh-keygen -t rsa -C "arthurbressan2@hotmail.com"
+# cat ~/.ssh/id_rsa.pub
+# eval "$(ssh-agent -s)"
+# ssh-add ~/.ssh/id_rsa
+# ssh -T git@github.com
+
+#
+git config --global user.email "arthurbressan2@hotmail.com"
+git config --global user.name "Arthur Bressan"
+git config --global core.editor vim
+git config --global push.default simple
+git clone git@github.com:HardDiskD/TCMCidadeIluminada.git
+
+#
+cd TCMCidadeIluminada/
+mkdir instance/
+printf "# coding: UTF-8\n\nSQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://cidadeiluminada:cidadeiluminada@localhost/cidadeiluminada'" > instance/settings_local.py
+virtualenv venv
+. venv/bin/activate
+pip install -r requirements.txt
+pip install -r requirements-db.txt
+pip install uwsgi
+
+# Postgres: https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
+python manage.py db upgrade
+python manage.py ci criar_usuario admin 123456
+
+#
+cd /etc/nginx
+rm sites-enabled default
+printf ""

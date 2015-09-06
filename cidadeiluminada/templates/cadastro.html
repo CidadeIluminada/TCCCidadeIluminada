@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% set title = 'Cadastro de usuário' if not edit else 'Editar Usuário' %}
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+<form id="cadastro_form" class="container form-horizontal" method="POST">
+    {{ flash_categories_with_style(['cadastro_failed'], 'danger' ) }}
+    {{ form.hidden_tag() }}
+    <fieldset>
+        <legend>{{ title }}</legend>
+        <div class="form-group">
+            {{ form.username.label(class_='col-md-4 control-label') }}
+            <div class="col-md-5">
+                {{ form.username(class_='form-control input-md', required=True, disabled=True if edit else False) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.password.label(class_='col-md-4 control-label') }}
+            <div class="col-md-5">
+                {{ form.password(class_='form-control input-md', required='True') }}
+                <span class="help-block">Mínimo 6 caracteres</span>
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.confirm.label(class_='col-md-4 control-label') }}
+            <div class="col-md-5">
+                {{ form.confirm(class_='form-control input-md', required='True') }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for=""></label>
+            <div class="col-md-8">
+                <button id="" name="" type="submit" class="btn btn-success">Cadastrar</button>
+                <button id="limpar" name="limpar" type="button" class="btn btn-default">Limpar</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+{% endblock %}
+
+{% block body_tail %}
+<script type="text/javascript">
+    $('#limpar').click(function limpar() {
+        $('#cadastro_form input').not('[disabled]').val('');
+    });
+</script>
+{% endblock %}

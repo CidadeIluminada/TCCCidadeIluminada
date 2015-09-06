@@ -1,0 +1,1 @@
+uwsgi --socket :8080 --module="cidadeiluminada:create_app()" --touch-reload="/root/uwsgi_file" &
