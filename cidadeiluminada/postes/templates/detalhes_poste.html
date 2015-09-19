@@ -1,0 +1,115 @@
+{% extends "base_poste.html" %}
+{% block title %}
+    Detalhes Poste #xxx
+{% endblock %}
+
+{% block content %}
+<h1 class="page-header">Poste #1001</h1>
+<div>
+    <fieldset>
+        <form>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label for="CEP">CEP</label>
+                    <p class="form-control-static">12240-310</p>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="cidade">Cidade</label>
+                    <p class="form-control-static">São José dos Campos</p>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label for="bairro">Bairro</label>
+                    <p class="form-control-static">Jardim das Indústrias</p>
+                </div>
+                    <div class="col-md-2 form-group">
+                    <label for="rua">Rua</label>
+                <p class="form-control-static">Presidente Epitácio</p>
+                </div>
+                <div class="col-md-2 form-group">
+                    <label for="rua">Número aproximado</label>
+                    <p class="form-control-static">90</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="situacao">Situação atual</label>
+                    <p class="form-control-static">Pendente</p>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="tipo">Tipo</label>
+                    <p class="form-control-static">Poste</p>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+</div>
+
+<h2 class="sub-header">Histórico de manutenção</h2>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Tipo</th>
+                <th>Situação</th>
+                <th>Obs.</th>
+                <th>Adicionar/Excluir</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>01/01/2015</td>
+                <td>Troca</td>
+                <td>Concluída</td>
+                <td>Troca lâmpada</td>
+                <td>
+                    <button type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-minus"></span>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>31/01/2015</td>
+                <td>Manutenção Preventiva</td>
+                <td>Enviado ordem de serviço</td>
+                <td></td>
+                <td>
+                    <button type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-minus"></span>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>15/02/2015</td>
+                <td>Troca</td>
+                <td>Pendente</td>
+                <td>Troca reator</td>
+                <td>
+                    <button type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-minus"></span>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>15/02/2015</td>
+                <td>
+                    <select>
+                        <option></option>
+                        <option>Manutenção Preventiva</option>
+                        <option>Troca</option>
+                    </select>
+                </td>
+                <td></td>
+                <td>
+                    <input type="text" class="form-control">
+                </td>
+                <td>
+                    <button type="button" class="btn btn-success">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

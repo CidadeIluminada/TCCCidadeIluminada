@@ -13,4 +13,14 @@ def init_app(app, url_prefix='/postes'):
 
 @bp.route('/')
 def index():
-    return render_template('index_poste.html')
+    return render_template('index_postes.html')
+
+
+@bp.route('/lista/')
+def listar():
+    return render_template('lista_postes.html')
+
+
+@bp.route('/detalhes/')
+def pendencias():
+    return render_template('detalhes_poste.html')
