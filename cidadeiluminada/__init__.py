@@ -4,7 +4,7 @@ from __future__ import absolute_import
 from flask import Flask, redirect, url_for
 from flask.ext.assets import Environment
 
-from cidadeiluminada import base, protocolos, auth
+from cidadeiluminada import base, protocolos, auth, postes
 from cidadeiluminada.base import AppJSONEncoder
 
 
@@ -23,6 +23,7 @@ def create_app(config=None):
     base.init_app(app)
     auth.init_app(app)
     protocolos.init_app(app)
+    postes.init_app(app)
 
     @app.route('/')
     def index():
