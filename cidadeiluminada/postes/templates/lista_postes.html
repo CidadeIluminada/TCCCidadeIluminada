@@ -55,9 +55,9 @@
                 <th>
                     <input type="checkbox">
                 </th>
-                <th>ID</th>
+                <th>Código</th>
                 <th>Bairro</th>
-                <th>Rua</th>
+                <th>Logradouro</th>
                 <th>Número (aprox.)</th>
                 <th>Situação</th>
                 <th>Tipo</th>
@@ -65,38 +65,30 @@
             </tr>
         </thead>
         <tbody>
+            {% for poste in postes %}
             <tr>
                 <td>
                     <input type="checkbox">
                 </td>
-                <td>1,001</td>
-                <td>Jardim das Indústrias</td>
-                <td>Presidente Epitácio</td>
-                <td>90</td>
+                <td>{{ poste.codigo }}</td>
+                <td>{{ poste.bairro }}</td>
+                <td>{{ poste.logradouro }}</td>
+                <td>{{ poste.numero }}</td>
                 <td>OK</td>
-                <td>Poste</td>
+                <td>{{ poste.tipo }}</td>
                 <td>
                     <a role="button" class="btn btn-primary" href="#">
                         <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                     </a>
                 </td>
             </tr>
+            {% else %}
             <tr>
-                <td>
-                    <input type="checkbox">
-                </td>
-                <td>1,001</td>
-                <td>Jardim das Indústrias</td>
-                <td>Presidente Epitácio</td>
-                <td>100</td>
-                <td>Não OK</td>
-                <td>Poste</td>
-                <td>
-                    <a role="button" class="btn btn-primary" href="#">
-                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                    </a>
+                <td colspan="8">
+                    Nenhum poste encontrado
                 </td>
             </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
