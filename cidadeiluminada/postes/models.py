@@ -13,7 +13,7 @@ from cidadeiluminada.base import db, JSONSerializationMixin
 class Poste(db.Model, JSONSerializationMixin):
 
     id = Column(Integer, primary_key=True)
-    cod_poste = Column(String(255))
+    codigo = Column(String(255))
 
     cep = Column(String(10))
     estado = Column(String(2))
@@ -25,7 +25,7 @@ class Poste(db.Model, JSONSerializationMixin):
     def has_full_address(self):
         return self.estado and self.cidade and self.bairro and self.logradouro
 
-    tipo_poste = Column(String(255))
+    tipo = Column(String(255))
 
 
 class Pendencia(db.Model, JSONSerializationMixin):
