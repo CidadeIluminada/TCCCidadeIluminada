@@ -72,23 +72,20 @@ class Pendencia(db.Model):
             raise ValueError(u'CEP não pode ser vazio')
         if not cep_re.match(cep):
             raise ValueError(u'CEP inválido')
-        info = postmon.get_by_cep(cep)
+        return cep
+
+    def preencher_cep(self):
+        info = postmon.get_by_cep(self.cep)
         self.cidade = info['cidade']
         self.estado = info['estado']
         self.logradouro = info['logradouro']
         nome_bairro = info['bairro']
         bairro = Bairro.query.filter_by(nome=nome_bairro).first()
         self.bairro = bairro
-        return cep
 
-    @validates('numero')
-    def validate_numero(self, key, numero):
-        self.descobrir_poste(numero)
-        return numero
-
-    def descobrir_poste(self, numero):
+    def descobrir_poste(self):
         postes = Poste.query.filter_by(cep=self.cep).all()
-        filtrados = [p for p in postes if p.calcular_delta(numero) is not None]
+        filtrados = [p for p in postes if p.calcular_delta(self.numero) is not None]
         if len(filtrados) == 1:
             self.poste = filtrados[0]
 

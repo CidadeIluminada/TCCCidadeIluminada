@@ -55,7 +55,14 @@ class PendenciaView(_ModelView):
     can_delete = True
     can_create = False
 
-    form_columns = ('cep', 'numero')
+    form_columns = ('bairro', 'cep', 'logradouro', 'numero')
+
+    def on_model_change(self, form, model, is_created):
+        if not is_created:
+            return
+        model.preencher_cep()
+        model.descobrir_poste()
+        pass
 
     @expose('/nova_pendencia/', methods=['POST'])
     def nova_pendencia(self):
