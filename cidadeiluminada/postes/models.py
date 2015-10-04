@@ -74,7 +74,7 @@ class Pendencia(db.Model):
             raise ValueError(u'CEP inválido')
         return cep
 
-    def preencher_cep(self):
+    def preencher_endereco(self):
         info = postmon.get_by_cep(self.cep)
         self.cidade = info['cidade']
         self.estado = info['estado']
