@@ -2,13 +2,16 @@
 from __future__ import absolute_import
 
 from datetime import datetime
+import re
 
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, validates
 from sqlalchemy.types import Integer, String, DateTime, Text
 
 from cidadeiluminada.base import db
+from cidadeiluminada.services import postmon
 
+cep_re = re.compile(r'^\d{5}-?\d{3}$')
 
 class Poste(db.Model):
 
@@ -57,6 +60,22 @@ class Pendencia(db.Model):
     bairro = relationship('Bairro', backref='pendencias')
     logradouro = Column(Text)
     numero = Column(Integer)
+
+    @validates('cep')
+    def validate_cep(self, key, cep):
+        if not cep:
+            raise ValueError(u'CEP não pode ser vazio')
+        if not cep_re.match(cep):
+            raise ValueError(u'CEP inválido')
+        info = postmon.get_by_cep(cep)
+        self.cidade = info['cidade']
+        self.estado = info['estado']
+        self.logradouro = info['logradouro']
+        nome_bairro = info['bairro']
+        print nome_bairro
+        bairro = Bairro.query.filter_by(nome=nome_bairro).first()
+        self.bairro = bairro
+        return cep
 
     @property
     def has_full_address(self):

@@ -55,14 +55,11 @@ class PendenciaView(_ModelView):
     can_delete = True
     can_create = False
 
-    # form_widget_args = _endereco_widget_args
-    # form_args = _endereco_args
+    form_columns = ('cep', 'numero')
 
     @expose('/nova_pendencia/', methods=['POST'])
     def nova_pendencia(self):
-        print request.form
         form = self.create_form(request.form)
-        print form.data
         if form.validate():
             pendencia = self.create_model(form)
             return jsonify(payload={'pendencia_id': pendencia.id, 'status': 'OK'}), 200
