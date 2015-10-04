@@ -31,7 +31,8 @@ class IndexView(AdminIndexView):
 
     @expose('/')
     def index(self):
-        return self.render('admin/index.html')
+        pendencias_acao = Pendencia.query.filter(Pendencia.poste == None)
+        return self.render('postes/index_postes.html', pendencias_acao=pendencias_acao)
 
 
 class _ModelView(ModelView):
@@ -51,6 +52,7 @@ class PosteView(_ModelView):
 
     form_widget_args = _endereco_widget_args
     form_args = _endereco_args
+    form_excluded_columns = ('pendencias',)
 
 
 class PendenciaView(_ModelView):
@@ -58,12 +60,30 @@ class PendenciaView(_ModelView):
     name = 'Protocolos'
     category = 'Protocolos'
 
-    can_edit = False
+    can_edit = True
     can_delete = True
     can_create = False
 
     form_args = _endereco_args
-    form_columns = ('bairro', 'cep', 'logradouro', 'numero')
+    form_widget_args = dict(_endereco_widget_args, **{
+        'bairro': {
+            'readonly': True,
+            'disabled': True,
+        },
+        'criacao': {
+            'readonly': True,
+            'disabled': True,
+        },
+        'cep': {
+            'readonly': True,
+        },
+        'logradouro': {
+            'readonly': True,
+        },
+        'numero': {
+            'readonly': True,
+        }
+    })
 
     def on_model_change(self, form, model, is_created):
         if not is_created:

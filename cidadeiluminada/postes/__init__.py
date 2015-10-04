@@ -7,6 +7,10 @@ from cidadeiluminada.postes import models, rotas  # NOQA
 
 
 def init_app(app):
+    @app.template_filter('checkmark')
+    def checkmark(input):
+        return u'\u2713' if input else u'\u2718'
+
     admin_config = {
         'endpoint': 'postes',
         'url': '/postes',
