@@ -13,6 +13,7 @@ from cidadeiluminada.services import postmon
 
 cep_re = re.compile(r'^\d{5}-?\d{3}$')
 
+
 class Poste(db.Model):
 
     id = Column(Integer, primary_key=True)
@@ -25,9 +26,13 @@ class Poste(db.Model):
     logradouro = Column(Text)
     numero = Column(Integer)
 
-    @property
-    def has_full_address(self):
-        return bool(self.estado and self.cidade and self.bairro and self.logradouro)
+    def calcular_delta(self, numero):
+        delta = abs(self.numero - numero)
+        if delta <= 10:
+            return delta
+
+    def __repr__(self):
+        return '{}-{}'.format(self.cep, self.numero)
 
 
 class ZonaCidade(db.Model):
@@ -72,14 +77,20 @@ class Pendencia(db.Model):
         self.estado = info['estado']
         self.logradouro = info['logradouro']
         nome_bairro = info['bairro']
-        print nome_bairro
         bairro = Bairro.query.filter_by(nome=nome_bairro).first()
         self.bairro = bairro
         return cep
 
-    @property
-    def has_full_address(self):
-        return bool(self.estado and self.cidade and self.bairro and self.logradouro)
+    @validates('numero')
+    def validate_numero(self, key, numero):
+        self.descobrir_poste(numero)
+        return numero
+
+    def descobrir_poste(self, numero):
+        postes = Poste.query.filter_by(cep=self.cep).all()
+        filtrados = [p for p in postes if p.calcular_delta(numero) is not None]
+        if len(filtrados) == 1:
+            self.poste = filtrados[0]
 
     poste_id = Column(Integer, ForeignKey('poste.id'))
     poste = relationship('Poste', backref='pendencias')
