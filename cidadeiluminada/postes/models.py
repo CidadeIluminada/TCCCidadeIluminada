@@ -115,6 +115,11 @@ class OrdemServico(db.Model):
     id = Column(Integer, primary_key=True)
     criacao = Column(DateTime, default=datetime.now)
 
-    protocolos = relationship('Pendencia', secondary=protocolo_ordem_servico)
+    protocolos = relationship('Pendencia', secondary=protocolo_ordem_servico,
+                              backref='ordens_servico')
 
-    pass
+    @validates('protocolos')
+    def validate_protocolos(self, key, protocolos):
+        if len(self.protocolos) == 50:
+            raise ValueError(u'Máximo de protolos atingidos na Ordem de serviço')
+        return protocolos

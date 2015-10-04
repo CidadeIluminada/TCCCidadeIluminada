@@ -79,6 +79,9 @@ class PendenciaView(_ModelView):
     can_delete = True
     can_create = False
 
+    named_filter_urls = True
+    column_filters = ('ordens_servico', 'ordens_servico.id')
+
     form_args = _endereco_args
     form_widget_args = dict(_endereco_widget_args, **{
         'bairro': {
@@ -142,6 +145,8 @@ class OrdemServicoView(_ModelView):
     category = 'Protocolos'
 
     form_excluded_columns = ('protocolos')
+
+    edit_template = 'admin/model/edit_os.html'
 
     form_widget_args = {
         'criacao': {

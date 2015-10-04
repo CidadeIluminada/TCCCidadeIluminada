@@ -1,0 +1,28 @@
+{% extends 'admin/model/edit.html' %}
+
+
+{% block body %}
+  {% call lib.form_tag(form) %}
+    <div class='form-group'>
+        <label class='control-label col-md-2'>
+            Protocolos
+        </label>
+        <div class='col-md-10'>
+            <a href="{{ url_for('pendencia.index_view', flt1_ordem_servico_id_equals=model.id) }} ">
+                Ver na lista
+            </a>
+        </div>
+    </div>
+    <div class='form-group'>
+        <label for="criacao" class='col-md-2 control-label'>Criação</label>
+        <div class='col-md-10'>
+            <div>
+                <input class="form-control" id="criacao" type='text' value='{{ model.criacao }}' readonly disabled="">
+            </div>
+        </div>
+    </div>
+    <div class="form-buttons">
+        {{ lib.render_form_buttons(return_url) }}
+    </div>
+    {% endcall %}
+{% endblock %}
