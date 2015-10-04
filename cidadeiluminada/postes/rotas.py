@@ -1,6 +1,8 @@
 # coding: UTF-8
 from __future__ import absolute_import
 
+from flask import request, jsonify
+from flask.ext.admin import expose
 from flask.ext.admin.contrib.sqla import ModelView
 
 from cidadeiluminada.postes.models import Poste, Pendencia, ZonaCidade, Bairro
@@ -50,13 +52,21 @@ class PendenciaView(_ModelView):
     category = 'Protocolos'
 
     can_edit = False
-    can_delete = False
+    can_delete = True
     can_create = False
 
-    form_columns = ('bairro', 'cep', 'logradouro', 'numero')
+    # form_widget_args = _endereco_widget_args
+    # form_args = _endereco_args
 
-    form_widget_args = _endereco_widget_args
-    form_args = _endereco_args
+    @expose('/nova_pendencia/', methods=['POST'])
+    def nova_pendencia(self):
+        print request.form
+        form = self.create_form(request.form)
+        print form.data
+        if form.validate():
+            pendencia = self.create_model(form)
+            return jsonify(payload={'pendencia_id': pendencia.id, 'status': 'OK'}), 200
+        return jsonify(payload={'status': 'ERRO', 'erros': form.errors})
 
 
 class ZonaCidadeView(_ModelView):
