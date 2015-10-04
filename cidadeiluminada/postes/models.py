@@ -22,6 +22,7 @@ class Poste(db.Model):
     logradouro = Column(Text)
     numero = Column(Integer)
 
+    @property
     def has_full_address(self):
         return bool(self.estado and self.cidade and self.bairro and self.logradouro)
 
@@ -42,7 +43,7 @@ class Bairro(db.Model):
     zona = relationship('ZonaCidade', backref='bairros')
 
     def __repr__(self):
-        return self.nome
+        return u'{} - {}'.format(self.nome, self.zona.nome)
 
 
 class Pendencia(db.Model):
@@ -57,6 +58,7 @@ class Pendencia(db.Model):
     logradouro = Column(Text)
     numero = Column(Integer)
 
+    @property
     def has_full_address(self):
         return bool(self.estado and self.cidade and self.bairro and self.logradouro)
 
