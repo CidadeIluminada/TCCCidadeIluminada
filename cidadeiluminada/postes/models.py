@@ -4,7 +4,7 @@ from __future__ import absolute_import
 from datetime import datetime
 import re
 
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import Column, ForeignKey, Table
 from sqlalchemy.orm import relationship, validates
 from sqlalchemy.types import Integer, String, DateTime, Text
 
@@ -103,3 +103,18 @@ class Pendencia(db.Model):
 
     poste_id = Column(Integer, ForeignKey('poste.id'))
     poste = relationship('Poste', backref='pendencias')
+
+
+protocolo_ordem_servico = Table('protocolos_ordens', db.metadata,
+                                Column('id', Integer, primary_key=True),
+                                Column('ordem_servico_id', Integer, ForeignKey('ordem_servico.id')),
+                                Column('pendencia_id', Integer, ForeignKey('pendencia.id')))
+
+
+class OrdemServico(db.Model):
+    id = Column(Integer, primary_key=True)
+    criacao = Column(DateTime, default=datetime.now)
+
+    protocolos = relationship('Pendencia', secondary=protocolo_ordem_servico)
+
+    pass

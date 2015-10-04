@@ -5,7 +5,7 @@ from flask import request, jsonify
 from flask.ext.admin import expose, AdminIndexView
 from flask.ext.admin.contrib.sqla import ModelView
 
-from cidadeiluminada.postes.models import Poste, Pendencia, ZonaCidade, Bairro
+from cidadeiluminada.postes.models import Poste, Pendencia, ZonaCidade, Bairro, OrdemServico
 from cidadeiluminada.base import db
 
 _endereco_widget_args = {
@@ -33,6 +33,11 @@ class IndexView(AdminIndexView):
     def index(self):
         pendencias_acao = Pendencia.query.filter(Pendencia.poste == None)
         return self.render('admin/index_postes.html', pendencias_acao=pendencias_acao)
+
+    @expose('/ordem_servico/nova/')
+    def ordem_servico(self):
+        zonas = ZonaCidade.query.all()
+        return self.render('admin/index_postes.html', zonas=zonas)
 
 
 class _ModelView(ModelView):
@@ -131,6 +136,22 @@ class BairroView(_ModelView):
     form_columns = ('zona', 'nome')
 
 
+class OrdemServicoView(_ModelView):
+    model = OrdemServico
+    name = u'Ordem de Serviço'
+    category = 'Protocolos'
+
+    form_excluded_columns = ('protocolos')
+
+    form_widget_args = {
+        'criacao': {
+            'readonly': True,
+            'disabled': True,
+        },
+    }
+
+
 def init_app(app, config):
     del config['name']
-    return IndexView(name='Principal', **config), [PosteView(), PendenciaView(), ZonaCidadeView(), BairroView()]
+    views = [PosteView(), PendenciaView(), ZonaCidadeView(), BairroView(), OrdemServicoView()]
+    return IndexView(name='Principal', **config), views
