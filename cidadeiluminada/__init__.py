@@ -29,6 +29,14 @@ def create_app(config=None):
     def index():
         return redirect(url_for('poste.index_view'))
 
+    @app.route('/postmon/')
+    def postmon():
+        from flask import jsonify, request
+        from cidadeiluminada.services import postmon
+        cep = request.args['cep']
+        data = postmon.get_by_cep(cep)
+        return jsonify(data)
+
     @app.context_processor
     def menu_items():
         return {

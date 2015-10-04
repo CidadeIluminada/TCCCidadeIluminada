@@ -32,7 +32,7 @@ class IndexView(AdminIndexView):
     @expose('/')
     def index(self):
         pendencias_acao = Pendencia.query.filter(Pendencia.poste == None)
-        return self.render('postes/index_postes.html', pendencias_acao=pendencias_acao)
+        return self.render('admin/index_postes.html', pendencias_acao=pendencias_acao)
 
 
 class _ModelView(ModelView):
@@ -52,7 +52,17 @@ class PosteView(_ModelView):
 
     form_widget_args = _endereco_widget_args
     form_args = _endereco_args
+    form_columns = ('cep', 'numero', 'logradouro', 'bairro', 'cidade', 'estado')
     form_excluded_columns = ('pendencias',)
+
+    create_template = 'admin/model/edit_modelo_cep.html'
+
+    @expose('/new/', methods=('GET', 'POST'))
+    def create_view(self):
+        bairros = Bairro.query
+        bairro_id_nome = {bairro.nome: bairro.id for bairro in bairros}
+        self._template_args['bairro_id_nome_map'] = bairro_id_nome
+        return super(PosteView, self).create_view()
 
 
 class PendenciaView(_ModelView):
