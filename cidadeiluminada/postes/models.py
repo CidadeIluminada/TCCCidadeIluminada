@@ -97,7 +97,7 @@ class Pendencia(db.Model):
             pendencias_q = pendencias_q.filter(Pendencia.id != self.id)
         pendencias = pendencias_q.all()
         for pendencia in pendencias:
-            if self.poste == pendencia.poste:
+            if self.poste == pendencia.poste or self.numero == pendencia.numero:
                 return True
         return False
 
