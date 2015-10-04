@@ -1,26 +1,31 @@
 # coding: UTF-8
 from __future__ import absolute_import
 
-from flask import Blueprint, render_template
+from flask.ext.admin.contrib.sqla import ModelView
 
-bp = Blueprint('postes', __name__, template_folder='templates',
-               static_folder='static')
-
-
-def init_app(app, url_prefix='/postes'):
-    app.register_blueprint(bp, url_prefix=url_prefix)
+from cidadeiluminada.postes.models import Poste, Pendencia
+from cidadeiluminada.base import db
 
 
-@bp.route('/')
-def index():
-    return render_template('index_postes.html')
+class _ModelView(ModelView):
+
+    category = None
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('name', self.name)
+        kwargs.setdefault('category', self.category)
+        super(_ModelView, self).__init__(self.model, db.session, *args, **kwargs)
 
 
-@bp.route('/lista/')
-def listar():
-    return render_template('lista_postes.html')
+class PosteView(_ModelView):
+    model = Poste
+    name = 'Postes'
 
 
-@bp.route('/detalhes/')
-def pendencias():
-    return render_template('detalhes_poste.html')
+class PendenciaView(_ModelView):
+    model = Pendencia
+    name = 'Pendencia'
+
+
+def init_app(app):
+    return [PosteView(), PendenciaView()]
