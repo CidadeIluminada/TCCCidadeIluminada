@@ -20,7 +20,7 @@ class Poste(db.Model):
     bairro_id = Column(Integer, ForeignKey('bairro.id'))
     bairro = relationship('Bairro', backref='postes')
     logradouro = Column(Text)
-    numero = Column(Text)
+    numero = Column(Integer)
 
     def has_full_address(self):
         return bool(self.estado and self.cidade and self.bairro and self.logradouro)
@@ -55,7 +55,7 @@ class Pendencia(db.Model):
     bairro_id = Column(Integer, ForeignKey('bairro.id'))
     bairro = relationship('Bairro', backref='pendencias')
     logradouro = Column(Text)
-    numero = Column(Text)
+    numero = Column(Integer)
 
     def has_full_address(self):
         return bool(self.estado and self.cidade and self.bairro and self.logradouro)

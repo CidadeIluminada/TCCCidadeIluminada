@@ -1,13 +1,13 @@
 """pendencia bairro zonas
 
-Revision ID: 322f0e5f9546
+Revision ID: 26317493bfb7
 Revises: 576406444d42
-Create Date: 2015-10-03 23:21:44.646534
+Create Date: 2015-10-04 00:39:41.120071
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '322f0e5f9546'
+revision = '26317493bfb7'
 down_revision = '576406444d42'
 
 from alembic import op
@@ -35,7 +35,7 @@ def upgrade():
     sa.Column('cidade', sa.Text(), nullable=True),
     sa.Column('bairro_id', sa.Integer(), nullable=True),
     sa.Column('logradouro', sa.Text(), nullable=True),
-    sa.Column('numero', sa.Text(), nullable=True),
+    sa.Column('numero', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['bairro_id'], ['bairro.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -47,7 +47,7 @@ def upgrade():
     sa.Column('cidade', sa.Text(), nullable=True),
     sa.Column('bairro_id', sa.Integer(), nullable=True),
     sa.Column('logradouro', sa.Text(), nullable=True),
-    sa.Column('numero', sa.Text(), nullable=True),
+    sa.Column('numero', sa.Integer(), nullable=True),
     sa.Column('poste_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['bairro_id'], ['bairro.id'], ),
     sa.ForeignKeyConstraint(['poste_id'], ['poste.id'], ),
