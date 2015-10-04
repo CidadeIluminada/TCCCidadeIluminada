@@ -89,5 +89,17 @@ class Pendencia(db.Model):
         if len(filtrados) == 1:
             self.poste = filtrados[0]
 
+    def verificar_duplicidade(self):
+        if not self.poste:
+            return None
+        pendencias_q = Pendencia.query.filter_by(cep=self.cep).filter(Pendencia.poste != None)
+        if self.id:
+            pendencias_q = pendencias_q.filter(Pendencia.id != self.id)
+        pendencias = pendencias_q.all()
+        for pendencia in pendencias:
+            if self.poste == pendencia.poste:
+                return True
+        return False
+
     poste_id = Column(Integer, ForeignKey('poste.id'))
     poste = relationship('Poste', backref='pendencias')

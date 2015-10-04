@@ -62,15 +62,21 @@ class PendenciaView(_ModelView):
             return
         model.preencher_cep()
         model.descobrir_poste()
+        duplicidade = model.verificar_duplicidade()
+        if duplicidade:
+            raise ValueError(u'Em duplicidade')
         pass
 
     @expose('/nova_pendencia/', methods=['POST'])
     def nova_pendencia(self):
         form = self.create_form(request.form)
         if form.validate():
-            pendencia = self.create_model(form)
+            try:
+                pendencia = self.create_model(form)
+            except ValueError as ex:
+                return jsonify(payload={'status': 'ERRO', 'erros': [ex.message]}), 400
             return jsonify(payload={'pendencia_id': pendencia.id, 'status': 'OK'}), 200
-        return jsonify(payload={'status': 'ERRO', 'erros': form.errors})
+        return jsonify(payload={'status': 'ERRO', 'erros': form.errors}), 400
 
 
 class ZonaCidadeView(_ModelView):
