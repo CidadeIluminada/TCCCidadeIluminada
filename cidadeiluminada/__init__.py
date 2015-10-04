@@ -22,12 +22,12 @@ def create_app(config=None):
     Environment(app)
     base.init_app(app)
     auth.init_app(app)
-    protocolos.init_app(app)
+    # protocolos.init_app(app)
     postes.init_app(app)
 
     @app.route('/')
     def index():
-        return redirect(url_for('protocolos.index'))
+        return redirect(url_for('poste.index_view'))
 
     @app.context_processor
     def menu_items():

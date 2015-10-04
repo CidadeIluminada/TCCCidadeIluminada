@@ -7,7 +7,12 @@ from cidadeiluminada.postes import models, rotas  # NOQA
 
 
 def init_app(app):
-    admin = Admin(app, endpoint='postes', template_mode='bootstrap3',
-                  name='Postes', url='/postes')
-    for view in rotas.init_app(app):
+    admin_config = {
+        'endpoint': 'postes',
+        'url': '/postes',
+        'name': 'Postes'
+    }
+    index_view, views = rotas.init_app(app, admin_config)
+    admin = Admin(app, template_mode='bootstrap3', index_view=index_view, **admin_config)
+    for view in views:
         admin.add_view(view)

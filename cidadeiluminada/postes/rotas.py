@@ -2,7 +2,7 @@
 from __future__ import absolute_import
 
 from flask import request, jsonify
-from flask.ext.admin import expose
+from flask.ext.admin import expose, AdminIndexView
 from flask.ext.admin.contrib.sqla import ModelView
 
 from cidadeiluminada.postes.models import Poste, Pendencia, ZonaCidade, Bairro
@@ -25,6 +25,13 @@ _endereco_args = {
         'default': u'São José dos Campos',
     }
 }
+
+
+class IndexView(AdminIndexView):
+
+    @expose('/')
+    def index(self):
+        return self.render('admin/index.html')
 
 
 class _ModelView(ModelView):
@@ -93,5 +100,6 @@ class BairroView(_ModelView):
     form_columns = ('zona', 'nome')
 
 
-def init_app(app):
-    return [PosteView(), PendenciaView(), ZonaCidadeView(), BairroView()]
+def init_app(app, config):
+    del config['name']
+    return IndexView(name='Principal', **config), [PosteView(), PendenciaView(), ZonaCidadeView(), BairroView()]
