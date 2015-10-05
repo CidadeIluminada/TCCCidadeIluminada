@@ -3,7 +3,7 @@ from __future__ import absolute_import
 
 from flask.ext.admin import Admin
 
-from cidadeiluminada.postes import models, rotas  # NOQA
+from cidadeiluminada.protocolos import models, rotas  # NOQA
 
 
 def init_app(app):
@@ -12,9 +12,9 @@ def init_app(app):
         return u'\u2713' if input else u'\u2718'
 
     admin_config = {
-        'endpoint': 'postes',
-        'url': '/postes',
-        'name': 'Postes'
+        'endpoint': 'protocolos',
+        'url': '/',
+        'name': ''
     }
     index_view, views = rotas.init_app(app, admin_config)
     admin = Admin(app, template_mode='bootstrap3', index_view=index_view, **admin_config)

@@ -5,7 +5,7 @@ from flask import request, jsonify
 from flask.ext.admin import expose, AdminIndexView
 from flask.ext.admin.contrib.sqla import ModelView
 
-from cidadeiluminada.postes.models import Poste, Pendencia, ZonaCidade, Bairro, OrdemServico
+from cidadeiluminada.protocolos.models import Poste, Pendencia, ZonaCidade, Bairro, OrdemServico
 from cidadeiluminada.base import db
 
 _endereco_widget_args = {
