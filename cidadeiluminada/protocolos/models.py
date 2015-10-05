@@ -6,7 +6,7 @@ import re
 
 from sqlalchemy import Column, ForeignKey, Table
 from sqlalchemy.orm import relationship, validates
-from sqlalchemy.types import Integer, String, DateTime, Text
+from sqlalchemy.types import Integer, String, DateTime
 
 from cidadeiluminada.base import db
 from cidadeiluminada.services import postmon
@@ -18,12 +18,8 @@ class Poste(db.Model):
 
     id = Column(Integer, primary_key=True)
 
-    cep = Column(String(10))
-    estado = Column(String(2))
-    cidade = Column(Text)
-    bairro_id = Column(Integer, ForeignKey('bairro.id'))
-    bairro = relationship('Bairro', backref='postes')
-    logradouro = Column(Text)
+    rua_id = Column(Integer, ForeignKey('rua.id'))
+    rua = relationship('Rua', backref='postes')
     numero = Column(Integer)
 
     def calcular_delta(self, numero):
@@ -32,7 +28,7 @@ class Poste(db.Model):
             return delta
 
     def __repr__(self):
-        return '{}-{}'.format(self.cep, self.numero)
+        return '{}-{}'.format(self.rua.cep, self.numero)
 
 
 class ZonaCidade(db.Model):
@@ -54,17 +50,13 @@ class Bairro(db.Model):
         return u'{} - {}'.format(self.nome, self.zona.nome)
 
 
-class Pendencia(db.Model):
+class Rua(db.Model):
     id = Column(Integer, primary_key=True)
-    criacao = Column(DateTime, default=datetime.now)
 
-    cep = Column(String(10))
-    estado = Column(String(2))
-    cidade = Column(Text)
+    logradouro = Column(String(255))
+    cep = Column(String(255))
     bairro_id = Column(Integer, ForeignKey('bairro.id'))
-    bairro = relationship('Bairro', backref='pendencias')
-    logradouro = Column(Text)
-    numero = Column(Integer)
+    bairro = relationship('Bairro')
 
     @validates('cep')
     def validate_cep(self, key, cep):
@@ -73,6 +65,28 @@ class Pendencia(db.Model):
         if not cep_re.match(cep):
             raise ValueError(u'CEP inválido')
         return cep
+
+
+class Protocolo(db.Model):
+    id = Column(Integer, primary_key=True)
+    cod_protocolo = Column(String(255))
+    criacao = Column(DateTime, default=datetime.now)
+
+    nome_municipe = Column(String(255))
+    contato_municipe = Column(String(255))
+
+    pendencia_id = Column(Integer, ForeignKey('pendencia.id'))
+    pendencia = relationship('Pendencia', backref='protocolos')
+
+
+class Pendencia(db.Model):
+    id = Column(Integer, primary_key=True)
+    criacao = Column(DateTime, default=datetime.now)
+
+    poste_id = Column(Integer, ForeignKey('poste.id'))
+    poste = relationship('Poste', backref='pendencias')
+    rua_id = Column(Integer, ForeignKey('rua.id'))
+    rua = relationship('Rua', backref='pendencias')
 
     def preencher_endereco(self):
         info = postmon.get_by_cep(self.cep)
@@ -101,10 +115,6 @@ class Pendencia(db.Model):
                 return True
         return False
 
-    poste_id = Column(Integer, ForeignKey('poste.id'))
-    poste = relationship('Poste', backref='pendencias')
-
-
 protocolo_ordem_servico = Table('protocolos_ordens', db.metadata,
                                 Column('id', Integer, primary_key=True),
                                 Column('ordem_servico_id', Integer, ForeignKey('ordem_servico.id')),
@@ -115,11 +125,11 @@ class OrdemServico(db.Model):
     id = Column(Integer, primary_key=True)
     criacao = Column(DateTime, default=datetime.now)
 
-    protocolos = relationship('Pendencia', secondary=protocolo_ordem_servico,
+    pendencias = relationship('Pendencia', secondary=protocolo_ordem_servico,
                               backref='ordens_servico')
 
-    @validates('protocolos')
-    def validate_protocolos(self, key, protocolos):
-        if len(self.protocolos) == 50:
-            raise ValueError(u'Máximo de protolos atingidos na Ordem de serviço')
-        return protocolos
+    @validates('pendencias')
+    def validate_protocolos(self, key, pendencias):
+        if len(self.pendencias) == 50:
+            raise ValueError(u'Máximo de serviços atingidos na Ordem de serviço')
+        return pendencias
