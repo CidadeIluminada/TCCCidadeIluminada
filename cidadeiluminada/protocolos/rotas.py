@@ -4,6 +4,8 @@ from __future__ import absolute_import
 from flask import request, jsonify
 from flask.ext.admin import Admin, expose, AdminIndexView
 from flask.ext.admin.contrib.sqla import ModelView
+from flask.ext.admin.contrib.sqla.fields import QuerySelectField
+from flask.ext.admin.form.widgets import Select2Widget
 
 from cidadeiluminada.protocolos.models import Regiao, Bairro, Logradouro, \
     Poste, ItemManutencao, Protocolo, OrdemServico, ItemManutencaoOrdemServico
@@ -32,9 +34,10 @@ class IndexView(AdminIndexView):
 
     @expose('/')
     def index(self):
-        return super(IndexView, self).index()
+        # return super(IndexView, self).index()
         # pendencias_acao = Pendencia.query.filter(Pendencia.poste == None)
         # return self.render('admin/index_postes.html', pendencias_acao=pendencias_acao)
+        return self.render('admin/index_postes.html', pendencias_acao=[])
 
     # @expose('/ordem_servico/nova/')
     # def ordem_servico(self):
@@ -122,9 +125,24 @@ class ProtocoloView(_ModelView):
 
     named_filter_urls = True
 
-    can_create = False
     can_delete = False
-    can_edit = False
+
+    form_excluded_columns = ('item_manutencao', )
+
+    form_extra_fields = {
+        'poste': QuerySelectField(query_factory=lambda: Poste.query.all(), allow_blank=True,
+                                  widget=Select2Widget())
+    }
+
+    @expose('/new/', methods=('GET', 'POST'))
+    def create_view(self):
+        print request.form
+        return super(ProtocoloView, self).create_view()
+
+    @expose('/edit/', methods=('GET', 'POST'))
+    def edit_view(self):
+        print request.form
+        return super(ProtocoloView, self).edit_view()
 
 
 class ItemManutencaoView(_ModelView):
