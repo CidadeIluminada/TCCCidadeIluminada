@@ -33,7 +33,7 @@ class Bairro(db.Model):
         return u'{} - {}'.format(self.nome, self.zona.nome)
 
 
-class Rua(db.Model):
+class Logradouro(db.Model):
     id = Column(Integer, primary_key=True)
 
     logradouro = Column(String(255))
@@ -57,8 +57,8 @@ class Poste(db.Model):
 
     id = Column(Integer, primary_key=True)
 
-    rua_id = Column(Integer, ForeignKey('rua.id'))
-    rua = relationship('Rua', backref='postes')
+    logradouro_id = Column(Integer, ForeignKey('logradouro.id'))
+    logradouro = relationship('Logradouro', backref='postes')
     numero = Column(Integer)
 
     # def calcular_delta(self, numero):
@@ -67,7 +67,7 @@ class Poste(db.Model):
     #         return delta
 
     def __repr__(self):
-        return '{}-{}'.format(self.rua.cep, self.numero)
+        return '{}-{}'.format(self.logradouro.cep, self.numero)
 
 
 class Protocolo(db.Model):
