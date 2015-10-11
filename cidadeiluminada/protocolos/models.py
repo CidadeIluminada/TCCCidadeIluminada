@@ -71,6 +71,7 @@ class Poste(db.Model):
 
 
 class Protocolo(db.Model):
+    # AKA Protocolo 156
     id = Column(Integer, primary_key=True)
     cod_protocolo = Column(String(255))
     criacao = Column(DateTime, default=datetime.now)
@@ -79,7 +80,7 @@ class Protocolo(db.Model):
     contato_municipe = Column(String(255))
 
     item_manutencao_id = Column(Integer, ForeignKey('item_manutencao.id'))
-    items_manutencao = relationship('ItemManutencao', backref='protocolos')
+    item_manutencao = relationship('ItemManutencao', backref='protocolos')
 
 
 class ItemManutencao(db.Model):
@@ -87,7 +88,7 @@ class ItemManutencao(db.Model):
     criacao = Column(DateTime, default=datetime.now)
 
     poste_id = Column(Integer, ForeignKey('poste.id'))
-    poste = relationship('Poste', backref='pendencias')
+    poste = relationship('Poste', backref='itens_manutencao')
 
     resolvida = Column(Boolean, default=False)
 

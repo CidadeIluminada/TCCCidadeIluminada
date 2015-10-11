@@ -71,25 +71,45 @@ class LogradouroView(_ModelView):
     name = 'Logradouro'
     category = u'Endereço'
 
-    # create_template = 'admin/model/edit_modelo_cep.html'
+    create_template = 'admin/model/edit_modelo_cep.html'
+    edit_template = 'admin/model/edit_modelo_cep.html'
 
-    # @expose('/new/', methods=('GET', 'POST'))
-    # def create_view(self):
-    #     bairros = Bairro.query
-    #     bairro_id_nome = {bairro.nome: bairro.id for bairro in bairros}
-    #     self._template_args['bairro_id_nome_map'] = bairro_id_nome
-    #     return super(RuaView, self).create_view()
+    form_columns = ('bairro', 'logradouro', 'cep')
+
+    def _inject_bairros(self):
+        bairros = Bairro.query
+        bairro_id_nome = {bairro.nome: bairro.id for bairro in bairros}
+        self._template_args['bairro_id_nome_map'] = bairro_id_nome
+
+    @expose('/new/', methods=('GET', 'POST'))
+    def create_view(self):
+        self._inject_bairros()
+        return super(LogradouroView, self).create_view()
+
+    @expose('/edit/', methods=('GET', 'POST'))
+    def edit_view(self):
+        self._inject_bairros()
+        return super(LogradouroView, self).edit_view()
 
 
 class PosteView(_ModelView):
+    def __init__(self, item_manutencao_view, *args, **kwargs):
+        super(PosteView, self).__init__(*args, **kwargs)
+        self.item_manutencao_view = item_manutencao_view
+
     model = Poste
     name = 'Postes'
     category = 'Protocolos'
 
-    # form_widget_args = _endereco_widget_args
-    # form_args = _endereco_args
-    # form_columns = ('cep', 'numero', 'logradouro', 'bairro', 'cidade', 'estado')
-    # form_excluded_columns = ('pendencias',)
+    form_columns = ('logradouro', 'numero')
+
+    edit_template = 'admin/model/edit_poste.html'
+
+    @expose('/edit/', methods=('GET', 'POST'))
+    def edit_view(self):
+        self._template_args['list_columns'] = self.item_manutencao_view.get_list_columns()
+        self._template_args['get_item_manutencao_value'] = self.item_manutencao_view.get_list_value
+        return super(PosteView, self).edit_view()
 
 
 class ProtocoloView(_ModelView):
@@ -97,11 +117,18 @@ class ProtocoloView(_ModelView):
     name = 'Protocolos 156'
     category = 'Protocolos'
 
+    column_exclude_list = ('item_manutencao', )
+    column_filters = ('item_manutencao.id', )
+
+    named_filter_urls = True
+
 
 class ItemManutencaoView(_ModelView):
     model = ItemManutencao
     name = u'Itens Manutenção'
     category = 'Protocolos'
+
+    column_exclude_list = ('poste', )
 
 
 class OrdemServicoView(_ModelView):
@@ -130,7 +157,7 @@ class OrdemServicoView(_ModelView):
 #     can_create = False
 
 #     named_filter_urls = True
-#     # column_filters = ('ordens_servico', 'ordens_servico.id')
+#     column_filters = ('ordens_servico', 'ordens_servico.id')
 
 #     form_args = _endereco_args
 #     form_widget_args = dict(_endereco_widget_args, **{
@@ -184,7 +211,7 @@ def init_app(app):
         RegiaoView(),
         BairroView(),
         LogradouroView(),
-        PosteView(),
+        PosteView(ItemManutencaoView()),
         ItemManutencaoView(),
         ProtocoloView(),
         OrdemServicoView(),

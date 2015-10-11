@@ -1,0 +1,43 @@
+{% extends 'admin/model/edit.html' %}
+{% import 'admin/lib.html' as lib with context %}
+
+{% block body %}
+    {{ super() }}
+    <h2>Histórico de manutenção</h2>
+    <table class="table table-striped table-bordered table-hover model-list">
+        <thead>
+            {% for c, name in list_columns %}
+            <th class="column-header col-{{c}}">
+                {{ name }}
+            </th>
+            {% endfor %}
+            <th>
+                Protocolos da pendência
+            </th>
+        </thead>
+        <tbody>
+            {% for row in model.itens_manutencao %}
+            {% for c, name in list_columns %}
+                <td class="col-{{c}}">
+                    {{ get_item_manutencao_value(row, c) }}
+                </td>
+            {% endfor %}
+                <td>
+                    <a href="{{ url_for('protocolo.index_view', flt1_item_manutencao_id_equals=row.id) }} ">
+                        Ver protocolos ({{ row.protocolos | length }})
+                    </a>
+                </td>
+            {% else %}
+            <tr>
+                <td colspan="999">
+                {% block empty_list_message %}
+                    <div class="text-center">
+                        {{ admin_view.get_empty_list_message() }}
+                    </div>
+                {% endblock %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
