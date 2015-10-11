@@ -3,6 +3,7 @@ from __future__ import absolute_import
 
 from flask import Flask, redirect, url_for
 from flask.ext.assets import Environment
+from flask.ext.babelex import Babel
 
 from cidadeiluminada import base, protocolos
 
@@ -18,6 +19,8 @@ def create_app(config=None):
         app.config.update(config)
 
     Environment(app)
+    Babel(app)
+
     base.init_app(app)
     protocolos.init_app(app)
 
