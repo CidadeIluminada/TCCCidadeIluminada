@@ -122,6 +122,10 @@ class ProtocoloView(_ModelView):
 
     named_filter_urls = True
 
+    can_create = False
+    can_delete = False
+    can_edit = False
+
 
 class ItemManutencaoView(_ModelView):
     model = ItemManutencao

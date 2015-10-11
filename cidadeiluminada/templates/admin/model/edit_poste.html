@@ -17,6 +17,7 @@
         </thead>
         <tbody>
             {% for row in model.itens_manutencao %}
+            <tr>
             {% for c, name in list_columns %}
                 <td class="col-{{c}}">
                     {{ get_item_manutencao_value(row, c) }}
@@ -27,6 +28,7 @@
                         Ver protocolos ({{ row.protocolos | length }})
                     </a>
                 </td>
+            </tr>
             {% else %}
             <tr>
                 <td colspan="999">
