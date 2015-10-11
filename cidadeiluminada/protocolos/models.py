@@ -30,7 +30,7 @@ class Bairro(db.Model):
     regiao = relationship('Regiao', backref='bairros')
 
     def __repr__(self):
-        return u'{} - {}'.format(self.nome, self.zona.nome)
+        return u'{} - {}'.format(self.nome, self.regiao.nome)
 
 
 class Logradouro(db.Model):
@@ -123,21 +123,18 @@ class ItemManutencaoOrdemServico(db.Model):
     id = Column(Integer, primary_key=True)
 
     ordem_servico_id = Column(Integer, ForeignKey('ordem_servico.id'))
-    ordem_servico = relationship('OrdemServico')
-
     item_manutencao_id = Column(Integer, ForeignKey('item_manutencao.id'))
-    item_manutencao = relationship('ItemManutencao')
 
     servico_feito = Column(Boolean, default=False)
+
+    ordens_servico = relationship('ItemManutencao', backref='ordens_servico')
 
 
 class OrdemServico(db.Model):
     id = Column(Integer, primary_key=True)
     criacao = Column(DateTime, default=datetime.now)
 
-    itens_manutencao = relationship('ItemManutencao',
-                                    secondary=ItemManutencaoOrdemServico,
-                                    backref='ordens_servico')
+    itens_manutencao = relationship('ItemManutencaoOrdemServico', backref='ordem_servico')
 
     # @validates('itens_manutencao')
     # def validate_protocolos(self, key, itens_manutencao):
