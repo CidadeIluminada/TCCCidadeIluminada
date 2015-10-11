@@ -7,6 +7,8 @@ from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
 from flask.ext.admin.form.widgets import Select2Widget
 
+from wtforms.validators import Required, NoneOf
+
 from cidadeiluminada.protocolos.models import Regiao, Bairro, Logradouro, \
     Poste, ItemManutencao, Protocolo, OrdemServico, ItemManutencaoOrdemServico
 from cidadeiluminada.base import db
@@ -131,8 +133,22 @@ class ProtocoloView(_ModelView):
 
     form_extra_fields = {
         'poste': QuerySelectField(query_factory=lambda: Poste.query.all(), allow_blank=True,
-                                  widget=Select2Widget())
+                                  widget=Select2Widget(), validators=[Required(u'Campo obrigatório')])
     }
+
+    def on_model_change(self, form, protocolo, is_created):
+        if is_created:
+            poste = form.poste.data
+            item_manutencao = None
+            for _item_manutencao in poste.itens_manutencao:
+                if not _item_manutencao.resolvida:
+                    item_manutencao = _item_manutencao
+                    break
+            if not item_manutencao:
+                item_manutencao = ItemManutencao(poste=poste)
+                db.session.add(item_manutencao)
+            item_manutencao.protocolos.append(protocolo)
+            db.session.commit()
 
     @expose('/new/', methods=('GET', 'POST'))
     def create_view(self):

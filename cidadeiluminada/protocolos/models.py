@@ -30,7 +30,7 @@ class Bairro(db.Model):
     regiao = relationship('Regiao', backref='bairros')
 
     def __repr__(self):
-        return u'{} - {}'.format(self.nome, self.regiao.nome)
+        return u'{} - {}'.format(self.nome, self.regiao)
 
 
 class Logradouro(db.Model):
@@ -50,7 +50,7 @@ class Logradouro(db.Model):
         return cep
 
     def __repr__(self):
-        return u'{} - {} - {}'.format(self.cep, self.bairro.nome, self.logradouro)
+        return u'{} - {} - {}'.format(self.bairro, self.cep, self.logradouro)
 
 
 class Poste(db.Model):
@@ -67,7 +67,7 @@ class Poste(db.Model):
     #         return delta
 
     def __repr__(self):
-        return '{}-{}'.format(self.logradouro.cep, self.numero)
+        return u'{} - Número {}'.format(self.logradouro, self.numero)
 
 
 class Protocolo(db.Model):
