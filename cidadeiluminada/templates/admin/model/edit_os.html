@@ -2,27 +2,44 @@
 
 
 {% block body %}
-  {% call lib.form_tag(form) %}
-    <div class='form-group'>
-        <label class='control-label col-md-2'>
-            Protocolos
-        </label>
-        <div class='col-md-10'>
-            <a href="{{ url_for('pendencia.index_view', flt1_ordem_servico_id_equals=model.id) }} ">
-                Ver na lista
-            </a>
-        </div>
-    </div>
-    <div class='form-group'>
-        <label for="criacao" class='col-md-2 control-label'>Criação</label>
-        <div class='col-md-10'>
-            <div>
-                <input class="form-control" id="criacao" type='text' value='{{ model.criacao }}' readonly disabled="">
-            </div>
-        </div>
-    </div>
-    <div class="form-buttons">
-        {{ lib.render_form_buttons(return_url) }}
-    </div>
-    {% endcall %}
+    {{ super() }}
+    <h2>Itens da Ordem de Serviço</h2>
+    <table class="table table-striped table-bordered table-hover model-list">
+        <thead>
+            {% for c, name in list_columns %}
+            <th class="column-header col-{{c}}">
+                {{ name }}
+            </th>
+            {% endfor %}
+            <th>
+                Protocolos da pendência
+            </th>
+        </thead>
+        <tbody>
+            {% for row in model.itens_manutencao %}
+            <tr>
+            {% for c, name in list_columns %}
+                <td class="col-{{c}}">
+                    {{ get_item_manutencao_value(row, c) }}
+                </td>
+            {% endfor %}
+                <td>
+                    {# <a href="{{ url_for('protocolo.index_view', flt1_item_manutencao_id_equals=row.id) }} ">
+                        Ver protocolos ({{ row.protocolos | length }})
+                    </a> #}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="999">
+                {% block empty_list_message %}
+                    <div class="text-center">
+                        {{ admin_view.get_empty_list_message() }}
+                    </div>
+                {% endblock %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

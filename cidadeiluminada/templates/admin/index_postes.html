@@ -49,7 +49,7 @@
             $('#regioes_inputs').html('');
             values.forEach(function(item) {
                 var id = parseInt(item);
-                $('<input>').attr('name', 'regiao[]').attr('type', 'text')
+                $('<input>').attr('name', 'regiao').attr('type', 'hidden')
                     .attr('value', id).appendTo('#regioes_inputs');
                 var id_qty = regioes_qty_map[id];
                 sum += id_qty;

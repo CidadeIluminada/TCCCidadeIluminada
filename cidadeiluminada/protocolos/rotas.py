@@ -18,7 +18,9 @@ class IndexView(AdminIndexView):
 
     @expose('/', methods=['GET', 'POST'])
     def index(self):
-        print request.form
+        if request.method == 'POST':
+            print request.form
+            # import ipdb;ipdb.set_trace();
         im_query = db.session.query(ItemManutencao).join(Poste).join(Logradouro).join(Bairro) \
             .join(Regiao).filter(ItemManutencao.resolvida == False)  # NOQA
         regioes_select_map = {}
@@ -103,11 +105,14 @@ class PosteView(_ModelView):
 
     form_columns = ('logradouro', 'numero')
 
+    can_create = False
     edit_template = 'admin/model/edit_poste.html'
 
     @expose('/edit/', methods=('GET', 'POST'))
     def edit_view(self):
-        self._template_args['list_columns'] = self.item_manutencao_view.get_list_columns()
+        cols = self.item_manutencao_view.get_list_columns()
+        cols.remove(('poste', 'Poste'))
+        self._template_args['list_columns'] = cols
         self._template_args['get_item_manutencao_value'] = self.item_manutencao_view.get_list_value
         return super(PosteView, self).edit_view()
 
@@ -151,17 +156,23 @@ class ItemManutencaoView(_ModelView):
     name = u'Itens Manutenção'
     category = 'Protocolos'
 
-    column_exclude_list = ('poste', )
-
 
 class OrdemServicoView(_ModelView):
+    def __init__(self, item_manutencao_view, *args, **kwargs):
+        super(OrdemServicoView, self).__init__(*args, **kwargs)
+        self.item_manutencao_view = item_manutencao_view
+
     model = OrdemServico
     name = u'Ordem de Serviço'
     category = 'Protocolos'
 
-    form_excluded_columns = ('protocolos')
-
     edit_template = 'admin/model/edit_os.html'
+
+    @expose('/edit/', methods=('GET', 'POST'))
+    def edit_view(self):
+        self._template_args['list_columns'] = self.item_manutencao_view.get_list_columns()
+        self._template_args['get_item_manutencao_value'] = self.item_manutencao_view.get_list_value
+        return super(OrdemServicoView, self).edit_view()
 
     form_widget_args = {
         'criacao': {
@@ -176,14 +187,15 @@ def init_app(app):
         'endpoint': 'admin_protocolos',
         'url': '/',
     }
+    imv = ItemManutencaoView()
     views = [
         RegiaoView(),
         BairroView(),
         LogradouroView(),
-        PosteView(ItemManutencaoView()),
-        ItemManutencaoView(),
+        PosteView(imv),
+        imv,
         ProtocoloView(),
-        OrdemServicoView(),
+        OrdemServicoView(imv),
     ]
     index = IndexView(name='Principal', **config)
     admin = Admin(app, template_mode='bootstrap3', index_view=index, name='Protocolos',
