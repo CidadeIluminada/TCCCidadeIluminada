@@ -49,13 +49,15 @@ class RegiaoView(_ModelView):
     name = u'Região'
     category = u'Endereço'
 
+    form_excluded_columns = ('bairros', )
+
 
 class BairroView(_ModelView):
     model = Bairro
     name = 'Bairro'
     category = u'Endereço'
 
-    form_columns = ('regiao', 'nome')
+    form_excluded_columns = ('logradouros', )
 
 
 class LogradouroView(_ModelView):
