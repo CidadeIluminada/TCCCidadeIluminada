@@ -143,7 +143,7 @@ class ProtocoloView(_ModelView):
             poste = form.poste.data
             item_manutencao = None
             for _item_manutencao in poste.itens_manutencao:
-                if not _item_manutencao.resolvida:
+                if _item_manutencao.aberto:
                     item_manutencao = _item_manutencao
                     break
             if not item_manutencao:
@@ -151,6 +151,13 @@ class ProtocoloView(_ModelView):
                 db.session.add(item_manutencao)
             item_manutencao.protocolos.append(protocolo)
             db.session.commit()
+
+    @expose('/edit/', methods=('GET', 'POST'))
+    def edit_view(self):
+        bairros = Bairro.query
+        bairro_id_nome = {bairro.nome: bairro.id for bairro in bairros}
+        self._template_args['bairro_id_nome_map'] = bairro_id_nome
+        return super(ProtocoloView, self).edit_view()
 
 
 class ItemManutencaoView(_ModelView):

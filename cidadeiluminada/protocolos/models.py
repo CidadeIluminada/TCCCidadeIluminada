@@ -78,16 +78,30 @@ class Protocolo(db.Model):
 
 
 class ItemManutencao(db.Model):
+    # Parent
     id = Column(Integer, primary_key=True)
     criacao = Column(DateTime, default=datetime.now)
 
     poste_id = Column(Integer, ForeignKey('poste.id'))
     poste = relationship('Poste', backref='itens_manutencao')
 
-    resolvida = Column(Boolean, default=False)
+    status = Column(String(255), default='aberto')
+
+    @property
+    def aberto(self):
+        return self.status == 'aberto'
+
+    @property
+    def em_servico(self):
+        return self.status == 'em_servico'
+
+    @property
+    def fechado(self):
+        return self.status == 'fechado'
 
 
 class ItemManutencaoOrdemServico(db.Model):
+    # Association
     id = Column(Integer, primary_key=True)
 
     ordem_servico_id = Column(Integer, ForeignKey('ordem_servico.id'))
@@ -99,6 +113,7 @@ class ItemManutencaoOrdemServico(db.Model):
 
 
 class OrdemServico(db.Model):
+    # Child
     id = Column(Integer, primary_key=True)
     criacao = Column(DateTime, default=datetime.now)
 
