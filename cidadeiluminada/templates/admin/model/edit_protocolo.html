@@ -1,0 +1,14 @@
+{% extends 'admin/model/edit.html' %}
+
+{% block tail %}
+    {{ super() }}
+    <input type="hidden", value='{{ poste_id }}' id="poste_id">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.13.4/jquery.mask.min.js"></script>
+    <script type="text/javascript">
+        'use strict'
+        $(function() {
+            var poste_id = parseInt($('#poste_id').val())
+            $('#poste').select2('val', poste_id);
+        });
+    </script>
+{% endblock %}

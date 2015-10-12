@@ -132,6 +132,7 @@ class ProtocoloView(_ModelView):
     can_delete = False
 
     form_excluded_columns = ('item_manutencao', )
+    edit_template = 'admin/model/edit_protocolo.html'
 
     form_extra_fields = {
         'poste': QuerySelectField(query_factory=lambda: Poste.query.all(), allow_blank=True,
@@ -154,9 +155,10 @@ class ProtocoloView(_ModelView):
 
     @expose('/edit/', methods=('GET', 'POST'))
     def edit_view(self):
-        bairros = Bairro.query
-        bairro_id_nome = {bairro.nome: bairro.id for bairro in bairros}
-        self._template_args['bairro_id_nome_map'] = bairro_id_nome
+        protocolo_id = request.args['id']
+        protocolo = Protocolo.query.get(protocolo_id)
+        poste_id = protocolo.item_manutencao.poste_id
+        self._template_args['poste_id'] = poste_id
         return super(ProtocoloView, self).edit_view()
 
 
