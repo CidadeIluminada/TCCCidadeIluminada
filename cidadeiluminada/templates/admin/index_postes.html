@@ -1,4 +1,66 @@
 {% extends "admin/master.html" %}
 
-{% block body %}
+{% block head %}
+    <link href="{{ admin_static.url(filename='vendor/select2/select2.css', v='3.5.2') }}" rel="stylesheet">
+    <link href="{{ admin_static.url(filename='vendor/select2/select2-bootstrap3.css', v='1.4.6') }}" rel="stylesheet">
 {% endblock %}
+
+{% block body %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Gerar Ordem de serviço
+            </h3>
+        </div>
+        <div class="panel-body">
+            <label for="regioes">
+                Selecionar regiões
+            </label><br>
+            <select id="regioes" multiple="multiple">
+                {% for id, label in regioes_map.iteritems() %}
+                    <option value="{{ id }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+            Total de itens: <span id="total_itens">0</span> itens
+        </div>
+        <div class="panel-footer">
+            <form method="POST" action="{{ url_for('admin_protocolos.index')}}">
+                <span id="regioes_inputs">
+                </span>
+                <button type="submit" id="submit" class="btn btn-success" disabled="disabled">
+                    Gerar Ordem de Serviço
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block tail %}
+    <input type="hidden" id="regioes_qty_map" value='{{ regioes_qty | tojson }}'>
+    <script type="text/javascript">
+    'use strict'
+    $(function() {
+        var regioes_qty_map = JSON.parse($('#regioes_qty_map').val());
+        $('#regioes').select2({
+            width: 'element',
+            closeOnSelect: false,
+        }).on('change', function(e) {
+            var values = e.val;
+            var sum = 0;
+            $('#regioes_inputs').html('');
+            values.forEach(function(item) {
+                var id = parseInt(item);
+                $('<input>').attr('name', 'regiao[]').attr('type', 'text')
+                    .attr('value', id).appendTo('#regioes_inputs');
+                var id_qty = regioes_qty_map[id];
+                sum += id_qty;
+            });
+            $('#total_itens').text(sum);
+            $('#submit').prop('disabled', 'disabled');
+            if (sum > 0 && sum <= 50) {
+                $('#submit').prop('disabled', '');
+            }
+        });
+    });
+    </script>
+{% endblock %}
+

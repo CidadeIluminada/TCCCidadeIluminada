@@ -1,6 +1,7 @@
 # coding: UTF-8
 from __future__ import absolute_import
 
+from flask import request
 from flask.ext.admin import Admin, expose, AdminIndexView
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
@@ -15,15 +16,20 @@ from cidadeiluminada.base import db
 
 class IndexView(AdminIndexView):
 
-    @expose('/')
+    @expose('/', methods=['GET', 'POST'])
     def index(self):
-        return self.render('admin/index_postes.html', pendencias_acao=[])
-
-    # @expose('/ordem_servico/nova/')
-    # def ordem_servico(self):
-        # regioes = Regiao.query.all()
-        # db.session.query(ItemManutencao).join(Poste).join(Logradouro).join(Bairro).join(Regiao).filter(Regiao.id == 1)
-        # return self.render('admin/index_postes.html', regioes=regioes)
+        print request.form
+        im_query = db.session.query(ItemManutencao).join(Poste).join(Logradouro).join(Bairro) \
+            .join(Regiao).filter(ItemManutencao.resolvida == False)  # NOQA
+        regioes_select_map = {}
+        regioes_qty_map = {}
+        for regiao in db.session.query(Regiao.id, Regiao.nome):
+            qty_im = im_query.filter(Regiao.id == regiao.id).count()
+            regioes_select_map[regiao.id] = u'Região {} - {} items em aberto'.format(regiao.nome,
+                                                                                      qty_im)
+            regioes_qty_map[regiao.id] = qty_im
+        return self.render('admin/index_postes.html', regioes_map=regioes_select_map,
+                           regioes_qty=regioes_qty_map)
 
 
 class _ModelView(ModelView):
@@ -167,7 +173,7 @@ class OrdemServicoView(_ModelView):
 
 def init_app(app):
     config = {
-        'endpoint': 'protocolos',
+        'endpoint': 'admin_protocolos',
         'url': '/',
     }
     views = [

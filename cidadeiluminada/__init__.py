@@ -26,7 +26,7 @@ def create_app(config=None):
 
     @app.route('/')
     def index():
-        return redirect(url_for('protocolos.index'))
+        return redirect(url_for('admin_postes.index'))
 
     @app.route('/postmon/')
     def postmon():
