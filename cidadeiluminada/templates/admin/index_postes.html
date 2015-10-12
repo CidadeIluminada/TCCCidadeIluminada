@@ -1,48 +1,4 @@
 {% extends "admin/master.html" %}
 
 {% block body %}
-{#     {% if False %}
-    <div class="panel panel-warning">
-        <div class="panel-heading">
-            Protocolos com pendências
-        </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                    </th>
-                    <th>
-                        Com poste
-                    </th>
-                    <th>
-                        Endereço
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for pendencia in pendencias_acao %}
-                <tr>
-                    <td>
-                        <a href="{{ url_for('pendencia.edit_view', id=pendencia.id, url=url_for('postes.index')) }} ">
-                            Corrigir
-                        </a>
-                    </td>
-                    <td>
-                        {{ pendencia.poste | checkmark }}
-                    </td>
-                    <td>
-                        {{ pendencia.bairro }}, {{ pendencia.logradouro }}, {{ pendencia.numero }}, {{ pendencia.cep }}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% else %}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            Nenhum protocolo com pendência.
-        </div>
-    </div>
-    {% endif %} #}
 {% endblock %}

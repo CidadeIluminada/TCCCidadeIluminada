@@ -4,12 +4,11 @@ from __future__ import absolute_import
 from datetime import datetime
 import re
 
-from sqlalchemy import Column, ForeignKey, Table
+from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship, validates
 from sqlalchemy.types import Integer, String, DateTime, Boolean
 
 from cidadeiluminada.base import db
-from cidadeiluminada.services import postmon
 
 cep_re = re.compile(r'^\d{5}-?\d{3}$')
 
@@ -61,11 +60,6 @@ class Poste(db.Model):
     logradouro = relationship('Logradouro', backref='postes')
     numero = Column(Integer)
 
-    # def calcular_delta(self, numero):
-    #     delta = abs(self.numero - numero)
-    #     if delta <= 10:
-    #         return delta
-
     def __repr__(self):
         return u'{} - Número {}'.format(self.logradouro, self.numero)
 
@@ -92,33 +86,6 @@ class ItemManutencao(db.Model):
 
     resolvida = Column(Boolean, default=False)
 
-    # def preencher_endereco(self):
-    #     info = postmon.get_by_cep(self.cep)
-    #     self.cidade = info['cidade']
-    #     self.estado = info['estado']
-    #     self.logradouro = info['logradouro']
-    #     nome_bairro = info['bairro']
-    #     bairro = Bairro.query.filter_by(nome=nome_bairro).first()
-    #     self.bairro = bairro
-
-    # def descobrir_poste(self):
-    #     postes = Poste.query.filter_by(cep=self.cep).all()
-    #     filtrados = [p for p in postes if p.calcular_delta(self.numero) is not None]
-    #     if len(filtrados) == 1:
-    #         self.poste = filtrados[0]
-
-    # def verificar_duplicidade(self):
-    #     if not self.poste:
-    #         return None
-    #     pendencias_q = Pendencia.query.filter_by(cep=self.cep).filter(Pendencia.poste != None)
-    #     if self.id:
-    #         pendencias_q = pendencias_q.filter(Pendencia.id != self.id)
-    #     pendencias = pendencias_q.all()
-    #     for pendencia in pendencias:
-    #         if self.poste == pendencia.poste or self.numero == pendencia.numero:
-    #             return True
-    #     return False
-
 
 class ItemManutencaoOrdemServico(db.Model):
     id = Column(Integer, primary_key=True)
@@ -136,12 +103,6 @@ class OrdemServico(db.Model):
     criacao = Column(DateTime, default=datetime.now)
 
     itens_manutencao = relationship('ItemManutencaoOrdemServico', backref='ordem_servico')
-
-    # @validates('itens_manutencao')
-    # def validate_protocolos(self, key, itens_manutencao):
-    #     if len(self.itens_manutencao) == 50:
-    #         raise ValueError(u'Máximo de serviços atingidos na Ordem de serviço')
-    #     return itens_manutencao
 
 
 def init_app(app):

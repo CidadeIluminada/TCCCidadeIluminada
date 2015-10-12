@@ -1,50 +1,29 @@
 # coding: UTF-8
 from __future__ import absolute_import
 
-from flask import request, jsonify
 from flask.ext.admin import Admin, expose, AdminIndexView
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
 from flask.ext.admin.form.widgets import Select2Widget
 
-from wtforms.validators import Required, NoneOf
+from wtforms.validators import Required
 
 from cidadeiluminada.protocolos.models import Regiao, Bairro, Logradouro, \
-    Poste, ItemManutencao, Protocolo, OrdemServico, ItemManutencaoOrdemServico
+    Poste, ItemManutencao, Protocolo, OrdemServico
 from cidadeiluminada.base import db
-
-_endereco_widget_args = {
-    'estado': {
-        'readonly': True,
-    },
-    'cidade': {
-        'readonly': True,
-    }
-}
-
-_endereco_args = {
-    'estado': {
-        'default': u'SP',
-    },
-    'cidade': {
-        'default': u'São José dos Campos',
-    }
-}
 
 
 class IndexView(AdminIndexView):
 
     @expose('/')
     def index(self):
-        # return super(IndexView, self).index()
-        # pendencias_acao = Pendencia.query.filter(Pendencia.poste == None)
-        # return self.render('admin/index_postes.html', pendencias_acao=pendencias_acao)
         return self.render('admin/index_postes.html', pendencias_acao=[])
 
     # @expose('/ordem_servico/nova/')
     # def ordem_servico(self):
-    #     regioes = Regiao.query.all()
-    #     return self.render('admin/index_postes.html', regioes=regioes)
+        # regioes = Regiao.query.all()
+        # db.session.query(ItemManutencao).join(Poste).join(Logradouro).join(Bairro).join(Regiao).filter(Regiao.id == 1)
+        # return self.render('admin/index_postes.html', regioes=regioes)
 
 
 class _ModelView(ModelView):
@@ -79,7 +58,17 @@ class LogradouroView(_ModelView):
     create_template = 'admin/model/edit_modelo_cep.html'
     edit_template = 'admin/model/edit_modelo_cep.html'
 
-    form_columns = ('bairro', 'logradouro', 'cep')
+    form_columns = ('cep', 'bairro', 'logradouro')
+
+    form_widget_args = {
+        'logradouro': {
+            'readonly': True,
+        },
+        'bairro': {
+            'readonly': True,
+            'disabled': True,
+        }
+    }
 
     def _inject_bairros(self):
         bairros = Bairro.query
@@ -150,16 +139,6 @@ class ProtocoloView(_ModelView):
             item_manutencao.protocolos.append(protocolo)
             db.session.commit()
 
-    @expose('/new/', methods=('GET', 'POST'))
-    def create_view(self):
-        print request.form
-        return super(ProtocoloView, self).create_view()
-
-    @expose('/edit/', methods=('GET', 'POST'))
-    def edit_view(self):
-        print request.form
-        return super(ProtocoloView, self).edit_view()
-
 
 class ItemManutencaoView(_ModelView):
     model = ItemManutencao
@@ -184,60 +163,6 @@ class OrdemServicoView(_ModelView):
             'disabled': True,
         },
     }
-
-# class PendenciaView(_ModelView):
-#     model = Pendencia
-#     name = 'Protocolos'
-#     category = 'Protocolos'
-
-#     can_edit = True
-#     can_delete = True
-#     can_create = False
-
-#     named_filter_urls = True
-#     column_filters = ('ordens_servico', 'ordens_servico.id')
-
-#     form_args = _endereco_args
-#     form_widget_args = dict(_endereco_widget_args, **{
-#         'bairro': {
-#             'readonly': True,
-#             'disabled': True,
-#         },
-#         'criacao': {
-#             'readonly': True,
-#             'disabled': True,
-#         },
-#         'cep': {
-#             'readonly': True,
-#         },
-#         'logradouro': {
-#             'readonly': True,
-#         },
-#         'numero': {
-#             'readonly': True,
-#         }
-#     })
-
-#     def on_model_change(self, form, model, is_created):
-#         if not is_created:
-#             return
-#         model.preencher_endereco()
-#         model.descobrir_poste()
-#         duplicidade = model.verificar_duplicidade()
-#         if duplicidade:
-#             raise ValueError(u'Em duplicidade')
-#         pass
-
-#     @expose('/nova_pendencia/', methods=['POST'])
-#     def nova_pendencia(self):
-#         form = self.create_form(request.form)
-#         if form.validate():
-#             try:
-#                 pendencia = self.create_model(form)
-#             except ValueError as ex:
-#                 return jsonify(payload={'status': 'ERRO', 'erros': [ex.message]}), 400
-#             return jsonify(payload={'pendencia_id': pendencia.id, 'status': 'OK'}), 200
-#         return jsonify(payload={'status': 'ERRO', 'erros': form.errors}), 400
 
 
 def init_app(app):
