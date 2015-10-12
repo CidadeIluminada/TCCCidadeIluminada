@@ -1,7 +1,7 @@
 # coding: UTF-8
 from __future__ import absolute_import
 
-from flask import request
+from flask import request, abort
 from flask.ext.admin import Admin, expose, AdminIndexView
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
@@ -10,7 +10,7 @@ from flask.ext.admin.form.widgets import Select2Widget
 from wtforms.validators import Required
 
 from cidadeiluminada.protocolos.models import Regiao, Bairro, Logradouro, \
-    Poste, ItemManutencao, Protocolo, OrdemServico
+    Poste, ItemManutencao, Protocolo, OrdemServico, ItemManutencaoOrdemServico
 from cidadeiluminada.base import db
 
 
@@ -21,8 +21,8 @@ class IndexView(AdminIndexView):
         if request.method == 'POST':
             print request.form
             # import ipdb;ipdb.set_trace();
-        im_query = db.session.query(ItemManutencao).join(Poste).join(Logradouro).join(Bairro) \
-            .join(Regiao).filter(ItemManutencao.resolvida == False)  # NOQA
+        im_query = ItemManutencao.query.join(Poste).join(Logradouro).join(Bairro).join(Regiao) \
+            .filter(ItemManutencao.status == 'aberto')  # NOQA
         regioes_select_map = {}
         regioes_qty_map = {}
         for regiao in db.session.query(Regiao.id, Regiao.nome):
@@ -172,18 +172,15 @@ class OrdemServicoView(_ModelView):
     def __init__(self, item_manutencao_view, *args, **kwargs):
         super(OrdemServicoView, self).__init__(*args, **kwargs)
         self.item_manutencao_view = item_manutencao_view
+        self.itens_manutencao_adicionar = None
+
+    def item_manutencao_query(self):
+        return ItemManutencao.query.join(Poste).join(Logradouro).join(Bairro).join(Regiao) \
+            .filter(ItemManutencao.status == 'aberto')  # NOQA
 
     model = OrdemServico
     name = u'Ordem de Serviço'
     category = 'Protocolos'
-
-    edit_template = 'admin/model/edit_os.html'
-
-    @expose('/edit/', methods=('GET', 'POST'))
-    def edit_view(self):
-        self._template_args['list_columns'] = self.item_manutencao_view.get_list_columns()
-        self._template_args['get_item_manutencao_value'] = self.item_manutencao_view.get_list_value
-        return super(OrdemServicoView, self).edit_view()
 
     form_widget_args = {
         'criacao': {
@@ -191,6 +188,31 @@ class OrdemServicoView(_ModelView):
             'disabled': True,
         },
     }
+
+    inline_models = (ItemManutencaoOrdemServico, )
+
+    def on_model_change(self, form, ordem_servico, is_created):
+        itens_manutencao = self.itens_manutencao_adicionar
+        self.itens_manutencao_adicionar = None
+        if is_created:
+            for item_manutencao in itens_manutencao:
+                item_manutencao.status = 'em_servico'
+                assoc = ItemManutencaoOrdemServico()
+                assoc.ordem_servico = ordem_servico
+                assoc.item_manutencao = item_manutencao
+                db.session.add(assoc)
+            db.session.commit()
+
+    @expose('/new/', methods=('GET', 'POST'))
+    def create_view(self):
+        if request.method == 'POST':
+            regioes_id = request.form.getlist('regiao')
+            query = self.item_manutencao_query().filter(Regiao.id.in_(regioes_id))
+            count = query.count()
+            if count <= 0 or count > 50:
+                abort(400)
+            self.itens_manutencao_adicionar = query.all()
+        return super(OrdemServicoView, self).create_view()
 
 
 def init_app(app):

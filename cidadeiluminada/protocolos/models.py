@@ -77,6 +77,24 @@ class Protocolo(db.Model):
     item_manutencao = relationship('ItemManutencao', backref='protocolos')
 
 
+class ItemManutencaoOrdemServico(db.Model):
+    # Association
+    id = Column(Integer, primary_key=True)
+
+    ordem_servico_id = Column(Integer, ForeignKey('ordem_servico.id'))
+    item_manutencao_id = Column(Integer, ForeignKey('item_manutencao.id'))
+
+    servico_feito = Column(Boolean, default=False)
+
+    @validates('servico_feito')
+    def validate_servico_feito(self, key, servico_feito):
+        if servico_feito:
+            self.item_manutencao.status = 'fechado'
+
+    ordem_servico = relationship('OrdemServico', backref='itens_manutencao')
+    item_manutencao = relationship('ItemManutencao', backref='ordens_servico')
+
+
 class ItemManutencao(db.Model):
     # Parent
     id = Column(Integer, primary_key=True)
@@ -86,6 +104,9 @@ class ItemManutencao(db.Model):
     poste = relationship('Poste', backref='itens_manutencao')
 
     status = Column(String(255), default='aberto')
+
+    def __repr__(self):
+        return u'{} - {}'.format(self.poste, self.status)
 
     @property
     def aberto(self):
@@ -100,24 +121,10 @@ class ItemManutencao(db.Model):
         return self.status == 'fechado'
 
 
-class ItemManutencaoOrdemServico(db.Model):
-    # Association
-    id = Column(Integer, primary_key=True)
-
-    ordem_servico_id = Column(Integer, ForeignKey('ordem_servico.id'))
-    item_manutencao_id = Column(Integer, ForeignKey('item_manutencao.id'))
-
-    servico_feito = Column(Boolean, default=False)
-
-    ordens_servico = relationship('ItemManutencao', backref='ordens_servico')
-
-
 class OrdemServico(db.Model):
     # Child
     id = Column(Integer, primary_key=True)
     criacao = Column(DateTime, default=datetime.now)
-
-    itens_manutencao = relationship('ItemManutencaoOrdemServico', backref='ordem_servico')
 
 
 def init_app(app):
