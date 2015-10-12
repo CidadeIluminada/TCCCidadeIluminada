@@ -3,21 +3,26 @@
 {% block tail %}
     {{ super() }}
     <input type="hidden", value='{{ bairro_id_nome_map | tojson }}' id="bairro_id_nome">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.13.4/jquery.mask.min.js"></script>
     <script type="text/javascript">
         'use strict'
         $(function() {
-            var cep_debounce = $.debounce(250, function() {
-                var cep = $(this).val();
-                if (cep.length == 8) {
-                    $.get("{{ url_for('postmon') }}", {'cep': cep}, function (data){
-                        $('#bairro').val(bairro_id_nome_map[data.bairro]).trigger('change');
-                        $('#logradouro').val(data.logradouro)
+            var bairro_id_nome_map = JSON.parse($('#bairro_id_nome').val());
+            $('[name=cep]').mask('00000-000', {
+                onComplete: function(cep) {
+                    $('#bairro').select2('val', null);
+                    $('#logradouro').val( null);
+                    $.get("{{ url_for('postmon') }}", {'cep': cep}, function(data) {
+                        var bairro_id = bairro_id_nome_map[data.bairro];
+                        if (!bairro_id) {
+                            return;
+                        }
+                        $('#bairro').select2('val', bairro_id);
+                        $('#logradouro').val(data.logradouro);
+                    }).fail(function(erro) {
                     });
                 }
-            })
-            var bairro_id_nome_map = JSON.parse($('#bairro_id_nome').val());
-            $('#cep').keyup(cep_debounce).blur(cep_debounce);
+            });
         });
     </script>
 {% endblock %}
