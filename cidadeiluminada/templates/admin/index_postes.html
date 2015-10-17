@@ -28,8 +28,8 @@
             </thead>
             <tbody>
                 <tr>
-                    <td id="regioes_td">
-                        <div class="list-group">
+                    <td>
+                        <div id="regioes_list" class="list-group">
                         {% for id, label in regioes_map.iteritems() %}
                             {% set qty = regioes_qty[id] %}
                             {% set disabled = qty == 0  %}
@@ -46,9 +46,14 @@
                         {% endfor %}
                         </div>
                     </td>
-                    <td id="bairros_td">
+                    <td>
+                        <div id="bairros_list" class="list-group">
+                        </div>
                     </td>
-                    <td id="postes_td">
+                    <td>
+                        <div id="postes_list" class="list-group">
+
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -73,38 +78,35 @@
     $(function() {
         var regioes_qty_map = JSON.parse($('#regioes_qty_map').val());
         var bairros_url = $('#bairros_url').val()
-        var enabled_bts = $('.list-group > button').not('.disabled');
-        enabled_bts.click(function(e) {
-            enabled_bts.removeClass('active');
+        var regiao_bts = $('#regioes_list').not('.disabled');
+        var bairros_list = $('#bairros_list');
+
+        function regiao_click_handler(e) {
+            regiao_bts.removeClass('active');
             var current_bt = $(this);
             current_bt.addClass('active');
             var regiao_id = current_bt.find('input').val();
 
             $.get(bairros_url, {regiao_id: regiao_id}, function(data) {
-                console.log(data);
+                bairros_list.empty();
+                $.each(data.payload, function(i, bairro) {
+                    var qty_im = bairro.qty_im;
+                    var input = $('<input>').prop('type', 'hidden').val(bairro.id);
+                    var button = $('<button>').prop('type', 'button').addClass('list-group-item')
+                        .text(bairro.nome);
+                    if (qty_im) {
+                        var badge = $('<span>').addClass('badge').text(qty_im);
+                        badge.appendTo(button);
+                    } else {
+                        button.prop('disabled', 'disabled').addClass('disabled');
+                    }
+                    input.appendTo(button);
+                    button.appendTo(bairros_list);
+                });
             });
-        });
+        }
 
-
-        $('#regioes').select2({
-            width: 'element',
-        }).on('change', function(e) {
-            var values = e.val;
-            var sum = 0;
-            $('#regioes_inputs').html('');
-            values.forEach(function(item) {
-                var id = parseInt(item);
-                $('<input>').attr('name', 'regiao').attr('type', 'hidden')
-                    .attr('value', id).appendTo('#regioes_inputs');
-                var id_qty = regioes_qty_map[id];
-                sum += id_qty;
-            });
-            $('#total_itens').text(sum);
-            $('#submit').prop('disabled', 'disabled');
-            if (sum > 0 && sum <= 50) {
-                $('#submit').prop('disabled', '');
-            }
-        });
+        regiao_bts.click(regiao_click_handler);
     });
     </script>
 {% endblock %}

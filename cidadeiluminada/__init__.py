@@ -12,6 +12,7 @@ def create_app(config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object('settings')
     app.config.from_pyfile('settings_local.py', silent=True)
+    app.json_encoder = base.AppJSONEncoder
 
     app.config.setdefault('SQLALCHEMY_DATABASE_URI', 'postgresql+psycopg2://cidadeiluminada:cidadeiluminada@localhost/cidadeiluminada')
 

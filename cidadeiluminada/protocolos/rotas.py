@@ -1,6 +1,7 @@
 # coding: UTF-8
 from __future__ import absolute_import
-from datetime import datetime, date
+
+from datetime import datetime
 
 from flask import request, abort, redirect, url_for, jsonify
 from flask.ext.admin import Admin, expose, AdminIndexView
@@ -37,7 +38,6 @@ def _date_format(view, value):
     return format_datetime(value)
 
 default_formatters = dict(typefmt.BASE_FORMATTERS, **{
-    date: _date_format,
     datetime: _date_format
 })
 
@@ -65,8 +65,16 @@ class RegiaoView(_ModelView):
     def get_bairros(self):
         regiao_id = request.args['regiao_id']
         regiao = self.model.query.get(regiao_id)
+        im_query = ItemManutencao.query.join(Poste).join(Logradouro).join(Bairro) \
+            .filter(ItemManutencao.status == 'aberto')
+        bairros = []
+        for bairro in regiao.bairros:
+            qty_im = im_query.filter(Bairro.id == bairro.id).count()
+            serialized = bairro.serialize()
+            serialized['qty_im'] = qty_im
+            bairros.append(serialized)
         return jsonify({
-            'payload': regiao.bairros,
+            'payload': bairros,
         })
 
 

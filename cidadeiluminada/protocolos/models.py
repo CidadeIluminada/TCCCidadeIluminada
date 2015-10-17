@@ -8,7 +8,7 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship, validates
 from sqlalchemy.types import Integer, String, DateTime, Boolean
 
-from cidadeiluminada.base import db
+from cidadeiluminada.base import db, JSONSerializationMixin
 
 cep_re = re.compile(r'^\d{5}-?\d{3}$')
 
@@ -21,8 +21,10 @@ class Regiao(db.Model):
         return self.nome
 
 
-class Bairro(db.Model):
+class Bairro(db.Model, JSONSerializationMixin):
     id = Column(Integer, primary_key=True)
+
+    _serialize_ignore_fields = ['regiao']
 
     nome = Column(String(255))
     regiao_id = Column(Integer, ForeignKey('regiao.id'))
