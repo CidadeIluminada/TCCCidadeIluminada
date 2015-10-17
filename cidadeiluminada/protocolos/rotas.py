@@ -1,11 +1,14 @@
 # coding: UTF-8
 from __future__ import absolute_import
+from datetime import datetime, date
 
 from flask import request, abort, redirect, url_for
 from flask.ext.admin import Admin, expose, AdminIndexView
+from flask.ext.admin.model import typefmt
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
 from flask.ext.admin.form.widgets import Select2Widget
+from flask.ext.babelex import format_datetime
 
 from wtforms.validators import Required
 
@@ -31,9 +34,20 @@ class IndexView(AdminIndexView):
                            regioes_qty=regioes_qty_map)
 
 
+def _date_format(view, value):
+    return format_datetime(value)
+
+default_formatters = dict(typefmt.BASE_FORMATTERS, **{
+    date: _date_format,
+    datetime: _date_format
+})
+
+
 class _ModelView(ModelView):
 
     category = None
+
+    column_type_formatters = default_formatters
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('name', self.name)
