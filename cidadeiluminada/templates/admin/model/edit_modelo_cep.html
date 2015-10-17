@@ -7,14 +7,24 @@
     <script type="text/javascript">
         'use strict'
         $(function() {
+            var cep_div = $('#cep').parent();
+            var ul_cep_errors = $('<ul>').addClass('input-errors');
+            ul_cep_errors.appendTo(cep_div);
             var bairro_id_nome_map = JSON.parse($('#bairro_id_nome').val());
-            $('[name=cep]').mask('00000-000', {
-                onComplete: function(cep) {
+            console.log('laod')
+            $('#cep').mask('00000-000', {
+                onKeyPress: function(cep) {
+                    console.log(cep);
+                    ul_cep_errors.empty();
                     $('#bairro').select2('val', null);
                     $('#logradouro').val( null);
+                },
+                onComplete: function(cep) {
                     $.get("{{ url_for('postmon') }}", {'cep': cep}, function(data) {
-                        var bairro_id = bairro_id_nome_map[data.bairro];
+                        var bairro_nome = data.bairro;
+                        var bairro_id = bairro_id_nome_map[bairro_nome];
                         if (!bairro_id) {
+                            ul_cep_errors.append('<li> Bairro "' + bairro_nome + '" não cadastrado</li>');
                             return;
                         }
                         $('#bairro').select2('val', bairro_id);
