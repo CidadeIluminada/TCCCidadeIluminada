@@ -54,7 +54,8 @@ class Logradouro(db.Model):
         return u'{} - {} - {}'.format(self.bairro, self.cep, self.logradouro)
 
 
-class Poste(db.Model):
+class Poste(db.Model, JSONSerializationMixin):
+    _serialize_ignore_fields = ['logradouro', 'itens_manutencao']
 
     id = Column(Integer, primary_key=True)
 

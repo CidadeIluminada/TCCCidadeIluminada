@@ -51,9 +51,20 @@
                         </div>
                     </td>
                     <td>
-                        <div id="postes_list" class="list-group">
-
-                        </div>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" id="selecionar_todos" checked="checked">
+                                    </th>
+                                    <th>
+                                        Selecionar todos
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="postes_list">
+                            </tbody>
+                        </table>
                     </td>
                 </tr>
             </tbody>
@@ -73,15 +84,77 @@
 {% block tail %}
     <input type="hidden" id="regioes_qty_map" value='{{ regioes_qty | tojson }}'>
     <input type="hidden" id="bairros_url" value="{{ url_for('regiao.get_bairros') }}">
-    <script type="text/javascript">
+    <input type="hidden" id="itens_manutencao_url" value="{{ url_for('bairro.get_itens_manutencao') }}">
+        <script type="text/javascript">
     'use strict'
     $(function() {
         var regioes_qty_map = JSON.parse($('#regioes_qty_map').val());
+        var regiao_bts = $('#regioes_list > button').not('.disabled');
+
         var bairros_url = $('#bairros_url').val()
-        var regiao_bts = $('#regioes_list').not('.disabled');
         var bairros_list = $('#bairros_list');
+        var bairros_bts = [];
+
+        var itens_manutencao_url = $('#itens_manutencao_url').val();
+        var postes_list =  $('#postes_list');
+        var selecionar_todos_checkbox = $('#selecionar_todos');
+
+        $(selecionar_todos).click(function(e) {
+            console.log('todos click')
+            $('.poste_check').each(function (i) {
+                if (!$(this).is(':checked')) {
+                    $(this).trigger('click');
+                }
+            });
+        });
+
+        function poste_check_handler(e) {
+            var checked = $(this).is(':checked');
+            if (!checked) {
+                $(selecionar_todos).prop('checked', null);
+            } else {
+                var all_checked = true;
+                $('.poste_check').each(function (i) {
+                    if (!$(this).is(':checked')) {
+                        all_checked = false;
+                        return false;
+                    }
+                });
+                if (all_checked) {
+                    $(selecionar_todos).prop('checked', 'checked');
+                }
+            }
+            console.log();
+        }
+
+        function bairro_click_handler(e) {
+            $.each(bairros_bts, function(i, bt) {
+                bt.removeClass('active');
+            });
+            var current_bt = $(this);
+            current_bt.addClass('active');
+            var bairro_id = current_bt.find('input').val();
+            $.get(itens_manutencao_url, {bairro_id: bairro_id}, function(data) {
+                postes_list.empty();
+                $.each(data.payload, function(i, poste) {
+                    var row = $('<tr>');
+
+                    var checkbox = $('<input>').prop('type', 'checkbox').addClass('poste_check')
+                        .prop('checked', 'checked').click(poste_check_handler);
+                    var checkbox_cell = $('<td>');
+                    checkbox.appendTo(checkbox_cell)
+                    checkbox_cell.appendTo(row);
+
+                    var label_cell = $('<td>').text(poste.label);
+                    label_cell.appendTo(row);
+
+                    row.appendTo(postes_list);
+                });
+            });
+        }
 
         function regiao_click_handler(e) {
+            bairros_bts = [];
             regiao_bts.removeClass('active');
             var current_bt = $(this);
             current_bt.addClass('active');
@@ -101,11 +174,12 @@
                         button.prop('disabled', 'disabled').addClass('disabled');
                     }
                     input.appendTo(button);
+                    bairros_bts.push(button);
+                    button.click(bairro_click_handler);
                     button.appendTo(bairros_list);
                 });
             });
         }
-
         regiao_bts.click(regiao_click_handler);
     });
     </script>

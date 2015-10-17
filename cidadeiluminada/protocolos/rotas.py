@@ -85,6 +85,24 @@ class BairroView(_ModelView):
 
     form_excluded_columns = ('logradouros', )
 
+    @expose('/itens_manutencao')
+    def get_itens_manutencao(self):
+        bairro_id = request.args['bairro_id']
+        im_query = ItemManutencao.query.join(Poste).join(Logradouro).join(Bairro) \
+            .filter(ItemManutencao.status == 'aberto').filter(Bairro.id == bairro_id)
+        postes = []
+        for item_manutencao in im_query:
+            poste = item_manutencao.poste
+            serialized = poste.serialize()
+
+            serialized['label'] = u'{} - {} - Nº {}'.format(poste.logradouro.cep,
+                                                             poste.logradouro.logradouro,
+                                                             poste.numero)
+            postes.append(serialized)
+        return jsonify({
+            'payload': postes,
+        })
+
 
 class LogradouroView(_ModelView):
     model = Logradouro
@@ -157,7 +175,8 @@ class ProtocoloView(_ModelView):
 
     form_extra_fields = {
         'poste': QuerySelectField(query_factory=lambda: Poste.query.all(), allow_blank=True,
-                                  widget=Select2Widget(), validators=[Required(u'Campo obrigatório')])
+                                  widget=Select2Widget(),
+                                  validators=[Required(u'Campo obrigatório')])
     }
 
     def on_model_change(self, form, protocolo, is_created):
