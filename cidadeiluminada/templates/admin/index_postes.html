@@ -28,18 +28,27 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>
-                        <select id="regioes" multiple="multiple">
-                            {% for id, label in regioes_map.iteritems() %}
-                                <option value="{{ id }}">{{ label }}</option>
-                            {% endfor %}
-                        </select>
+                    <td id="regioes_td">
+                        <div class="list-group">
+                        {% for id, label in regioes_map.iteritems() %}
+                            {% set qty = regioes_qty[id] %}
+                            {% set disabled = qty == 0  %}
+                            <button type="button" class="list-group-item {{'disabled' if disabled else '' }}"
+                                    {{'disabled="disabled"' if disabled else '' }}>
+                                <input type="hidden" value="{{ id }}">
+                                {% if not disabled %}
+                                <span class="badge">
+                                    {{ regioes_qty[id] }}
+                                </span>
+                                {% endif %}
+                                {{ label }}
+                            </button>
+                        {% endfor %}
+                        </div>
                     </td>
-                    <td>
-
+                    <td id="bairros_td">
                     </td>
-                    <td>
-
+                    <td id="postes_td">
                     </td>
                 </tr>
             </tbody>
@@ -62,6 +71,16 @@
     'use strict'
     $(function() {
         var regioes_qty_map = JSON.parse($('#regioes_qty_map').val());
+        var enabled_bts = $('.list-group > button').not('.disabled');
+        enabled_bts.click(function(e) {
+            enabled_bts.removeClass('active');
+            var current_bt = $(this);
+            current_bt.addClass('active');
+            var regiao_id = current_bt.find('input').val();
+            console.log(regiao_id);
+        });
+
+
         $('#regioes').select2({
             width: 'element',
         }).on('change', function(e) {
