@@ -71,10 +71,6 @@ class LogradouroView(_ModelView):
         'logradouro': {
             'readonly': True,
         },
-        'bairro': {
-            'readonly': True,
-            'disabled': True,
-        }
     }
 
     def _inject_bairros(self):
@@ -104,7 +100,6 @@ class PosteView(_ModelView):
 
     form_columns = ('logradouro', 'numero')
 
-    can_create = False
     edit_template = 'admin/model/edit_poste.html'
 
     @expose('/edit/', methods=('GET', 'POST'))
