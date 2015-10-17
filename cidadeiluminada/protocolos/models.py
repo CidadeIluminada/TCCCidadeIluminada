@@ -84,12 +84,15 @@ class ItemManutencaoOrdemServico(db.Model):
     ordem_servico_id = Column(Integer, ForeignKey('ordem_servico.id'))
     item_manutencao_id = Column(Integer, ForeignKey('item_manutencao.id'))
 
-    servico_feito = Column(Boolean, default=False)
+    servico_feito = Column(Boolean, default=None)
 
     @validates('servico_feito')
     def validate_servico_feito(self, key, servico_feito):
         if servico_feito:
             self.item_manutencao.status = 'fechado'
+        else:
+            self.item_manutencao.status = 'aberto'
+        return servico_feito
 
     ordem_servico = relationship('OrdemServico', backref='itens_manutencao')
     item_manutencao = relationship('ItemManutencao', backref='ordens_servico')
