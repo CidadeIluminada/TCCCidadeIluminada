@@ -1,7 +1,7 @@
 # coding: UTF-8
 from __future__ import absolute_import
 
-from flask import request, abort
+from flask import request, abort, redirect, url_for
 from flask.ext.admin import Admin, expose, AdminIndexView
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
@@ -18,9 +18,6 @@ class IndexView(AdminIndexView):
 
     @expose('/', methods=['GET', 'POST'])
     def index(self):
-        if request.method == 'POST':
-            print request.form
-            # import ipdb;ipdb.set_trace();
         im_query = ItemManutencao.query.join(Poste).join(Logradouro).join(Bairro).join(Regiao) \
             .filter(ItemManutencao.status == 'aberto')  # NOQA
         regioes_select_map = {}
@@ -189,12 +186,14 @@ class OrdemServicoView(_ModelView):
         },
     }
 
-    inline_models = (ItemManutencaoOrdemServico, )
+    edit_template = 'admin/model/edit_os.html'
+
+    form_excluded_columns = ('itens_manutencao', )
 
     def on_model_change(self, form, ordem_servico, is_created):
-        itens_manutencao = self.itens_manutencao_adicionar
-        self.itens_manutencao_adicionar = None
         if is_created:
+            itens_manutencao = self.itens_manutencao_adicionar
+            self.itens_manutencao_adicionar = None
             for item_manutencao in itens_manutencao:
                 item_manutencao.status = 'em_servico'
                 assoc = ItemManutencaoOrdemServico()
@@ -202,6 +201,20 @@ class OrdemServicoView(_ModelView):
                 assoc.item_manutencao = item_manutencao
                 db.session.add(assoc)
             db.session.commit()
+
+    @expose('/atualizar_item_manutencao/', methods=['POST'])
+    def atualizar_item_manutencao(self):
+        feito = request.form['feito']
+        if feito == 'false':
+            feito = False
+        elif feito == 'true':
+            feito = True
+        ordem_servico_id = request.form['ordem_servico_id']
+        item_manutencao_ordem_servico_id = request.form['item_manutencao_ordem_servico_id']
+        item = ItemManutencaoOrdemServico.query.get(item_manutencao_ordem_servico_id)
+        item.servico_feito = feito
+        db.session.commit()
+        return redirect(url_for('.edit_view', id=ordem_servico_id))
 
     @expose('/new/', methods=('GET', 'POST'))
     def create_view(self):

@@ -6,27 +6,38 @@
     <h2>Itens da Ordem de Serviço</h2>
     <table class="table table-striped table-bordered table-hover model-list">
         <thead>
-            {% for c, name in list_columns %}
-            <th class="column-header col-{{c}}">
-                {{ name }}
-            </th>
-            {% endfor %}
             <th>
-                Protocolos da pendência
+                Poste
+            </th>
+            <th>
+                Serviço realizado
             </th>
         </thead>
         <tbody>
             {% for row in model.itens_manutencao %}
             <tr>
-            {% for c, name in list_columns %}
-                <td class="col-{{c}}">
-                    {{ get_item_manutencao_value(row, c) }}
-                </td>
-            {% endfor %}
                 <td>
-                    {# <a href="{{ url_for('protocolo.index_view', flt1_item_manutencao_id_equals=row.id) }} ">
-                        Ver protocolos ({{ row.protocolos | length }})
-                    </a> #}
+                    {{ row.item_manutencao.poste }}
+                </td>
+                <td>
+                    {% if row.servico_feito == None %}
+                        <form class="form-inline" action="{{ url_for('ordemservico.atualizar_item_manutencao') }}" method="POST">
+                            <input type="hidden" value="{{ model.id }}" name="ordem_servico_id">
+                            <input type="hidden" value="{{ row.id }}" name="item_manutencao_ordem_servico_id">
+                            <button class="btn btn-success" type="submit" name="feito" value="true">
+                                <i class="glyphicon glyphicon-ok"></i>
+                            </button>
+                            <button class="btn btn-danger" name="feito" type="submit" value="false">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                        </form>
+                    {% else %}
+                        {% if row.servico_feito == True %}
+                            <i class="glyphicon glyphicon-ok"></i>
+                        {% else %}
+                            <i class="glyphicon glyphicon-remove"></i>
+                        {% endif %}
+                    {% endif %}
                 </td>
             </tr>
             {% else %}

@@ -18,11 +18,11 @@
         <tbody>
             {% for row in model.itens_manutencao %}
             <tr>
-            {% for c, name in list_columns %}
+                {% for c, name in list_columns %}
                 <td class="col-{{c}}">
                     {{ get_item_manutencao_value(row, c) }}
                 </td>
-            {% endfor %}
+                {% endfor %}
                 <td>
                     <a href="{{ url_for('protocolo.index_view', flt1_item_manutencao_id_equals=row.id) }} ">
                         Ver protocolos ({{ row.protocolos | length }})
