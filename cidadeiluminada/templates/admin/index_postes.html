@@ -67,17 +67,22 @@
 {% endblock %}
 {% block tail %}
     <input type="hidden" id="regioes_qty_map" value='{{ regioes_qty | tojson }}'>
+    <input type="hidden" id="bairros_url" value="{{ url_for('regiao.get_bairros') }}">
     <script type="text/javascript">
     'use strict'
     $(function() {
         var regioes_qty_map = JSON.parse($('#regioes_qty_map').val());
+        var bairros_url = $('#bairros_url').val()
         var enabled_bts = $('.list-group > button').not('.disabled');
         enabled_bts.click(function(e) {
             enabled_bts.removeClass('active');
             var current_bt = $(this);
             current_bt.addClass('active');
             var regiao_id = current_bt.find('input').val();
-            console.log(regiao_id);
+
+            $.get(bairros_url, {regiao_id: regiao_id}, function(data) {
+                console.log(data);
+            });
         });
 
 

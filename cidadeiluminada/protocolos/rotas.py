@@ -2,7 +2,7 @@
 from __future__ import absolute_import
 from datetime import datetime, date
 
-from flask import request, abort, redirect, url_for
+from flask import request, abort, redirect, url_for, jsonify
 from flask.ext.admin import Admin, expose, AdminIndexView
 from flask.ext.admin.model import typefmt
 from flask.ext.admin.contrib.sqla import ModelView
@@ -27,8 +27,7 @@ class IndexView(AdminIndexView):
         regioes_qty_map = {}
         for regiao in db.session.query(Regiao.id, Regiao.nome):
             qty_im = im_query.filter(Regiao.id == regiao.id).count()
-            regioes_select_map[regiao.id] = u'Região {} - {} items em aberto'.format(regiao.nome,
-                                                                                      qty_im)
+            regioes_select_map[regiao.id] = u'Região {}'.format(regiao.nome)
             regioes_qty_map[regiao.id] = qty_im
         return self.render('admin/index_postes.html', regioes_map=regioes_select_map,
                            regioes_qty=regioes_qty_map)
@@ -61,6 +60,14 @@ class RegiaoView(_ModelView):
     category = u'Endereço'
 
     form_excluded_columns = ('bairros', )
+
+    @expose('/bairros')
+    def get_bairros(self):
+        regiao_id = request.args['regiao_id']
+        regiao = self.model.query.get(regiao_id)
+        return jsonify({
+            'payload': regiao.bairros,
+        })
 
 
 class BairroView(_ModelView):
