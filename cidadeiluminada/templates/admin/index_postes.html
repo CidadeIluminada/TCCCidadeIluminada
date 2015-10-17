@@ -12,17 +12,38 @@
                 Gerar Ordem de serviço
             </h3>
         </div>
-        <div class="panel-body">
-            <label for="regioes">
-                Selecionar regiões
-            </label><br>
-            <select id="regioes" multiple="multiple">
-                {% for id, label in regioes_map.iteritems() %}
-                    <option value="{{ id }}">{{ label }}</option>
-                {% endfor %}
-            </select>
-            Total de itens: <span id="total_itens">0</span> itens
-        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Regiões
+                    </th>
+                    <th>
+                        Bairros
+                    </th>
+                    <th>
+                        Postes com pendências
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select id="regioes" multiple="multiple">
+                            {% for id, label in regioes_map.iteritems() %}
+                                <option value="{{ id }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
         <div class="panel-footer">
             <form method="POST" action="{{ url_for('ordemservico.create_view')}}">
                 <span id="regioes_inputs">
@@ -30,6 +51,7 @@
                 <button type="submit" id="submit" class="btn btn-success" disabled="disabled">
                     Gerar Ordem de Serviço
                 </button>
+                Total de itens: <span id="total_itens">0</span> itens
             </form>
         </div>
     </div>
@@ -42,7 +64,6 @@
         var regioes_qty_map = JSON.parse($('#regioes_qty_map').val());
         $('#regioes').select2({
             width: 'element',
-            closeOnSelect: false,
         }).on('change', function(e) {
             var values = e.val;
             var sum = 0;
