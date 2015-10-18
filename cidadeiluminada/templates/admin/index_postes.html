@@ -28,7 +28,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>
+                    <td style="width: 33%">
                         <div id="regioes_list" class="list-group">
                         {% for id, label in regioes_map.iteritems() %}
                             {% set qty = regioes_qty[id] %}
@@ -46,11 +46,11 @@
                         {% endfor %}
                         </div>
                     </td>
-                    <td>
+                    <td style="width: 33%">
                         <div id="bairros_list" class="list-group">
                         </div>
                     </td>
-                    <td>
+                    <td style="width: 33%">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -64,6 +64,15 @@
                             </thead>
                             <tbody id="postes_list">
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2">
+                                        <button disabled="disabled" class="btn btn-primary" id="adicionar_postes">
+                                            Adicionar postes
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </td>
                 </tr>
@@ -71,7 +80,7 @@
         </table>
         <div class="panel-footer">
             <form method="POST" action="{{ url_for('ordemservico.create_view')}}">
-                <span id="regioes_inputs">
+                <span id="postes_inputs">
                 </span>
                 <button type="submit" id="submit" class="btn btn-success" disabled="disabled">
                     Gerar Ordem de Serviço
@@ -99,14 +108,29 @@
         var postes_list =  $('#postes_list');
         var selecionar_todos_checkbox = $('#selecionar_todos');
 
+        var adicionar_postes_bt = $('#adicionar_postes');
+
+        $(adicionar_postes_bt).click(function() {
+            $('.poste_check').each(function (i) {
+                if ($(this).is(':checked')) {
+                    var poste_id_input = $(this).siblings('input[type=hidden]');
+                    console.log(poste_id_input.val());
+                }
+            });
+        });
+
         $(selecionar_todos).click(function(e) {
-            console.log('todos click')
             $('.poste_check').each(function (i) {
                 if (!$(this).is(':checked')) {
                     $(this).trigger('click');
                 }
             });
         });
+
+        function empty_postes_list() {
+            postes_list.empty();
+            $(adicionar_postes_bt).prop('disabled', 'disabled');
+        }
 
         function poste_check_handler(e) {
             var checked = $(this).is(':checked');
@@ -124,7 +148,6 @@
                     $(selecionar_todos).prop('checked', 'checked');
                 }
             }
-            console.log();
         }
 
         function bairro_click_handler(e) {
@@ -134,15 +157,18 @@
             var current_bt = $(this);
             current_bt.addClass('active');
             var bairro_id = current_bt.find('input').val();
+
             $.get(itens_manutencao_url, {bairro_id: bairro_id}, function(data) {
-                postes_list.empty();
+                empty_postes_list();
                 $.each(data.payload, function(i, poste) {
                     var row = $('<tr>');
 
                     var checkbox = $('<input>').prop('type', 'checkbox').addClass('poste_check')
                         .prop('checked', 'checked').click(poste_check_handler);
+                    var poste_id_input = $('<input>').prop('type', 'hidden').val(poste.id);
                     var checkbox_cell = $('<td>');
                     checkbox.appendTo(checkbox_cell)
+                    poste_id_input.appendTo(checkbox_cell);
                     checkbox_cell.appendTo(row);
 
                     var label_cell = $('<td>').text(poste.label);
@@ -150,6 +176,7 @@
 
                     row.appendTo(postes_list);
                 });
+                $(adicionar_postes_bt).prop('disabled', null);
             });
         }
 
@@ -162,6 +189,7 @@
 
             $.get(bairros_url, {regiao_id: regiao_id}, function(data) {
                 bairros_list.empty();
+                empty_postes_list();
                 $.each(data.payload, function(i, bairro) {
                     var qty_im = bairro.qty_im;
                     var input = $('<input>').prop('type', 'hidden').val(bairro.id);
