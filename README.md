@@ -9,7 +9,6 @@ $ pip install -r requirements-dev.txt
 $ pip install -r requirements.txt
 $ mkdir instance
 $ touch instance/settings_local.py
-$ mkdir tmp
 ```
 
 ### O `settings_local.py`
@@ -35,12 +34,7 @@ Na primeira vez que você rodar, digite
 ```
 $ python manage.py db upgrade
 ```
-para instalar o banco de dados e
-
-```
-$ python manage.py criar_usuario admin admin
-```
-para criar o usuário padrão.
+para instalar o banco de dados.
 
 Para ativar o servidor digite
 ```
@@ -48,10 +42,6 @@ python manage.py runserver
 ```
 
 Agora acesse [http://localhost:5000](http://localhost:5000) para acessar o webservice.
-
-## Aplicativo Android
-
-O aplicativo foi movido para o [novo repositório](https://github.com/HardDiskD/TCMCidadeIluminada-Android).
 
 ## Trabalhando com o git
 
