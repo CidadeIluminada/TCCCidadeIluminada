@@ -125,6 +125,11 @@
             if ($('.poste_check').length == 0) {
                 $(this).prop('disabled', 'disabled');
             }
+            var selecionados = postes_selecionados.length;
+            if (selecionados > 0) {
+                $('#submit').prop('disabled', null);
+                $('#total_itens').text(selecionados);
+            }
         });
 
         $(selecionar_todos).click(function(e) {
