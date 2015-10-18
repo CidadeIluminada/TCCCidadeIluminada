@@ -114,7 +114,7 @@
             $('.poste_check').each(function (i) {
                 if ($(this).is(':checked')) {
                     var poste_id = $(this).siblings('input[type=hidden]').val();
-                    $('<input>').prop('type', 'text').val(poste_id)
+                    $('<input>').prop('type', 'hidden').val(poste_id).prop('name', 'postes')
                         .appendTo($(postes_inputs));
                     $(this).parent().append('Adicionado')
                     $(this).remove();

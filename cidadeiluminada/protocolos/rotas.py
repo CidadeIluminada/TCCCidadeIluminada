@@ -209,14 +209,12 @@ class ItemManutencaoView(_ModelView):
 
 
 class OrdemServicoView(_ModelView):
-    def __init__(self, item_manutencao_view, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(OrdemServicoView, self).__init__(*args, **kwargs)
-        self.item_manutencao_view = item_manutencao_view
         self.itens_manutencao_adicionar = None
 
     def item_manutencao_query(self):
-        return ItemManutencao.query.join(Poste).join(Logradouro).join(Bairro).join(Regiao) \
-            .filter(ItemManutencao.status == 'aberto')  # NOQA
+        return ItemManutencao.query.join(Poste).filter(ItemManutencao.status == 'aberto')  # NOQA
 
     model = OrdemServico
     name = u'Ordem de Serviço'
@@ -262,9 +260,13 @@ class OrdemServicoView(_ModelView):
     @expose('/new/', methods=('GET', 'POST'))
     def create_view(self):
         if request.method == 'POST':
-            regioes_id = request.form.getlist('regiao')
-            query = self.item_manutencao_query().filter(Regiao.id.in_(regioes_id))
+            print request.form
+            postes_id = request.form.getlist('postes')
+            if not postes_id:
+                abort(400)
+            query = self.item_manutencao_query().filter(Poste.id.in_(postes_id))
             count = query.count()
+            print count
             if count <= 0 or count > 50:
                 abort(400)
             self.itens_manutencao_adicionar = query.all()
@@ -284,7 +286,7 @@ def init_app(app):
         PosteView(imv),
         imv,
         ProtocoloView(),
-        OrdemServicoView(imv),
+        OrdemServicoView(),
     ]
     index = IndexView(name='Principal', **config)
     admin = Admin(app, template_mode='bootstrap3', index_view=index, name='Protocolos',
