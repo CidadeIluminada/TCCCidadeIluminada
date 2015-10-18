@@ -97,9 +97,6 @@ class ItemManutencaoOrdemServico(db.Model):
             self.item_manutencao.status = 'aberto'
         return servico_feito
 
-    ordem_servico = relationship('OrdemServico', backref='itens_manutencao')
-    item_manutencao = relationship('ItemManutencao', backref='ordens_servico')
-
 
 class ItemManutencao(db.Model):
     # Parent
@@ -110,6 +107,8 @@ class ItemManutencao(db.Model):
     poste = relationship('Poste', backref='itens_manutencao')
 
     status = Column(String(255), default='aberto')
+
+    ordens_servico = relationship('ItemManutencaoOrdemServico', backref='item_manutencao')
 
     def __repr__(self):
         return u'{} - {}'.format(self.poste, self.status)
@@ -131,6 +130,9 @@ class OrdemServico(db.Model):
     # Child
     id = Column(Integer, primary_key=True)
     criacao = Column(DateTime, default=datetime.now)
+
+    itens_manutencao = relationship('ItemManutencaoOrdemServico', backref='ordem_servico',
+                                    order_by='ItemManutencaoOrdemServico.id')
 
 
 def init_app(app):
