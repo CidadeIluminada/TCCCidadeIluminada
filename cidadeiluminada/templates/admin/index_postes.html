@@ -91,13 +91,13 @@
     </div>
 {% endblock %}
 {% block tail %}
-    <input type="hidden" id="regioes_qty_map" value='{{ regioes_qty | tojson }}'>
     <input type="hidden" id="bairros_url" value="{{ url_for('regiao.get_bairros') }}">
     <input type="hidden" id="itens_manutencao_url" value="{{ url_for('bairro.get_itens_manutencao') }}">
         <script type="text/javascript">
     'use strict'
     $(function() {
-        var regioes_qty_map = JSON.parse($('#regioes_qty_map').val());
+        var postes_inputs = $('#postes_inputs');
+        var postes_selecionados = [];
         var regiao_bts = $('#regioes_list > button').not('.disabled');
 
         var bairros_url = $('#bairros_url').val()
@@ -113,10 +113,18 @@
         $(adicionar_postes_bt).click(function() {
             $('.poste_check').each(function (i) {
                 if ($(this).is(':checked')) {
-                    var poste_id_input = $(this).siblings('input[type=hidden]');
-                    console.log(poste_id_input.val());
+                    var poste_id = $(this).siblings('input[type=hidden]').val();
+                    $('<input>').prop('type', 'text').val(poste_id)
+                        .appendTo($(postes_inputs));
+                    $(this).parent().append('Adicionado')
+                    $(this).remove();
+                    postes_selecionados.push(parseInt(poste_id));
                 }
             });
+            // Busca de novo os .poste_check para atualizar a seleção.
+            if ($('.poste_check').length == 0) {
+                $(this).prop('disabled', 'disabled');
+            }
         });
 
         $(selecionar_todos).click(function(e) {
@@ -162,12 +170,15 @@
                 empty_postes_list();
                 $.each(data.payload, function(i, poste) {
                     var row = $('<tr>');
-
-                    var checkbox = $('<input>').prop('type', 'checkbox').addClass('poste_check')
-                        .prop('checked', 'checked').click(poste_check_handler);
-                    var poste_id_input = $('<input>').prop('type', 'hidden').val(poste.id);
                     var checkbox_cell = $('<td>');
-                    checkbox.appendTo(checkbox_cell)
+                    if (postes_selecionados.indexOf(poste.id) == -1) {
+                        var checkbox = $('<input>').prop('type', 'checkbox').addClass('poste_check')
+                            .prop('checked', 'checked').click(poste_check_handler);
+                        checkbox.appendTo(checkbox_cell);
+                    } else {
+                        checkbox_cell.append('Adicionado');
+                    }
+                    var poste_id_input = $('<input>').prop('type', 'hidden').val(poste.id);
                     poste_id_input.appendTo(checkbox_cell);
                     checkbox_cell.appendTo(row);
 
@@ -176,7 +187,11 @@
 
                     row.appendTo(postes_list);
                 });
-                $(adicionar_postes_bt).prop('disabled', null);
+                var disabled = 'disabled';
+                if ($('.poste_check').length != 0) {
+                    disabled = null;
+                }
+                $(adicionar_postes_bt).prop('disabled', disabled);
             });
         }
 
