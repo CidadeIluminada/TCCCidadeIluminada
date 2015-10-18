@@ -8,7 +8,7 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship, validates
 from sqlalchemy.types import Integer, String, DateTime, Boolean
 
-from cidadeiluminada.base import db
+from cidadeiluminada.base import db, JSONSerializationMixin
 
 cep_re = re.compile(r'^\d{5}-?\d{3}$')
 
@@ -21,8 +21,10 @@ class Regiao(db.Model):
         return self.nome
 
 
-class Bairro(db.Model):
+class Bairro(db.Model, JSONSerializationMixin):
     id = Column(Integer, primary_key=True)
+
+    _serialize_ignore_fields = ['regiao']
 
     nome = Column(String(255))
     regiao_id = Column(Integer, ForeignKey('regiao.id'))
@@ -52,7 +54,8 @@ class Logradouro(db.Model):
         return u'{} - {} - {}'.format(self.bairro, self.cep, self.logradouro)
 
 
-class Poste(db.Model):
+class Poste(db.Model, JSONSerializationMixin):
+    _serialize_ignore_fields = ['logradouro', 'itens_manutencao']
 
     id = Column(Integer, primary_key=True)
 
@@ -94,9 +97,6 @@ class ItemManutencaoOrdemServico(db.Model):
             self.item_manutencao.status = 'aberto'
         return servico_feito
 
-    ordem_servico = relationship('OrdemServico', backref='itens_manutencao')
-    item_manutencao = relationship('ItemManutencao', backref='ordens_servico')
-
 
 class ItemManutencao(db.Model):
     # Parent
@@ -107,6 +107,8 @@ class ItemManutencao(db.Model):
     poste = relationship('Poste', backref='itens_manutencao')
 
     status = Column(String(255), default='aberto')
+
+    ordens_servico = relationship('ItemManutencaoOrdemServico', backref='item_manutencao')
 
     def __repr__(self):
         return u'{} - {}'.format(self.poste, self.status)
@@ -128,6 +130,9 @@ class OrdemServico(db.Model):
     # Child
     id = Column(Integer, primary_key=True)
     criacao = Column(DateTime, default=datetime.now)
+
+    itens_manutencao = relationship('ItemManutencaoOrdemServico', backref='ordem_servico',
+                                    order_by='ItemManutencaoOrdemServico.id')
 
 
 def init_app(app):

@@ -1,8 +1,9 @@
 # coding: UTF-8
 from __future__ import absolute_import
-from datetime import datetime, date
 
-from flask import request, abort, redirect, url_for
+from datetime import datetime
+
+from flask import request, abort, redirect, url_for, jsonify
 from flask.ext.admin import Admin, expose, AdminIndexView
 from flask.ext.admin.model import typefmt
 from flask.ext.admin.contrib.sqla import ModelView
@@ -27,8 +28,7 @@ class IndexView(AdminIndexView):
         regioes_qty_map = {}
         for regiao in db.session.query(Regiao.id, Regiao.nome):
             qty_im = im_query.filter(Regiao.id == regiao.id).count()
-            regioes_select_map[regiao.id] = u'Região {} - {} items em aberto'.format(regiao.nome,
-                                                                                      qty_im)
+            regioes_select_map[regiao.id] = u'Região {}'.format(regiao.nome)
             regioes_qty_map[regiao.id] = qty_im
         return self.render('admin/index_postes.html', regioes_map=regioes_select_map,
                            regioes_qty=regioes_qty_map)
@@ -38,7 +38,6 @@ def _date_format(view, value):
     return format_datetime(value)
 
 default_formatters = dict(typefmt.BASE_FORMATTERS, **{
-    date: _date_format,
     datetime: _date_format
 })
 
@@ -62,6 +61,22 @@ class RegiaoView(_ModelView):
 
     form_excluded_columns = ('bairros', )
 
+    @expose('/bairros')
+    def get_bairros(self):
+        regiao_id = request.args['regiao_id']
+        regiao = self.model.query.get(regiao_id)
+        im_query = ItemManutencao.query.join(Poste).join(Logradouro).join(Bairro) \
+            .filter(ItemManutencao.status == 'aberto')
+        bairros = []
+        for bairro in regiao.bairros:
+            qty_im = im_query.filter(Bairro.id == bairro.id).count()
+            serialized = bairro.serialize()
+            serialized['qty_im'] = qty_im
+            bairros.append(serialized)
+        return jsonify({
+            'payload': bairros,
+        })
+
 
 class BairroView(_ModelView):
     model = Bairro
@@ -69,6 +84,24 @@ class BairroView(_ModelView):
     category = u'Endereço'
 
     form_excluded_columns = ('logradouros', )
+
+    @expose('/itens_manutencao')
+    def get_itens_manutencao(self):
+        bairro_id = request.args['bairro_id']
+        im_query = ItemManutencao.query.join(Poste).join(Logradouro).join(Bairro) \
+            .filter(ItemManutencao.status == 'aberto').filter(Bairro.id == bairro_id)
+        postes = []
+        for item_manutencao in im_query:
+            poste = item_manutencao.poste
+            serialized = poste.serialize()
+
+            serialized['label'] = u'{} - {} - Nº {}'.format(poste.logradouro.cep,
+                                                             poste.logradouro.logradouro,
+                                                             poste.numero)
+            postes.append(serialized)
+        return jsonify({
+            'payload': postes,
+        })
 
 
 class LogradouroView(_ModelView):
@@ -142,7 +175,8 @@ class ProtocoloView(_ModelView):
 
     form_extra_fields = {
         'poste': QuerySelectField(query_factory=lambda: Poste.query.all(), allow_blank=True,
-                                  widget=Select2Widget(), validators=[Required(u'Campo obrigatório')])
+                                  widget=Select2Widget(),
+                                  validators=[Required(u'Campo obrigatório')])
     }
 
     def on_model_change(self, form, protocolo, is_created):
@@ -175,14 +209,12 @@ class ItemManutencaoView(_ModelView):
 
 
 class OrdemServicoView(_ModelView):
-    def __init__(self, item_manutencao_view, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(OrdemServicoView, self).__init__(*args, **kwargs)
-        self.item_manutencao_view = item_manutencao_view
         self.itens_manutencao_adicionar = None
 
     def item_manutencao_query(self):
-        return ItemManutencao.query.join(Poste).join(Logradouro).join(Bairro).join(Regiao) \
-            .filter(ItemManutencao.status == 'aberto')  # NOQA
+        return ItemManutencao.query.join(Poste).filter(ItemManutencao.status == 'aberto')  # NOQA
 
     model = OrdemServico
     name = u'Ordem de Serviço'
@@ -228,9 +260,13 @@ class OrdemServicoView(_ModelView):
     @expose('/new/', methods=('GET', 'POST'))
     def create_view(self):
         if request.method == 'POST':
-            regioes_id = request.form.getlist('regiao')
-            query = self.item_manutencao_query().filter(Regiao.id.in_(regioes_id))
+            print request.form
+            postes_id = request.form.getlist('postes')
+            if not postes_id:
+                abort(400)
+            query = self.item_manutencao_query().filter(Poste.id.in_(postes_id))
             count = query.count()
+            print count
             if count <= 0 or count > 50:
                 abort(400)
             self.itens_manutencao_adicionar = query.all()
@@ -250,7 +286,7 @@ def init_app(app):
         PosteView(imv),
         imv,
         ProtocoloView(),
-        OrdemServicoView(imv),
+        OrdemServicoView(),
     ]
     index = IndexView(name='Principal', **config)
     admin = Admin(app, template_mode='bootstrap3', index_view=index, name='Protocolos',

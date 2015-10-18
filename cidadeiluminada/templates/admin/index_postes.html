@@ -12,54 +12,223 @@
                 Gerar Ordem de serviço
             </h3>
         </div>
-        <div class="panel-body">
-            <label for="regioes">
-                Selecionar regiões
-            </label><br>
-            <select id="regioes" multiple="multiple">
-                {% for id, label in regioes_map.iteritems() %}
-                    <option value="{{ id }}">{{ label }}</option>
-                {% endfor %}
-            </select>
-            Total de itens: <span id="total_itens">0</span> itens
-        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Regiões
+                    </th>
+                    <th>
+                        Bairros
+                    </th>
+                    <th>
+                        Postes com pendências
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 33%">
+                        <div id="regioes_list" class="list-group">
+                        {% for id, label in regioes_map.iteritems() %}
+                            {% set qty = regioes_qty[id] %}
+                            {% set disabled = qty == 0  %}
+                            <button type="button" class="list-group-item {{'disabled' if disabled else '' }}"
+                                    {{'disabled="disabled"' if disabled else '' }}>
+                                <input type="hidden" value="{{ id }}">
+                                {% if not disabled %}
+                                <span class="badge">
+                                    {{ regioes_qty[id] }}
+                                </span>
+                                {% endif %}
+                                {{ label }}
+                            </button>
+                        {% endfor %}
+                        </div>
+                    </td>
+                    <td style="width: 33%">
+                        <div id="bairros_list" class="list-group">
+                        </div>
+                    </td>
+                    <td style="width: 33%">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" id="selecionar_todos" checked="checked">
+                                    </th>
+                                    <th>
+                                        Selecionar todos
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="postes_list">
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2">
+                                        <button disabled="disabled" class="btn btn-primary" id="adicionar_postes">
+                                            Adicionar postes
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
         <div class="panel-footer">
             <form method="POST" action="{{ url_for('ordemservico.create_view')}}">
-                <span id="regioes_inputs">
+                <span id="postes_inputs">
                 </span>
                 <button type="submit" id="submit" class="btn btn-success" disabled="disabled">
                     Gerar Ordem de Serviço
                 </button>
+                Total de itens: <span id="total_itens">0</span> itens
             </form>
         </div>
     </div>
 {% endblock %}
 {% block tail %}
-    <input type="hidden" id="regioes_qty_map" value='{{ regioes_qty | tojson }}'>
-    <script type="text/javascript">
+    <input type="hidden" id="bairros_url" value="{{ url_for('regiao.get_bairros') }}">
+    <input type="hidden" id="itens_manutencao_url" value="{{ url_for('bairro.get_itens_manutencao') }}">
+        <script type="text/javascript">
     'use strict'
     $(function() {
-        var regioes_qty_map = JSON.parse($('#regioes_qty_map').val());
-        $('#regioes').select2({
-            width: 'element',
-            closeOnSelect: false,
-        }).on('change', function(e) {
-            var values = e.val;
-            var sum = 0;
-            $('#regioes_inputs').html('');
-            values.forEach(function(item) {
-                var id = parseInt(item);
-                $('<input>').attr('name', 'regiao').attr('type', 'hidden')
-                    .attr('value', id).appendTo('#regioes_inputs');
-                var id_qty = regioes_qty_map[id];
-                sum += id_qty;
+        var postes_inputs = $('#postes_inputs');
+        var postes_selecionados = [];
+        var regiao_bts = $('#regioes_list > button').not('.disabled');
+
+        var bairros_url = $('#bairros_url').val()
+        var bairros_list = $('#bairros_list');
+        var bairros_bts = [];
+
+        var itens_manutencao_url = $('#itens_manutencao_url').val();
+        var postes_list =  $('#postes_list');
+        var selecionar_todos_checkbox = $('#selecionar_todos');
+
+        var adicionar_postes_bt = $('#adicionar_postes');
+
+        $(adicionar_postes_bt).click(function() {
+            $('.poste_check').each(function (i) {
+                if ($(this).is(':checked')) {
+                    var poste_id = $(this).siblings('input[type=hidden]').val();
+                    $('<input>').prop('type', 'hidden').val(poste_id).prop('name', 'postes')
+                        .appendTo($(postes_inputs));
+                    $(this).parent().append('Adicionado')
+                    $(this).remove();
+                    postes_selecionados.push(parseInt(poste_id));
+                }
             });
-            $('#total_itens').text(sum);
-            $('#submit').prop('disabled', 'disabled');
-            if (sum > 0 && sum <= 50) {
-                $('#submit').prop('disabled', '');
+            // Busca de novo os .poste_check para atualizar a seleção.
+            if ($('.poste_check').length == 0) {
+                $(this).prop('disabled', 'disabled');
+            }
+            var selecionados = postes_selecionados.length;
+            if (selecionados > 0) {
+                $('#submit').prop('disabled', null);
+                $('#total_itens').text(selecionados);
             }
         });
+
+        $(selecionar_todos).click(function(e) {
+            $('.poste_check').each(function (i) {
+                if (!$(this).is(':checked')) {
+                    $(this).trigger('click');
+                }
+            });
+        });
+
+        function empty_postes_list() {
+            postes_list.empty();
+            $(adicionar_postes_bt).prop('disabled', 'disabled');
+        }
+
+        function poste_check_handler(e) {
+            var checked = $(this).is(':checked');
+            if (!checked) {
+                $(selecionar_todos).prop('checked', null);
+            } else {
+                var all_checked = true;
+                $('.poste_check').each(function (i) {
+                    if (!$(this).is(':checked')) {
+                        all_checked = false;
+                        return false;
+                    }
+                });
+                if (all_checked) {
+                    $(selecionar_todos).prop('checked', 'checked');
+                }
+            }
+        }
+
+        function bairro_click_handler(e) {
+            $.each(bairros_bts, function(i, bt) {
+                bt.removeClass('active');
+            });
+            var current_bt = $(this);
+            current_bt.addClass('active');
+            var bairro_id = current_bt.find('input').val();
+
+            $.get(itens_manutencao_url, {bairro_id: bairro_id}, function(data) {
+                empty_postes_list();
+                $.each(data.payload, function(i, poste) {
+                    var row = $('<tr>');
+                    var checkbox_cell = $('<td>');
+                    if (postes_selecionados.indexOf(poste.id) == -1) {
+                        var checkbox = $('<input>').prop('type', 'checkbox').addClass('poste_check')
+                            .prop('checked', 'checked').click(poste_check_handler);
+                        checkbox.appendTo(checkbox_cell);
+                    } else {
+                        checkbox_cell.append('Adicionado');
+                    }
+                    var poste_id_input = $('<input>').prop('type', 'hidden').val(poste.id);
+                    poste_id_input.appendTo(checkbox_cell);
+                    checkbox_cell.appendTo(row);
+
+                    var label_cell = $('<td>').text(poste.label);
+                    label_cell.appendTo(row);
+
+                    row.appendTo(postes_list);
+                });
+                var disabled = 'disabled';
+                if ($('.poste_check').length != 0) {
+                    disabled = null;
+                }
+                $(adicionar_postes_bt).prop('disabled', disabled);
+            });
+        }
+
+        function regiao_click_handler(e) {
+            bairros_bts = [];
+            regiao_bts.removeClass('active');
+            var current_bt = $(this);
+            current_bt.addClass('active');
+            var regiao_id = current_bt.find('input').val();
+
+            $.get(bairros_url, {regiao_id: regiao_id}, function(data) {
+                bairros_list.empty();
+                empty_postes_list();
+                $.each(data.payload, function(i, bairro) {
+                    var qty_im = bairro.qty_im;
+                    var input = $('<input>').prop('type', 'hidden').val(bairro.id);
+                    var button = $('<button>').prop('type', 'button').addClass('list-group-item')
+                        .text(bairro.nome);
+                    if (qty_im) {
+                        var badge = $('<span>').addClass('badge').text(qty_im);
+                        badge.appendTo(button);
+                    } else {
+                        button.prop('disabled', 'disabled').addClass('disabled');
+                    }
+                    input.appendTo(button);
+                    bairros_bts.push(button);
+                    button.click(bairro_click_handler);
+                    button.appendTo(bairros_list);
+                });
+            });
+        }
+        regiao_bts.click(regiao_click_handler);
     });
     </script>
 {% endblock %}
