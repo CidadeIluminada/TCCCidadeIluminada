@@ -13,6 +13,7 @@ from flask.ext.babelex import format_datetime
 
 from wtforms.validators import Required
 
+from cidadeiluminada.models import User, Role
 from cidadeiluminada.protocolos.models import Regiao, Bairro, Logradouro, \
     Poste, ItemManutencao, Protocolo, OrdemServico, ItemManutencaoOrdemServico
 from cidadeiluminada.base import db
@@ -273,6 +274,29 @@ class OrdemServicoView(_ModelView):
         return super(OrdemServicoView, self).create_view()
 
 
+class UserView(_ModelView):
+    model = User
+    name = u'Usuários'
+    category = u'Usuários'
+
+    column_labels = {
+        'password': u'Senha',
+    }
+
+
+class RoleView(_ModelView):
+    model = Role
+    name = u'Role'
+    category = u'Usuários'
+
+    column_labels = {
+        'name': u'Nome',
+        'description': u'Descrição'
+    }
+
+    form_excluded_columns = ['users']
+
+
 def init_app(app):
     config = {
         'endpoint': 'admin_protocolos',
@@ -287,6 +311,8 @@ def init_app(app):
         imv,
         ProtocoloView(),
         OrdemServicoView(),
+        UserView(),
+        RoleView(),
     ]
     index = IndexView(name='Principal', **config)
     admin = Admin(app, template_mode='bootstrap3', index_view=index, name='Protocolos',

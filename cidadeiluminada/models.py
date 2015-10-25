@@ -22,6 +22,9 @@ class Role(db.Model, RoleMixin):
     name = Column(String(80), unique=True)
     description = Column(String(255))
 
+    def __repr__(self):
+        return self.name
+
 
 class User(db.Model, UserMixin):
     id = Column(Integer, primary_key=True)
@@ -29,6 +32,9 @@ class User(db.Model, UserMixin):
     password = Column(String(255))
     roles = relationship('Role', secondary=roles_users,
                          backref=backref('users', lazy='dynamic'))
+
+    def __repr__(self):
+        return '{} ({})'.format(self.email, ', '.join([role.name for role in self.roles]))
 
 
 def init_app(app):
