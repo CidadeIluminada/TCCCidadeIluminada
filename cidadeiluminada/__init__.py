@@ -5,6 +5,8 @@ from flask import Flask, redirect, url_for
 from flask.ext.assets import Environment
 from flask.ext.babelex import Babel
 
+from raven.contrib.flask import Sentry
+
 from cidadeiluminada import base, protocolos, models
 
 
@@ -21,6 +23,7 @@ def create_app(config=None):
 
     Environment(app)
     Babel(app)
+    Sentry(app)
 
     base.init_app(app)
     models.init_app(app)
