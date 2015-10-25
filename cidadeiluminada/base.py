@@ -5,9 +5,11 @@ from datetime import datetime
 
 from flask.json import JSONEncoder
 from flask.ext.migrate import Migrate
+from flask.ext.security import Security
 from flask.ext.sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
+security = Security()
 
 
 class JSONSerializationMixin(object):

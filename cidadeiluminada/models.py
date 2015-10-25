@@ -1,0 +1,39 @@
+# coding: UTF-8
+from __future__ import absolute_import
+
+from flask.ext.security import SQLAlchemyUserDatastore, UserMixin, RoleMixin
+
+from sqlalchemy import Column, ForeignKey, Table
+from sqlalchemy.orm import relationship, backref
+from sqlalchemy.types import Integer, String, DateTime, Boolean
+
+from cidadeiluminada.base import db, security
+
+# Define models
+roles_users = Table(
+    'roles_users',
+    Column('user_id', Integer(), ForeignKey('user.id')),
+    Column('role_id', Integer(), ForeignKey('role.id'))
+)
+
+
+class Role(db.Model, RoleMixin):
+    id = Column(Integer(), primary_key=True)
+    name = Column(String(80), unique=True)
+    description = Column(String(255))
+
+
+class User(db.Model, UserMixin):
+    id = Column(Integer, primary_key=True)
+    email = Column(String(255), unique=True)
+    password = Column(String(255))
+    active = Column(Boolean())
+    confirmed_at = Column(DateTime())
+    roles = relationship('Role', secondary=roles_users,
+                         backref=backref('users', lazy='dynamic'))
+
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+
+
+def init_app(app):
+    security.init_app(app, user_datastore)
