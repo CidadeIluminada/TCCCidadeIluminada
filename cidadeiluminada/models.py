@@ -5,7 +5,7 @@ from flask.ext.security import SQLAlchemyUserDatastore, UserMixin, RoleMixin
 
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship, backref
-from sqlalchemy.types import Integer, String
+from sqlalchemy.types import Integer, String, Boolean
 
 from cidadeiluminada.base import db, security
 
@@ -32,6 +32,7 @@ class User(db.Model, UserMixin):
     password = Column(String(255))
     roles = relationship('Role', secondary=roles_users,
                          backref=backref('users', lazy='dynamic'))
+    active = Column(Boolean(), default=True)
 
     def __repr__(self):
         return '{} ({})'.format(self.email, ', '.join([role.name for role in self.roles]))

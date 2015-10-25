@@ -9,6 +9,7 @@ from flask.ext.admin.model import typefmt
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
 from flask.ext.admin.form.widgets import Select2Widget
+from flask.ext.security import current_user, login_required
 from flask.ext.babelex import format_datetime
 
 from wtforms.validators import Required
@@ -22,6 +23,7 @@ from cidadeiluminada.base import db
 class IndexView(AdminIndexView):
 
     @expose('/', methods=['GET', 'POST'])
+    @login_required
     def index(self):
         im_query = ItemManutencao.query.join(Poste).join(Logradouro).join(Bairro).join(Regiao) \
             .filter(ItemManutencao.status == 'aberto')  # NOQA
@@ -48,6 +50,9 @@ class _ModelView(ModelView):
     category = None
 
     column_type_formatters = default_formatters
+
+    def is_accessible(self):
+        return current_user.is_authenticated()
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('name', self.name)
