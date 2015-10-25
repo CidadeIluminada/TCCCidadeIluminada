@@ -86,6 +86,10 @@ class BairroView(_ModelView):
 
     form_excluded_columns = ('logradouros', )
 
+    column_labels = {
+        'regiao': u'Região',
+    }
+
     @expose('/itens_manutencao')
     def get_itens_manutencao(self):
         bairro_id = request.args['bairro_id']
@@ -121,6 +125,10 @@ class LogradouroView(_ModelView):
         },
     }
 
+    column_labels = {
+        'cep': 'CEP',
+    }
+
     def _inject_bairros(self):
         bairros = Bairro.query
         bairro_id_nome = {bairro.nome: bairro.id for bairro in bairros}
@@ -150,6 +158,10 @@ class PosteView(_ModelView):
 
     edit_template = 'admin/model/edit_poste.html'
 
+    column_labels = {
+        'numero': u'Número',
+    }
+
     @expose('/edit/', methods=('GET', 'POST'))
     def edit_view(self):
         cols = self.item_manutencao_view.get_list_columns()
@@ -173,6 +185,13 @@ class ProtocoloView(_ModelView):
 
     form_excluded_columns = ('item_manutencao', )
     edit_template = 'admin/model/edit_protocolo.html'
+
+    column_labels = {
+        'criacao': u'Criação',
+        'cod_protocolo': u'Código do protocolo',
+        'nome_municipe': u'Nome do munícipe',
+        'contato_municipe': u'Contato do munícipe',
+    }
 
     form_extra_fields = {
         'poste': QuerySelectField(query_factory=lambda: Poste.query.all(), allow_blank=True,
@@ -208,6 +227,10 @@ class ItemManutencaoView(_ModelView):
     name = u'Itens Manutenção'
     category = 'Protocolos'
 
+    column_labels = {
+        'criacao': u'Criação'
+    }
+
 
 class OrdemServicoView(_ModelView):
     def __init__(self, *args, **kwargs):
@@ -231,6 +254,10 @@ class OrdemServicoView(_ModelView):
     edit_template = 'admin/model/edit_os.html'
 
     form_excluded_columns = ('itens_manutencao', )
+
+    column_labels = {
+        'criacao': u'Criação',
+    }
 
     def on_model_change(self, form, ordem_servico, is_created):
         if is_created:
