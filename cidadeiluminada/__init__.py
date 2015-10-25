@@ -5,7 +5,7 @@ from flask import Flask, redirect, url_for
 from flask.ext.assets import Environment
 from flask.ext.babelex import Babel
 
-from cidadeiluminada import base, protocolos
+from cidadeiluminada import base, protocolos, models
 
 
 def create_app(config=None):
@@ -23,6 +23,7 @@ def create_app(config=None):
     Babel(app)
 
     base.init_app(app)
+    models.init_app(app)
     protocolos.init_app(app)
 
     @app.route('/')
