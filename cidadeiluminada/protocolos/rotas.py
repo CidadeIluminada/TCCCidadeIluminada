@@ -6,7 +6,8 @@ from datetime import datetime
 from StringIO import StringIO
 from tempfile import mkstemp
 
-from flask import request, abort, redirect, url_for, jsonify, render_template, send_file
+from flask import request, abort, redirect, url_for, jsonify, render_template, send_file, \
+    current_app
 from flask.ext.admin import Admin, expose, AdminIndexView
 from flask.ext.admin.model import typefmt
 from flask.ext.admin.contrib.sqla import ModelView
@@ -307,6 +308,11 @@ class OrdemServicoView(_ModelView):
                 abort(400)
             self.itens_manutencao_adicionar = query.all()
         return super(OrdemServicoView, self).create_view()
+
+    @expose('/edit/', methods=('GET', 'POST'))
+    def edit_view(self):
+        self._template_args['email_urbam'] = current_app.config.get('EMAIL_URBAM')
+        return super(OrdemServicoView, self).edit_view()
 
     @expose('/pdf/<ordem_servico_id>')
     def mostrar_pdf(self, ordem_servico_id):

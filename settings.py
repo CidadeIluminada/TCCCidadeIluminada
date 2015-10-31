@@ -19,6 +19,8 @@ MAIL_DEFAULT_SENDER = ('No reply', 'no-reply@xxx')
 
 MAIL_DEFAULT_RECIPIENTS = ['email1@domain.com']
 
+EMAIL_URBAM = 'arthurbressan2@hotmail.com'
+
 SECURITY_REGISTERABLE = True
 SECURITY_SEND_REGISTER_EMAIL = False
 SECURITY_SEND_PASSWORD_CHANGE_EMAIL = False
