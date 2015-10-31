@@ -7,21 +7,22 @@ from StringIO import StringIO
 from tempfile import mkstemp
 
 from flask import request, abort, redirect, url_for, jsonify, render_template, send_file, \
-    current_app
+    current_app, flash
 from flask.ext.admin import Admin, expose, AdminIndexView
 from flask.ext.admin.model import typefmt
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
 from flask.ext.admin.form.widgets import Select2Widget
-from flask.ext.security import current_user, login_required
 from flask.ext.babelex import format_datetime
+from flask.ext.mail import Message
+from flask.ext.security import current_user, login_required
 from xhtml2pdf import pisa
 from wtforms.validators import Required
 
 from cidadeiluminada.models import User, Role
 from cidadeiluminada.protocolos.models import Regiao, Bairro, Logradouro, \
     Poste, ItemManutencao, Protocolo, OrdemServico, ItemManutencaoOrdemServico
-from cidadeiluminada.base import db
+from cidadeiluminada.base import db, mail
 
 
 class IndexView(AdminIndexView):
@@ -323,13 +324,9 @@ class OrdemServicoView(_ModelView):
 
     @expose('/enviar_pdf/<ordem_servico_id>', methods=['POST'])
     def enviar_pdf(self, ordem_servico_id):
-        from cidadeiluminada.base import mail
-        from flask import flash
-        from flask.ext.mail import Message
         model = self.model.query.get(ordem_servico_id)
         recipients = [request.form['email_urbam']]
         recipients.extend(current_app.config.get('MAIL_DEFAULT_RECIPIENTS'))
-        print recipients
         assunto = current_app.config.get('MAIL_DEFAULT_SUBJECT')
         email_template = render_template('email/ordem_servico.txt')
         email = Message(subject=assunto.format(ordem_servico_id=model.id), recipients=recipients,
