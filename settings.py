@@ -17,7 +17,8 @@ MAIL_USERNAME = 'username'
 MAIL_PASSWORD = 'password'
 MAIL_DEFAULT_SENDER = ('No reply', 'no-reply@xxx')
 
-MAIL_DEFAULT_RECIPIENTS = ['email1@domain.com']
+MAIL_DEFAULT_SUBJECT = 'Ordem de Serviço #{ordem_servico_id} - Cidade Iluminada'
+MAIL_DEFAULT_RECIPIENTS = []
 
 EMAIL_URBAM = 'arthurbressan2@hotmail.com'
 

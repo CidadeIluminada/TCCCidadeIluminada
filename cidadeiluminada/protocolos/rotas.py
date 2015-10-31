@@ -314,17 +314,41 @@ class OrdemServicoView(_ModelView):
         self._template_args['email_urbam'] = current_app.config.get('EMAIL_URBAM')
         return super(OrdemServicoView, self).edit_view()
 
+    def _gerar_pdf(self, template):
+        fd, temp_path = mkstemp()
+        with open(temp_path, 'wb') as pdf_file:
+            pisa.CreatePDF(StringIO(template), pdf_file)
+        os.close(fd)
+        return temp_path
+
+    @expose('/enviar_pdf/<ordem_servico_id>', methods=['POST'])
+    def enviar_pdf(self, ordem_servico_id):
+        from cidadeiluminada.base import mail
+        from flask import flash
+        from flask.ext.mail import Message
+        model = self.model.query.get(ordem_servico_id)
+        recipients = [request.form['email_urbam']]
+        recipients.extend(current_app.config.get('MAIL_DEFAULT_RECIPIENTS'))
+        print recipients
+        assunto = current_app.config.get('MAIL_DEFAULT_SUBJECT')
+        email_template = render_template('email/ordem_servico.txt')
+        email = Message(subject=assunto.format(ordem_servico_id=model.id), recipients=recipients,
+                        body=email_template)
+        mail.send(email)
+        # pdf_template = render_template('pdf/ordem_servico.html', model=model)
+        # pdf_path = self._gerar_pdf(pdf_template)
+        flash('Email enviado.', 'success')
+        return redirect(url_for('ordemservico.edit_view', id=model.id))
+
+
     @expose('/pdf/<ordem_servico_id>')
     def mostrar_pdf(self, ordem_servico_id):
         model = self.model.query.get(ordem_servico_id)
         template = render_template('pdf/ordem_servico.html', model=model)
         if not request.args.get('render_html'):
-            fd, temp_path = mkstemp()
-            with open(temp_path, 'wb') as pdf_file:
-                pisa.CreatePDF(StringIO(template), pdf_file)
-            os.close(fd)
-            return send_file(temp_path, attachment_filename='pdf.pdf', as_attachment=True,
-                             mimetype='application/pdf')
+            pdf_path = self._gerar_pdf(template)
+            return send_file(pdf_path,  as_attachment=True, mimetype='application/pdf',
+                             attachment_filename=u'ordem serviço #{}.pdf'.format(model.id))
         else:
             return template
 

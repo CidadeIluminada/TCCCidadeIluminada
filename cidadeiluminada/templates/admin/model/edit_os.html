@@ -10,7 +10,7 @@
         <i class="fa fa-file-pdf-o"></i>
         Ver PDF
     </a>
-    <form class="form-inline" action="{{ url_for('ordemservico.enviar_pdf', ordem_servico_id=model.id) }}">
+    <form method="POST" class="form-inline" action="{{ url_for('ordemservico.enviar_pdf', ordem_servico_id=model.id) }}">
         <div class="form-group">
             <label for="email_urbam">
                 E-mail da URBAM:
