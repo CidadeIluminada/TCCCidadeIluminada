@@ -2,10 +2,6 @@
 from __future__ import absolute_import
 
 from flask import Flask, redirect, url_for
-from flask.ext.assets import Environment
-from flask.ext.babelex import Babel
-
-from raven.contrib.flask import Sentry
 
 from cidadeiluminada import base, protocolos, models
 
@@ -16,14 +12,8 @@ def create_app(config=None):
     app.config.from_pyfile('settings_local.py', silent=True)
     app.json_encoder = base.AppJSONEncoder
 
-    app.config.setdefault('SQLALCHEMY_DATABASE_URI', 'postgresql+psycopg2://cidadeiluminada:cidadeiluminada@localhost/cidadeiluminada')
-
     if config:
         app.config.update(config)
-
-    Environment(app)
-    Babel(app)
-    Sentry(app)
 
     base.init_app(app)
     models.init_app(app)

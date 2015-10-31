@@ -7,9 +7,14 @@ from flask.json import JSONEncoder
 from flask.ext.migrate import Migrate
 from flask.ext.security import Security
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.mail import Mail
+from flask.ext.assets import Environment
+from flask.ext.babelex import Babel
+from raven.contrib.flask import Sentry
 
 db = SQLAlchemy()
 security = Security()
+mail = Mail()
 
 
 class JSONSerializationMixin(object):
@@ -42,5 +47,9 @@ class AppJSONEncoder(JSONEncoder):
 
 
 def init_app(app):
+    Environment(app)
+    Babel(app)
+    Sentry(app)
     db.init_app(app)
     Migrate(app, db)
+    mail.init_app(app)
