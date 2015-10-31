@@ -3,4 +3,13 @@ from __future__ import absolute_import
 
 from flask.ext.script import Manager
 
-manager = Manager()
+manager = Manager(description='Comandos do hotsite')
+
+
+@manager.command
+def criar_admin():
+    from cidadeiluminada.models import user_datastore
+    admin_role = user_datastore.find_or_create_role('admin')
+    user_datastore.create_user(email='admin@cidadeiluminada', password='admin',
+                               roles=[admin_role])
+    user_datastore.commit()

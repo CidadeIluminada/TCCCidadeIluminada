@@ -37,7 +37,8 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return '{} ({})'.format(self.email, ', '.join([role.name for role in self.roles]))
 
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+
 
 def init_app(app):
-    user_datastore = SQLAlchemyUserDatastore(db, User, Role)
     security.init_app(app, user_datastore)
