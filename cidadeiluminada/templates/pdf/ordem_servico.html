@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css">
+    </head>
+    <body>
+        <h1>Ordem de servico #{{ model.id }} </h1>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <th>
+                    Endereço
+                </th>
+                <th>
+                    Número
+                </th>
+                <th style="width: 50%">
+                    Serviço realizado
+                </th>
+            </thead>
+            <tbody>
+                {% for row in model.itens_manutencao %}
+                <tr>
+                    <td>
+                        {{ row.item_manutencao.poste.logradouro }}
+                    </td>
+                    <td>
+                        {{ row.item_manutencao.poste.numero }}
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>

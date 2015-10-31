@@ -12,6 +12,7 @@ Flask-Security==1.7.4
 Flask-SQLAlchemy==2.0.0
 Flask-WTF==0.11.0
 Flask==0.10.1
+git+https://github.com/zulumarketing/html2pdf
 raven[flask]==5.8.1
 requests==2.7.0
 WTForms-SQLAlchemy==0.1

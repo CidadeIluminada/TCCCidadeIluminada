@@ -1,9 +1,12 @@
 # coding: UTF-8
 from __future__ import absolute_import
 
+import os
 from datetime import datetime
+from StringIO import StringIO
+from tempfile import mkstemp
 
-from flask import request, abort, redirect, url_for, jsonify
+from flask import request, abort, redirect, url_for, jsonify, render_template, send_file
 from flask.ext.admin import Admin, expose, AdminIndexView
 from flask.ext.admin.model import typefmt
 from flask.ext.admin.contrib.sqla import ModelView
@@ -11,7 +14,7 @@ from flask.ext.admin.contrib.sqla.fields import QuerySelectField
 from flask.ext.admin.form.widgets import Select2Widget
 from flask.ext.security import current_user, login_required
 from flask.ext.babelex import format_datetime
-
+from xhtml2pdf import pisa
 from wtforms.validators import Required
 
 from cidadeiluminada.models import User, Role
@@ -304,6 +307,20 @@ class OrdemServicoView(_ModelView):
                 abort(400)
             self.itens_manutencao_adicionar = query.all()
         return super(OrdemServicoView, self).create_view()
+
+    @expose('/pdf/<ordem_servico_id>')
+    def mostrar_pdf(self, ordem_servico_id):
+        model = self.model.query.get(ordem_servico_id)
+        template = render_template('pdf/ordem_servico.html', model=model)
+        if not request.args.get('render_html'):
+            fd, temp_path = mkstemp()
+            with open(temp_path, 'wb') as pdf_file:
+                pisa.CreatePDF(StringIO(template), pdf_file)
+            os.close(fd)
+            return send_file(temp_path, attachment_filename='pdf.pdf', as_attachment=True,
+                             mimetype='application/pdf')
+        else:
+            return template
 
 
 class UserView(_ModelView):
