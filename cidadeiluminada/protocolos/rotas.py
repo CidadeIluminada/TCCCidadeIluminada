@@ -334,9 +334,11 @@ class OrdemServicoView(_ModelView):
         email_template = render_template('email/ordem_servico.txt')
         email = Message(subject=assunto.format(ordem_servico_id=model.id), recipients=recipients,
                         body=email_template)
+        pdf_template = render_template('pdf/ordem_servico.html', model=model)
+        pdf_path = self._gerar_pdf(pdf_template)
+        with open(pdf_path, 'rb') as pdf_file:
+            email.attach('ordem de servico.pdf', 'application/pdf', pdf_file.read())
         mail.send(email)
-        # pdf_template = render_template('pdf/ordem_servico.html', model=model)
-        # pdf_path = self._gerar_pdf(pdf_template)
         flash('Email enviado.', 'success')
         return redirect(url_for('ordemservico.edit_view', id=model.id))
 
