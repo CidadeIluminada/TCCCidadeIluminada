@@ -11,7 +11,6 @@
             var ul_cep_errors = $('<ul>').addClass('input-errors');
             ul_cep_errors.appendTo(cep_div);
             var bairro_id_nome_map = JSON.parse($('#bairro_id_nome').val());
-            console.log('laod')
             $('#cep').mask('00000-000', {
                 onKeyPress: function(cep) {
                     console.log(cep);
@@ -30,6 +29,7 @@
                         $('#bairro').select2('val', bairro_id);
                         $('#logradouro').val(data.logradouro);
                     }).fail(function(erro) {
+                        ul_cep_errors.append('<li> CEP inválido ou inexistente </li>');
                     });
                 }
             });
