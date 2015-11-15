@@ -3,7 +3,9 @@ from __future__ import absolute_import
 
 from flask.ext.script import Manager
 
-manager = Manager(description='Comandos do hotsite')
+_help = 'Comandos do cidadeiluminada'
+
+manager = Manager(help=_help, description=_help)
 
 
 @manager.command
