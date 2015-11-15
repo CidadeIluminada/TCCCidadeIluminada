@@ -17,3 +17,4 @@ git+https://github.com/xhtml2pdf/xhtml2pdf
 raven[flask]==5.8.1
 requests==2.7.0
 WTForms-SQLAlchemy==0.1
+unicodecsv==0.14.1

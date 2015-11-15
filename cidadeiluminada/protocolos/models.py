@@ -31,7 +31,8 @@ class Bairro(db.Model, JSONSerializationMixin):
     regiao = relationship('Regiao', backref='bairros')
 
     def __repr__(self):
-        return u'{} - {}'.format(self.nome, self.regiao)
+        regiao = self.regiao or u'(Sem região)'
+        return u'{} - {}'.format(self.nome, regiao)
 
 
 class Logradouro(db.Model):
