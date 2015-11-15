@@ -31,7 +31,7 @@ class IndexView(AdminIndexView):
     @login_required
     def index(self):
         im_query = ItemManutencao.query.join(Poste).join(Logradouro).join(Bairro).join(Regiao) \
-            .filter(ItemManutencao.status == 'aberto')  # NOQA
+            .filter(ItemManutencao.status == 'aberto')
         regioes_select_map = {}
         regioes_qty_map = {}
         for regiao in db.session.query(Regiao.id, Regiao.nome):
@@ -100,6 +100,8 @@ class BairroView(_ModelView):
         'regiao': u'Região',
     }
 
+    column_filters = ['nome', 'regiao']
+
     @expose('/itens_manutencao')
     def get_itens_manutencao(self):
         bairro_id = request.args['bairro_id']
@@ -138,6 +140,8 @@ class LogradouroView(_ModelView):
     column_labels = {
         'cep': 'CEP',
     }
+
+    column_filters = ['logradouro', 'cep', 'bairro', 'bairro.regiao']
 
     def _inject_bairros(self):
         bairros = Bairro.query
