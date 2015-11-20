@@ -9,7 +9,7 @@ Flask-Mail==0.9.1
 Flask-Principal==0.4.0
 Flask-Pusher==1.0.2
 Flask-Script==2.0.5
-Flask-Security==1.7.4
+git+https://github.com/ArthurPBressan/flask-security.git
 Flask-SQLAlchemy==2.0.0
 Flask-WTF==0.11.0
 Flask==0.10.1
