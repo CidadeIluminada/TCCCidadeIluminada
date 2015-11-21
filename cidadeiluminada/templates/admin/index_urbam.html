@@ -1,0 +1,95 @@
+{% extends "admin/master.html" %}
+
+{% block body %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Ordens de Serviço em aberto
+            </h3>
+        </div>
+        <div class="panel-body">
+            <h4>Novas</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Data de criação
+                        </th>
+                        <th>
+                            Salvar PDF
+                        </th>
+                        <th>
+                            Enviar para serviço
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ordem_servico in ordens_servico_novas %}
+                        <tr>
+                            <td>
+                                {{ ordem_servico.id }}
+                            </td>
+                            <td>
+                                {{ ordem_servico.criacao | datetime_format }}
+                            </td>
+                            <td>
+                                PDF {{ ordem_servico.id }}
+                            </td>
+                            <td>
+                                Serviço
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="999">
+                                Nenhuma ordem de serviço nova.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h4>Em serviço</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Data de criação
+                        </th>
+                        <th>
+                            Iniciar fechamento
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ordem_servico in ordens_servico_em_servico %}
+                        <tr>
+                            <td>
+                                {{ ordem_servico.id }}
+                            </td>
+                            <td>
+                                {{ ordem_servico.criacao | datetime_format }}
+                            </td>
+                            <td>
+                                PDF {{ ordem_servico.id }}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="999">
+                                Nenhuma ordem de serviço em serviço.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer">
+        </div>
+    </div>
+{% endblock %}

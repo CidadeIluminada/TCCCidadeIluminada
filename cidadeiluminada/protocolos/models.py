@@ -7,6 +7,7 @@ import re
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship, validates
 from sqlalchemy.types import Integer, String, DateTime, Boolean
+from sqlalchemy.ext.hybrid import hybrid_property
 
 from cidadeiluminada.base import db, JSONSerializationMixin
 
@@ -137,11 +138,11 @@ class OrdemServico(db.Model):
     criacao = Column(DateTime, default=datetime.now)
     status = Column(String(255), default='nova')
 
-    @property
+    @hybrid_property
     def nova(self):
         return self.status == 'nova'
 
-    @property
+    @hybrid_property
     def em_servico(self):
         return self.status == 'em_servico'
 

@@ -13,13 +13,13 @@ from flask.ext.admin.model import typefmt
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
 from flask.ext.admin.form.widgets import Select2Widget
-from flask.ext.babelex import format_datetime
 from flask.ext.mail import Message
 from flask.ext.security import current_user, login_required
 from xhtml2pdf import pisa
 from wtforms.validators import Required
 
 from cidadeiluminada.models import User, Role
+from cidadeiluminada.protocolos import utils
 from cidadeiluminada.protocolos.models import Regiao, Bairro, Logradouro, \
     Poste, ItemManutencao, Protocolo, OrdemServico, ItemManutencaoOrdemServico
 from cidadeiluminada.base import db, mail
@@ -27,9 +27,14 @@ from cidadeiluminada.base import db, mail
 
 class IndexView(AdminIndexView):
 
-    @expose('/', methods=['GET', 'POST'])
+    @expose('/')
     @login_required
     def index(self):
+        pass
+
+    @expose('/secretaria')
+    @login_required
+    def index_secretaria(self):
         im_query = ItemManutencao.query.join(Poste).join(Logradouro).join(Bairro).join(Regiao) \
             .filter(ItemManutencao.status == 'aberto')
         regioes_select_map = {}
@@ -41,12 +46,19 @@ class IndexView(AdminIndexView):
         return self.render('admin/index_postes.html', regioes_map=regioes_select_map,
                            regioes_qty=regioes_qty_map)
 
+    @expose('/urbam')
+    @login_required
+    def index_urbam(self):
+        ordens_servico_novas = OrdemServico.query.filter(OrdemServico.nova) \
+            .order_by(OrdemServico.id.desc())
+        ordens_servico_em_servico = OrdemServico.query.filter(OrdemServico.em_servico) \
+            .order_by(OrdemServico.id.desc())
+        return self.render('admin/index_urbam.html', ordens_servico_novas=ordens_servico_novas,
+                           ordens_servico_em_servico=ordens_servico_em_servico)
 
-def _date_format(view, value):
-    return format_datetime(value)
 
 default_formatters = dict(typefmt.BASE_FORMATTERS, **{
-    datetime: _date_format
+    datetime: lambda view, value: utils.datetime_format(value)
 })
 
 
