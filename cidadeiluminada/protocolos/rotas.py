@@ -343,7 +343,6 @@ class OrdemServicoView(_ModelView):
         flash('Email enviado.', 'success')
         return redirect(url_for('ordemservico.edit_view', id=model.id))
 
-
     @expose('/pdf/<ordem_servico_id>')
     def mostrar_pdf(self, ordem_servico_id):
         model = self.model.query.get(ordem_servico_id)
@@ -351,7 +350,7 @@ class OrdemServicoView(_ModelView):
         if not request.args.get('render_html'):
             pdf_path = self._gerar_pdf(template)
             return send_file(pdf_path,  as_attachment=True, mimetype='application/pdf',
-                             attachment_filename=u'ordem serviço #{}.pdf'.format(model.id))
+                             attachment_filename=u'Ordem de servico #{}.pdf'.format(model.id))
         else:
             return template
 
