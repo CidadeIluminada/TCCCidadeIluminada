@@ -381,7 +381,6 @@ class RoleView(_ModelView):
 
 def init_app(app):
     config = {
-        'endpoint': 'admin_protocolos',
         'url': '/',
     }
     imv = ItemManutencaoView()
