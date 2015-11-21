@@ -1,7 +1,7 @@
 # coding: UTF-8
 from __future__ import absolute_import
 
-from flask import Flask, redirect, url_for
+from flask import Flask
 
 from cidadeiluminada import base, protocolos, models
 
@@ -19,16 +19,15 @@ def create_app(config=None):
     models.init_app(app)
     protocolos.init_app(app)
 
-    @app.route('/')
-    def index():
-        return redirect(url_for('admin_postes.index'))
-
     @app.route('/postmon/')
     def postmon():
         from flask import jsonify, request
         from cidadeiluminada.services import postmon
         cep = request.args['cep']
-        data = postmon.get_by_cep(cep)
+        try:
+            data = postmon.get_by_cep(cep)
+        except ValueError as e:
+            return jsonify({"error": e.message}), 400
         return jsonify(data)
 
     return app
