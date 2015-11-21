@@ -131,6 +131,23 @@ class OrdemServico(db.Model):
     # Child
     id = Column(Integer, primary_key=True)
     criacao = Column(DateTime, default=datetime.now)
+    status = Column(String(255), default='nova')
+
+    @property
+    def nova(self):
+        return self.status == 'nova'
+
+    @property
+    def em_servico(self):
+        return self.status == 'em_servico'
+
+    @property
+    def feita(self):
+        return self.status == 'feita'
+
+    @property
+    def confirmada(self):
+        return self.status == 'confirmada'
 
     itens_manutencao = relationship('ItemManutencaoOrdemServico', backref='ordem_servico',
                                     order_by='ItemManutencaoOrdemServico.id')
