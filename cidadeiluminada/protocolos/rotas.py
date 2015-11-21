@@ -14,7 +14,7 @@ from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
 from flask.ext.admin.form.widgets import Select2Widget
 from flask.ext.mail import Message
-from flask.ext.security import current_user, login_required
+from flask.ext.security import current_user, login_required, roles_accepted, roles_required
 from xhtml2pdf import pisa
 from wtforms.validators import Required
 
@@ -30,10 +30,20 @@ class IndexView(AdminIndexView):
     @expose('/')
     @login_required
     def index(self):
-        pass
+        if current_user.has_role('urbam'):
+            return redirect(url_for('.index_urbam'))
+        elif current_user.has_role('secretaria'):
+            return redirect(url_for('.index_secretaria'))
+        elif current_user.has_role('admin'):
+            return redirect(url_for('.index_admin'))
+
+    @expose('/admin')
+    @roles_required('admin')
+    def index_admin(self):
+        return self.render('admin/index_admin.html')
 
     @expose('/secretaria')
-    @login_required
+    @roles_accepted('admin', 'secretaria')
     def index_secretaria(self):
         im_query = ItemManutencao.query.join(Poste).join(Logradouro).join(Bairro).join(Regiao) \
             .filter(ItemManutencao.status == 'aberto')
@@ -47,7 +57,7 @@ class IndexView(AdminIndexView):
                            regioes_qty=regioes_qty_map)
 
     @expose('/urbam')
-    @login_required
+    @roles_accepted('admin', 'urbam')
     def index_urbam(self):
         ordens_servico_novas = OrdemServico.query.filter(OrdemServico.nova) \
             .order_by(OrdemServico.id.desc())
