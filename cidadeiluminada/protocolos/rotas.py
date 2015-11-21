@@ -266,12 +266,13 @@ class OrdemServicoView(_ModelView):
     }
 
     edit_template = 'admin/model/edit_os.html'
-
     form_excluded_columns = ('itens_manutencao', )
-
     column_labels = {
         'criacao': u'Criação',
+        'id': u'Número',
     }
+    column_display_pk = True
+    column_default_sort = ('id', True)
 
     def on_model_change(self, form, ordem_servico, is_created):
         if is_created:
