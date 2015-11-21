@@ -46,8 +46,11 @@
                                 </a>
                             </td>
                             <td>
-
-                                Serviço
+                                <form action="{{ url_for('ordemservico.enviar_para_servico', ordem_servico_id=ordem_servico.id) }}" method="POST">
+                                    <button class="btn btn-primary" type="submit">
+                                        Enviar para serviço
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     {% else %}

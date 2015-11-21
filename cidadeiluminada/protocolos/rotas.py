@@ -105,7 +105,7 @@ class RegiaoView(_ModelView):
     @expose('/bairros')
     def get_bairros(self):
         regiao_id = request.args['regiao_id']
-        regiao = self.model.query.get(regiao_id)
+        regiao = self.model.query.get_or_404(regiao_id)
         im_query = ItemManutencao.query.join(Poste).join(Logradouro).join(Bairro) \
             .filter(ItemManutencao.status == 'aberto')
         bairros = []
@@ -260,7 +260,7 @@ class ProtocoloView(_ModelView):
     @expose('/edit/', methods=('GET', 'POST'))
     def edit_view(self):
         protocolo_id = request.args['id']
-        protocolo = Protocolo.query.get(protocolo_id)
+        protocolo = Protocolo.query.get_or_404(protocolo_id)
         poste_id = protocolo.item_manutencao.poste_id
         self._template_args['poste_id'] = poste_id
         return super(ProtocoloView, self).edit_view()
@@ -306,10 +306,14 @@ class OrdemServicoView(_ModelView):
     can_view_details = True
     can_edit = False
 
+    _urbam_accessible = ['mostrar_pdf', 'enviar_para_servico']
+
     def is_accessible(self):
-        if request.endpoint == 'ordemservico.mostrar_pdf' and current_user.has_role('urbam'):
-            return True
-        return super(OrdemServicoView, self).is_accessible()
+        if not current_user.has_role('urbam'):
+            return super(OrdemServicoView, self).is_accessible()
+        for endpoint in self._urbam_accessible:
+            if request.endpoint == 'ordemservico.{}'.format(endpoint):
+                return True
 
     def on_model_change(self, form, ordem_servico, is_created):
         if is_created:
@@ -332,7 +336,7 @@ class OrdemServicoView(_ModelView):
             feito = True
         ordem_servico_id = request.form['ordem_servico_id']
         item_manutencao_ordem_servico_id = request.form['item_manutencao_ordem_servico_id']
-        item = ItemManutencaoOrdemServico.query.get(item_manutencao_ordem_servico_id)
+        item = ItemManutencaoOrdemServico.query.get_or_404(item_manutencao_ordem_servico_id)
         item.servico_feito = feito
         db.session.commit()
         return redirect(url_for('.details_view', id=ordem_servico_id))
@@ -366,7 +370,7 @@ class OrdemServicoView(_ModelView):
 
     @expose('/enviar_pdf/<ordem_servico_id>', methods=['POST'])
     def enviar_pdf(self, ordem_servico_id):
-        model = self.model.query.get(ordem_servico_id)
+        model = self.model.query.get_or_404(ordem_servico_id)
         recipients = [request.form['email_urbam']]
         recipients.extend(current_app.config.get('MAIL_DEFAULT_RECIPIENTS'))
         assunto = current_app.config.get('MAIL_DEFAULT_SUBJECT')
@@ -383,7 +387,7 @@ class OrdemServicoView(_ModelView):
 
     @expose('/pdf/<ordem_servico_id>')
     def mostrar_pdf(self, ordem_servico_id):
-        model = self.model.query.get(ordem_servico_id)
+        model = self.model.query.get_or_404(ordem_servico_id)
         template = render_template('pdf/ordem_servico.html', model=model)
         if not request.args.get('render_html'):
             pdf_path = self._gerar_pdf(template)
@@ -391,6 +395,14 @@ class OrdemServicoView(_ModelView):
                              attachment_filename=u'Ordem de servico #{}.pdf'.format(model.id))
         else:
             return template
+
+    @expose('/servico/<ordem_servico_id>', methods=['POST'])
+    def enviar_para_servico(self, ordem_servico_id):
+        model = self.model.query.get_or_404(ordem_servico_id)
+        if model.nova:
+            model.status = 'em_servico'
+            db.session.commit()
+        return redirect(request.referrer)
 
 
 class UserView(_UserModelsView):
