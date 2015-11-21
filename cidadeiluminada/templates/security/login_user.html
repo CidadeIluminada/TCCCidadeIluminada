@@ -1,24 +1,26 @@
 {% from "security/_macros.html" import render_field_with_errors, render_field %}
 
-{% macro flash_category_with_style(category, style) %}
-    {% with messages = get_flashed_messages(category_filter=category) %}
-        {% if messages %}
-            <div class="alert alert-{{ style }} alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert">
-                    <span>&times;</span>
-                </button>
-            {% if messages | length > 1 %}
-                {% for message in messages %}
-                        <ul>
-                            <li>{{ message }}</li>
-                        </ul>
-                {% endfor %}
-            {% else %}
-                <p>{{ messages[0] }}</p>
+{% macro flash_categories_with_style(categories, style) %}
+    {% for category in categories %}
+        {% with messages = get_flashed_messages(category_filter=category) %}
+            {% if messages %}
+                <div class="alert alert-{{ style }} alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                {% if messages | length > 1 %}
+                    {% for message in messages %}
+                            <ul>
+                                <li>{{ message }}</li>
+                            </ul>
+                    {% endfor %}
+                {% else %}
+                    <p>{{ messages[0] }}</p>
+                {% endif %}
+                </div>
             {% endif %}
-            </div>
-        {% endif %}
-    {% endwith %}
+        {% endwith %}
+    {% endfor %}
 {% endmacro %}
 
 
@@ -31,6 +33,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <title>Cidade Iluminada | Entrar</title>
     <style type="text/css">
         body {
           padding-top: 40px;
@@ -76,7 +79,7 @@
   </head>
   <body>
     <div class="container">
-        {{ flash_category_with_style('info', 'info') }}
+        {{ flash_categories_with_style(['error', 'success', 'info'], 'info') }}
         <form class="form-signin" action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
             {{ login_user_form.hidden_tag() }}
             {{ render_field_with_errors(login_user_form.email, class_='form-control', label_='E-mail') }}
