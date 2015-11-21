@@ -90,10 +90,14 @@ class ItemManutencaoOrdemServico(db.Model):
 
     servico_feito = Column(Boolean, default=None)
 
+    criacao = Column(DateTime, default=datetime.now)
+    resolucao = Column(DateTime)
+
     @validates('servico_feito')
     def validate_servico_feito(self, key, servico_feito):
         if servico_feito:
             self.item_manutencao.status = 'fechado'
+            self.resolucao = datetime.now()
         else:
             self.item_manutencao.status = 'aberto'
         return servico_feito
