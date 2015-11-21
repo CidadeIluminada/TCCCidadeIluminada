@@ -306,6 +306,11 @@ class OrdemServicoView(_ModelView):
     can_view_details = True
     can_edit = False
 
+    def is_accessible(self):
+        if request.endpoint == 'ordemservico.mostrar_pdf' and current_user.has_role('urbam'):
+            return True
+        return super(OrdemServicoView, self).is_accessible()
+
     def on_model_change(self, form, ordem_servico, is_created):
         if is_created:
             itens_manutencao = self.itens_manutencao_adicionar
