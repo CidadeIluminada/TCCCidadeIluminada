@@ -1,4 +1,5 @@
 {% extends 'admin/model/edit.html' %}
+
 {% block head %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 {% endblock %}
@@ -7,7 +8,7 @@
     <h1>Ordem de Serviço #{{ model.id }} </h1>
     <a style="margin-bottom: 20px;" class="btn btn-default" href="{{ url_for('ordemservico.mostrar_pdf', ordem_servico_id=model.id) }}">
         <i class="fa fa-file-pdf-o"></i>
-        Ver PDF
+        Baixar PDF
     </a>
     <form method="POST" class="form-inline" action="{{ url_for('ordemservico.enviar_pdf', ordem_servico_id=model.id) }}">
         <div class="form-group">

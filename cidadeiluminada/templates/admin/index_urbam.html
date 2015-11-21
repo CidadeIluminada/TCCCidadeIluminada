@@ -1,5 +1,9 @@
 {% extends "admin/master.html" %}
 
+{% block head %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+{% endblock %}
+
 {% block body %}
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -30,17 +34,19 @@
                     {% for ordem_servico in ordens_servico_novas %}
                         <tr>
                             <td>
-                                <a href="{{ url_for('ordemservicoview.mostrar_pdf', render_html=1) }}">
-                                    #{{ ordem_servico.id }}
-                                </a>
+                                {{ ordem_servico.id }}
                             </td>
                             <td>
                                 {{ ordem_servico.criacao | datetime_format }}
                             </td>
                             <td>
-                                PDF {{ ordem_servico.id }}
+                                <a class="btn btn-default" href="{{ url_for('ordemservico.mostrar_pdf', ordem_servico_id=ordem_servico.id) }}">
+                                    <i class="fa fa-file-pdf-o"></i>
+                                    Salvar
+                                </a>
                             </td>
                             <td>
+
                                 Serviço
                             </td>
                         </tr>
