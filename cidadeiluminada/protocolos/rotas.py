@@ -57,12 +57,20 @@ class _ModelView(ModelView):
     column_type_formatters = default_formatters
 
     def is_accessible(self):
-        return current_user.is_authenticated()
+        has_admin = current_user.has_role('admin')
+        has_secretaria = current_user.has_role('secretaria')
+        return current_user.is_authenticated() and (has_admin or has_secretaria)
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('name', self.name)
         kwargs.setdefault('category', self.category)
         super(_ModelView, self).__init__(self.model, db.session, *args, **kwargs)
+
+
+class _UserModelsView(_ModelView):
+    def is_accessible(self):
+        is_accessible = super(_UserModelsView, self).is_accessible()
+        return is_accessible and current_user.has_role('admin')
 
 
 class RegiaoView(_ModelView):
@@ -356,7 +364,7 @@ class OrdemServicoView(_ModelView):
             return template
 
 
-class UserView(_ModelView):
+class UserView(_UserModelsView):
     model = User
     name = u'Usuários'
     category = u'Usuários'
@@ -366,7 +374,7 @@ class UserView(_ModelView):
     }
 
 
-class RoleView(_ModelView):
+class RoleView(_UserModelsView):
     model = Role
     name = u'Role'
     category = u'Usuários'
@@ -396,7 +404,7 @@ def init_app(app):
         RoleView(),
     ]
     index = IndexView(name='Principal', **config)
-    admin = Admin(app, template_mode='bootstrap3', index_view=index, name='Protocolos',
+    admin = Admin(app, template_mode='bootstrap3', index_view=index, name='Cidade Iluminada',
                   **config)
     for view in views:
         admin.add_view(view)
