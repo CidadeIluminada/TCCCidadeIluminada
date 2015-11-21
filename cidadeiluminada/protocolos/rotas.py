@@ -295,7 +295,7 @@ class OrdemServicoView(_ModelView):
         },
     }
 
-    edit_template = 'admin/model/edit_os.html'
+    details_template = 'admin/model/detalhes_os.html'
     form_excluded_columns = ('itens_manutencao', )
     column_labels = {
         'criacao': u'Criação',
@@ -303,6 +303,8 @@ class OrdemServicoView(_ModelView):
     }
     column_display_pk = True
     column_default_sort = ('id', True)
+    can_view_details = True
+    can_edit = False
 
     def on_model_change(self, form, ordem_servico, is_created):
         if is_created:
@@ -328,7 +330,7 @@ class OrdemServicoView(_ModelView):
         item = ItemManutencaoOrdemServico.query.get(item_manutencao_ordem_servico_id)
         item.servico_feito = feito
         db.session.commit()
-        return redirect(url_for('.edit_view', id=ordem_servico_id))
+        return redirect(url_for('.details_view', id=ordem_servico_id))
 
     @expose('/new/', methods=('GET', 'POST'))
     def create_view(self):
@@ -345,10 +347,10 @@ class OrdemServicoView(_ModelView):
             self.itens_manutencao_adicionar = query.all()
         return super(OrdemServicoView, self).create_view()
 
-    @expose('/edit/', methods=('GET', 'POST'))
-    def edit_view(self):
+    @expose('/details/', methods=('GET', 'POST'))
+    def details_view(self):
         self._template_args['email_urbam'] = current_app.config.get('EMAIL_URBAM')
-        return super(OrdemServicoView, self).edit_view()
+        return super(OrdemServicoView, self).details_view()
 
     def _gerar_pdf(self, template):
         fd, temp_path = mkstemp()
