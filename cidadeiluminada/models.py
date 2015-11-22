@@ -37,9 +37,9 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return '{} ({})'.format(self.email, ', '.join([role.name for role in self.roles]))
 
-    def has_role(self, role):
+    def has_role(self, role, invert_for_admin=False):
         if 'admin' in [_role.name for _role in self.roles]:
-            return True
+            return not invert_for_admin
         return super(User, self).has_role(role)
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)

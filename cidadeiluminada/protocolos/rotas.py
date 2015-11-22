@@ -30,12 +30,12 @@ class IndexView(AdminIndexView):
     @expose('/')
     @login_required
     def index(self):
-        if current_user.has_role('urbam'):
+        if current_user.has_role('admin'):
+            return redirect(url_for('.index_admin'))
+        elif current_user.has_role('urbam'):
             return redirect(url_for('.index_urbam'))
         elif current_user.has_role('secretaria'):
             return redirect(url_for('.index_secretaria'))
-        elif current_user.has_role('admin'):
-            return redirect(url_for('.index_admin'))
 
     @expose('/admin')
     @roles_required('admin')
@@ -79,9 +79,8 @@ class _ModelView(ModelView):
     column_type_formatters = default_formatters
 
     def is_accessible(self):
-        has_admin = current_user.has_role('admin')
         has_secretaria = current_user.has_role('secretaria')
-        return current_user.is_authenticated() and (has_admin or has_secretaria)
+        return current_user.is_authenticated() and has_secretaria
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('name', self.name)
@@ -91,8 +90,7 @@ class _ModelView(ModelView):
 
 class _UserModelsView(_ModelView):
     def is_accessible(self):
-        is_accessible = super(_UserModelsView, self).is_accessible()
-        return is_accessible and current_user.has_role('admin')
+        return current_user.has_role('admin')
 
 
 class EquipamentoView(_ModelView):
@@ -319,17 +317,21 @@ class OrdemServicoView(_ModelView):
     column_default_sort = ('id', True)
     can_edit = True
 
+    column_formatters = {
+        'status': lambda v, c, model, n: model.status_map[model.status]
+    }
+
     _urbam_accessible = ['mostrar_pdf', 'enviar_para_servico', 'edit_view']
 
     def is_accessible(self):
-        if not current_user.has_role('urbam'):
+        if not current_user.has_role('urbam', invert_for_admin=True):
             return super(OrdemServicoView, self).is_accessible()
         for endpoint in self._urbam_accessible:
             if request.endpoint == 'ordemservico.{}'.format(endpoint):
                 return True
 
     def is_visible(self):
-        if current_user.has_role('urbam'):
+        if current_user.has_role('urbam', invert_for_admin=True):
             return False
         return super(OrdemServicoView, self).is_accessible()
 
@@ -468,7 +470,7 @@ def init_app(app):
         BairroView(),
         LogradouroView(),
         PosteView(imv),
-        imv,
+        imv,  # Retirar em prod
         ProtocoloView(),
         OrdemServicoView(),
         UserView(),
