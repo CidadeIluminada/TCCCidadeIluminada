@@ -352,12 +352,19 @@ class OrdemServicoView(_ModelView):
             feito = False
         elif feito == 'true':
             feito = True
-        ordem_servico_id = request.form['ordem_servico_id']
         servico_id = request.form['servico_id']
         servico = Servico.query.get_or_404(servico_id)
         servico.servico_feito = feito
+        if feito:
+            equipamento_ids = request.form.getlist('equipamentos')
+
+            equipamentos = [Equipamento.query.get_or_404(equipamento_id)
+                            for equipamento_id in equipamento_ids]
+            for equipamento in equipamentos:
+                material = Material(equipamento=equipamento, servico=servico)
+                db.session.add(material)
         db.session.commit()
-        return redirect(url_for('.details_view', id=ordem_servico_id))
+        return redirect(request.referrer)
 
     @expose('/new/', methods=('GET', 'POST'))
     def create_view(self):
@@ -373,6 +380,11 @@ class OrdemServicoView(_ModelView):
                 abort(400)
             self.itens_manutencao_adicionar = query.all()
         return super(OrdemServicoView, self).create_view()
+
+    @expose('/edit/', methods=('GET', 'POST'))
+    def edit_view(self):
+        self._template_args['equipamentos'] = Equipamento.query
+        return super(OrdemServicoView, self).edit_view()
 
     def _gerar_pdf(self, template):
         fd, temp_path = mkstemp()

@@ -94,7 +94,7 @@ class Servico(db.Model):
     criacao = Column(DateTime, default=datetime.now)
     resolucao = Column(DateTime)
 
-    equipamentos = relationship('Material', backref='servico')
+    material = relationship('Material', backref='servico')
 
     @validates('servico_feito')
     def validate_servico_feito(self, key, servico_feito):
