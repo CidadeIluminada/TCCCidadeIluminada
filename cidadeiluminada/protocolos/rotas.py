@@ -345,8 +345,9 @@ class OrdemServicoView(_ModelView):
                 db.session.add(assoc)
             db.session.commit()
 
-    @expose('/atualizar_item_manutencao/', methods=['POST'])
-    def atualizar_item_manutencao(self):
+    @expose('/atualizar_item_manutencao/<ordem_servico_id>', methods=['POST'])
+    def atualizar_item_manutencao(self, ordem_servico_id):
+        ordem_servico = OrdemServico.query.get_or_404(ordem_servico_id)
         feito = request.form['feito']
         if feito == 'false':
             feito = False
@@ -363,6 +364,8 @@ class OrdemServicoView(_ModelView):
             for equipamento in equipamentos:
                 material = Material(equipamento=equipamento, servico=servico)
                 db.session.add(material)
+        if all(servico.item_manutencao.fechado for servico in ordem_servico.servicos):
+            ordem_servico.status = 'feita'
         db.session.commit()
         return redirect(request.referrer)
 

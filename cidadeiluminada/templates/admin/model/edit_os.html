@@ -30,7 +30,7 @@
                 <td>
                     {{ servico.item_manutencao.poste }}
                 </td>
-                <form class="form-inline" action="{{ url_for('ordemservico.atualizar_item_manutencao') }}" method="POST">
+                <form class="form-inline" action="{{ url_for('ordemservico.atualizar_item_manutencao', ordem_servico_id=model.id) }}" method="POST">
                 <td>
                     {% if servico.servico_feito == None %}
                     <select multiple="true" name="equipamentos" style="width: 100%">
