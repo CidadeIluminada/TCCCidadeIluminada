@@ -357,14 +357,14 @@ class OrdemServicoView(_ModelView):
             feito = True
         servico_id = request.form['servico_id']
         servico = Servico.query.get_or_404(servico_id)
-        servico.servico_feito = feito
+        servico.feito = feito
         if feito:
             equipamento_ids = request.form.getlist('equipamentos')
             equipamentos = Equipamento.query.filter(Equipamento.id.in_(equipamento_ids))
             for equipamento in equipamentos:
                 material = Material(equipamento=equipamento, servico=servico)
                 db.session.add(material)
-        if all(servico.item_manutencao.fechado for servico in ordem_servico.servicos):
+        if all(servico.feito for servico in ordem_servico.servicos):
             ordem_servico.status = 'feita'
         db.session.commit()
         return redirect(request.referrer)

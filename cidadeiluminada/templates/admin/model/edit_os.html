@@ -39,7 +39,7 @@
                 </td>
                 <form class="form-inline" action="{{ url_for('ordemservico.atualizar_item_manutencao', ordem_servico_id=model.id) }}" method="POST">
                 <td>
-                    {% if servico.servico_feito == None %}
+                    {% if servico.feito == None %}
                     <select multiple="true" name="equipamentos" style="width: 100%">
                         {% for equipamento in equipamentos %}
                         <option value="{{ equipamento.id }}">
@@ -47,7 +47,7 @@
                         </option>
                         {% endfor %}
                     </select>
-                    {% elif servico.servico_feito %}
+                    {% elif servico.feito %}
                     <ul>
                         {% for material in servico.material %}
                         <li>
@@ -58,7 +58,7 @@
                     {% endif %}
                 </td>
                 <td>
-                    {% if servico.servico_feito == None %}
+                    {% if servico.feito == None %}
                         <input type="hidden" value="{{ servico.id }}" name="servico_id">
                         <button class="btn btn-primary" type="submit" name="feito" value="true">
                             Sim
@@ -67,7 +67,7 @@
                             Não
                         </button>
                     {% else %}
-                        {% if servico.servico_feito == True %}
+                        {% if servico.feito == True %}
                             <i class="glyphicon glyphicon-ok"></i>
                         {% else %}
                             <i class="glyphicon glyphicon-remove"></i>
