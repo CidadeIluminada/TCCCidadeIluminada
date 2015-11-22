@@ -21,7 +21,7 @@ from wtforms.validators import Required
 from cidadeiluminada.models import User, Role
 from cidadeiluminada.protocolos import utils
 from cidadeiluminada.protocolos.models import Regiao, Bairro, Logradouro, \
-    Poste, ItemManutencao, Protocolo, OrdemServico, Servico
+    Poste, ItemManutencao, Protocolo, OrdemServico, Servico, Equipamento, Material
 from cidadeiluminada.base import db, mail
 
 
@@ -93,6 +93,20 @@ class _UserModelsView(_ModelView):
     def is_accessible(self):
         is_accessible = super(_UserModelsView, self).is_accessible()
         return is_accessible and current_user.has_role('admin')
+
+
+class EquipamentoView(_ModelView):
+    model = Equipamento
+    name = 'Equipamento'
+    category = 'Equipamento'
+
+    column_labels = {
+        'nome': u'Nome',
+        'garantia_dias': u'Dias de garantia',
+        'preco': u'Preço',
+    }
+
+    form_excluded_columns = ['servicos']
 
 
 class RegiaoView(_ModelView):
@@ -442,6 +456,7 @@ def init_app(app):
         OrdemServicoView(),
         UserView(),
         RoleView(),
+        EquipamentoView(),
     ]
     index = IndexView(name='Principal', **config)
     admin = Admin(app, template_mode='bootstrap3', index_view=index, name='Cidade Iluminada',

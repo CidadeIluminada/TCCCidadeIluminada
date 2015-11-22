@@ -6,7 +6,7 @@ import re
 
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship, validates
-from sqlalchemy.types import Integer, String, DateTime, Boolean
+from sqlalchemy.types import Integer, String, DateTime, Boolean, Numeric
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from cidadeiluminada.base import db, JSONSerializationMixin
@@ -94,6 +94,8 @@ class Servico(db.Model):
     criacao = Column(DateTime, default=datetime.now)
     resolucao = Column(DateTime)
 
+    equipamentos = relationship('Material', backref='servico')
+
     @validates('servico_feito')
     def validate_servico_feito(self, key, servico_feito):
         if servico_feito:
@@ -157,11 +159,21 @@ class OrdemServico(db.Model):
     itens_manutencao = relationship('Servico', backref='ordem_servico', order_by='Servico.id')
 
 
-# class Material(db.Model):
-#     id = Column(Integer, primary_key=True)
-#     nome = Column(String(255))
-#     garantia_dias = Column(Integer)
-#     preco = Column(Numeric(2), default=0)
+class Equipamento(db.Model):
+    id = Column(Integer, primary_key=True)
+    nome = Column(String(255))
+    garantia_dias = Column(Integer)
+    preco = Column(Numeric(2), default=0)
+
+    servicos = relationship('Material', backref='equipamento')
+
+
+class Material(db.Model):
+    id = Column(Integer, primary_key=True)
+
+    servico_id = Column(Integer, ForeignKey('servico.id'))
+    equipamento_id = Column(Integer, ForeignKey('equipamento.id'))
+
 
 def init_app(app):
     pass
