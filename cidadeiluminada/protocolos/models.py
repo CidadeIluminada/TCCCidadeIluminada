@@ -118,20 +118,24 @@ class ItemManutencao(db.Model):
 
     servicos = relationship('Servico', backref='item_manutencao')
 
-    status_map = {}
+    status_map = {
+        'aberto': u'Aberto',
+        'em_servico': u'Em serviço',
+        'fechado': u'Fechado',
+    }
 
     def __repr__(self):
-        return u'{} - {}'.format(self.poste, self.status)
+        return u'{} - {}'.format(self.poste, self.status_map[self.status])
 
-    @property
+    @hybrid_property
     def aberto(self):
         return self.status == 'aberto'
 
-    @property
+    @hybrid_property
     def em_servico(self):
         return self.status == 'em_servico'
 
-    @property
+    @hybrid_property
     def fechado(self):
         return self.status == 'fechado'
 
@@ -142,7 +146,12 @@ class OrdemServico(db.Model):
     criacao = Column(DateTime, default=datetime.now)
     status = Column(String(255), default='nova')
 
-    status_map = {}
+    status_map = {
+        'nova': u'Nova',
+        'em_servico': u'Em serviço',
+        'feita': u'Feita',
+        'confirmada': u'Confirmada',
+    }
 
     @hybrid_property
     def nova(self):
@@ -152,11 +161,11 @@ class OrdemServico(db.Model):
     def em_servico(self):
         return self.status == 'em_servico'
 
-    @property
+    @hybrid_property
     def feita(self):
         return self.status == 'feita'
 
-    @property
+    @hybrid_property
     def confirmada(self):
         return self.status == 'confirmada'
 

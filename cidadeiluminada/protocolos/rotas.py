@@ -387,6 +387,7 @@ class OrdemServicoView(_ModelView):
     @expose('/edit/', methods=('GET', 'POST'))
     def edit_view(self):
         self._template_args['equipamentos'] = Equipamento.query
+        self._template_args['os_status_map'] = OrdemServico.status_map
         return super(OrdemServicoView, self).edit_view()
 
     def _gerar_pdf(self, template):

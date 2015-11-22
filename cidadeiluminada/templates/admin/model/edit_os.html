@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Ordem de Serviço #{{ model.id }} - {{ model.status }} </h1>
+    <h1>Ordem de Serviço #{{ model.id }} - {{ os_status_map[model.status] }} </h1>
     <a style="margin-bottom: 20px;" class="btn btn-default" href="{{ url_for('ordemservico.mostrar_pdf', ordem_servico_id=model.id) }}">
         <i class="fa fa-file-pdf-o"></i>
         Baixar PDF
