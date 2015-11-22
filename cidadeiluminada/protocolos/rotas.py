@@ -21,7 +21,7 @@ from wtforms.validators import Required
 from cidadeiluminada.models import User, Role
 from cidadeiluminada.protocolos import utils
 from cidadeiluminada.protocolos.models import Regiao, Bairro, Logradouro, \
-    Poste, ItemManutencao, Protocolo, OrdemServico, ItemManutencaoOrdemServico
+    Poste, ItemManutencao, Protocolo, OrdemServico, Servico
 from cidadeiluminada.base import db, mail
 
 
@@ -325,7 +325,7 @@ class OrdemServicoView(_ModelView):
             self.itens_manutencao_adicionar = None
             for item_manutencao in itens_manutencao:
                 item_manutencao.status = 'em_servico'
-                assoc = ItemManutencaoOrdemServico()
+                assoc = Servico()
                 assoc.ordem_servico = ordem_servico
                 assoc.item_manutencao = item_manutencao
                 db.session.add(assoc)
@@ -339,9 +339,9 @@ class OrdemServicoView(_ModelView):
         elif feito == 'true':
             feito = True
         ordem_servico_id = request.form['ordem_servico_id']
-        item_manutencao_ordem_servico_id = request.form['item_manutencao_ordem_servico_id']
-        item = ItemManutencaoOrdemServico.query.get_or_404(item_manutencao_ordem_servico_id)
-        item.servico_feito = feito
+        servico_id = request.form['servico_id']
+        servico = Servico.query.get_or_404(servico_id)
+        servico.servico_feito = feito
         db.session.commit()
         return redirect(url_for('.details_view', id=ordem_servico_id))
 

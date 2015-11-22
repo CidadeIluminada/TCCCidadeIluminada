@@ -82,7 +82,7 @@ class Protocolo(db.Model):
     item_manutencao = relationship('ItemManutencao', backref='protocolos')
 
 
-class ItemManutencaoOrdemServico(db.Model):
+class Servico(db.Model):
     # Association
     id = Column(Integer, primary_key=True)
 
@@ -114,7 +114,7 @@ class ItemManutencao(db.Model):
 
     status = Column(String(255), default='aberto')
 
-    ordens_servico = relationship('ItemManutencaoOrdemServico', backref='item_manutencao')
+    ordens_servico = relationship('Servico', backref='item_manutencao')
 
     def __repr__(self):
         return u'{} - {}'.format(self.poste, self.status)
@@ -154,9 +154,14 @@ class OrdemServico(db.Model):
     def confirmada(self):
         return self.status == 'confirmada'
 
-    itens_manutencao = relationship('ItemManutencaoOrdemServico', backref='ordem_servico',
-                                    order_by='ItemManutencaoOrdemServico.id')
+    itens_manutencao = relationship('Servico', backref='ordem_servico', order_by='Servico.id')
 
+
+# class Material(db.Model):
+#     id = Column(Integer, primary_key=True)
+#     nome = Column(String(255))
+#     garantia_dias = Column(Integer)
+#     preco = Column(Numeric(2), default=0)
 
 def init_app(app):
     pass
