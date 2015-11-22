@@ -295,7 +295,7 @@ class OrdemServicoView(_ModelView):
         },
     }
 
-    details_template = 'admin/model/detalhes_os.html'
+    edit_template = 'admin/model/edit_os.html'
     form_excluded_columns = ('itens_manutencao', )
     column_labels = {
         'criacao': u'Criação',
@@ -303,10 +303,9 @@ class OrdemServicoView(_ModelView):
     }
     column_display_pk = True
     column_default_sort = ('id', True)
-    can_view_details = True
-    can_edit = False
+    can_edit = True
 
-    _urbam_accessible = ['mostrar_pdf', 'enviar_para_servico']
+    _urbam_accessible = ['mostrar_pdf', 'enviar_para_servico', 'edit_view']
 
     def is_accessible(self):
         if not current_user.has_role('urbam'):
@@ -355,11 +354,6 @@ class OrdemServicoView(_ModelView):
                 abort(400)
             self.itens_manutencao_adicionar = query.all()
         return super(OrdemServicoView, self).create_view()
-
-    @expose('/details/', methods=('GET', 'POST'))
-    def details_view(self):
-        self._template_args['email_urbam'] = current_app.config.get('EMAIL_URBAM')
-        return super(OrdemServicoView, self).details_view()
 
     def _gerar_pdf(self, template):
         fd, temp_path = mkstemp()
