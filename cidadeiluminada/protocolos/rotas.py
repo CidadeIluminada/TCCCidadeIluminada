@@ -106,7 +106,7 @@ class EquipamentoView(_ModelView):
         'preco': u'Preço',
     }
 
-    form_excluded_columns = ['servicos']
+    form_excluded_columns = ['materiais']
 
 
 class RegiaoView(_ModelView):
@@ -114,7 +114,7 @@ class RegiaoView(_ModelView):
     name = u'Região'
     category = u'Endereço'
 
-    form_excluded_columns = ('bairros', )
+    form_excluded_columns = ['bairros']
 
     @expose('/bairros')
     def get_bairros(self):
@@ -138,7 +138,7 @@ class BairroView(_ModelView):
     name = 'Bairro'
     category = u'Endereço'
 
-    form_excluded_columns = ('logradouros', )
+    form_excluded_columns = ['logradouros']
 
     column_labels = {
         'regiao': u'Região',
@@ -234,14 +234,14 @@ class ProtocoloView(_ModelView):
     name = 'Protocolos 156'
     category = 'Protocolos'
 
-    column_exclude_list = ('item_manutencao', )
-    column_filters = ('item_manutencao.id', )
+    column_exclude_list = ['item_manutencao']
+    column_filters = ['item_manutencao.id']
 
     named_filter_urls = True
 
     can_delete = False
 
-    form_excluded_columns = ('item_manutencao', )
+    form_excluded_columns = ['item_manutencao']
     edit_template = 'admin/model/edit_protocolo.html'
 
     column_labels = {
@@ -310,7 +310,7 @@ class OrdemServicoView(_ModelView):
     }
 
     edit_template = 'admin/model/edit_os.html'
-    form_excluded_columns = ('itens_manutencao', )
+    form_excluded_columns = ['itens_manutencao']
     column_labels = {
         'criacao': u'Criação',
         'id': u'Número',
@@ -440,6 +440,7 @@ class UserView(_UserModelsView):
 
     column_labels = {
         'password': u'Senha',
+        'active': u'Ativo',
     }
 
 
@@ -450,7 +451,7 @@ class RoleView(_UserModelsView):
 
     column_labels = {
         'name': u'Nome',
-        'description': u'Descrição'
+        'description': u'Descrição',
     }
 
     form_excluded_columns = ['users']

@@ -116,7 +116,9 @@ class ItemManutencao(db.Model):
 
     status = Column(String(255), default='aberto')
 
-    ordens_servico = relationship('Servico', backref='item_manutencao')
+    servicos = relationship('Servico', backref='item_manutencao')
+
+    status_map = {}
 
     def __repr__(self):
         return u'{} - {}'.format(self.poste, self.status)
@@ -140,6 +142,8 @@ class OrdemServico(db.Model):
     criacao = Column(DateTime, default=datetime.now)
     status = Column(String(255), default='nova')
 
+    status_map = {}
+
     @hybrid_property
     def nova(self):
         return self.status == 'nova'
@@ -156,7 +160,7 @@ class OrdemServico(db.Model):
     def confirmada(self):
         return self.status == 'confirmada'
 
-    itens_manutencao = relationship('Servico', backref='ordem_servico', order_by='Servico.id')
+    servicos = relationship('Servico', backref='ordem_servico', order_by='Servico.id')
 
 
 class Equipamento(db.Model):
@@ -165,7 +169,7 @@ class Equipamento(db.Model):
     garantia_dias = Column(Integer)
     preco = Column(Numeric(2), default=0)
 
-    servicos = relationship('Material', backref='equipamento')
+    materiais = relationship('Material', backref='equipamento')
 
 
 class Material(db.Model):
