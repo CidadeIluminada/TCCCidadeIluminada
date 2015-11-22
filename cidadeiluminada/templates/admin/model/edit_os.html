@@ -12,6 +12,13 @@
         Baixar PDF
     </a>
     <h2>Itens da Ordem de Serviço</h2>
+    {% if current_user.has_role('secretaria') and model.feita %}
+        <form style="margin-bottom: 20px;" action="{{ url_for('ordemservico.confirmar', ordem_servico_id=model.id) }}" method="POST">
+            <button type="submit" class="btn btn-success">
+                Confirmar Ordem de Serviço
+            </button>
+        </form>
+    {% endif %}
     <table class="table table-striped table-bordered table-hover model-list">
         <thead>
             <th style="width: 55%">

@@ -360,9 +360,7 @@ class OrdemServicoView(_ModelView):
         servico.servico_feito = feito
         if feito:
             equipamento_ids = request.form.getlist('equipamentos')
-
-            equipamentos = [Equipamento.query.get_or_404(equipamento_id)
-                            for equipamento_id in equipamento_ids]
+            equipamentos = Equipamento.query.filter(Equipamento.id.in_(equipamento_ids))
             for equipamento in equipamentos:
                 material = Material(equipamento=equipamento, servico=servico)
                 db.session.add(material)
@@ -401,37 +399,46 @@ class OrdemServicoView(_ModelView):
 
     @expose('/enviar_pdf/<ordem_servico_id>', methods=['POST'])
     def enviar_pdf(self, ordem_servico_id):
-        model = self.model.query.get_or_404(ordem_servico_id)
+        ordem_servico = self.model.query.get_or_404(ordem_servico_id)
         recipients = [request.form['email_urbam']]
         recipients.extend(current_app.config.get('MAIL_DEFAULT_RECIPIENTS'))
         assunto = current_app.config.get('MAIL_DEFAULT_SUBJECT')
         email_template = render_template('email/ordem_servico.txt')
-        email = Message(subject=assunto.format(ordem_servico_id=model.id), recipients=recipients,
-                        body=email_template)
-        pdf_template = render_template('pdf/ordem_servico.html', model=model)
+        email = Message(subject=assunto.format(ordem_servico_id=ordem_servico.id),
+                        recipients=recipients, body=email_template)
+        pdf_template = render_template('pdf/ordem_servico.html', model=ordem_servico)
         pdf_path = self._gerar_pdf(pdf_template)
         with open(pdf_path, 'rb') as pdf_file:
             email.attach('ordem de servico.pdf', 'application/pdf', pdf_file.read())
         mail.send(email)
         flash('Email enviado.', 'success')
-        return redirect(url_for('ordemservico.edit_view', id=model.id))
+        return redirect(url_for('ordemservico.edit_view', id=ordem_servico.id))
 
     @expose('/pdf/<ordem_servico_id>')
     def mostrar_pdf(self, ordem_servico_id):
-        model = self.model.query.get_or_404(ordem_servico_id)
-        template = render_template('pdf/ordem_servico.html', model=model)
+        ordem_servico = self.model.query.get_or_404(ordem_servico_id)
+        template = render_template('pdf/ordem_servico.html', model=ordem_servico)
         if not request.args.get('render_html'):
             pdf_path = self._gerar_pdf(template)
             return send_file(pdf_path,  as_attachment=True, mimetype='application/pdf',
-                             attachment_filename=u'Ordem de servico #{}.pdf'.format(model.id))
+                             attachment_filename=
+                             u'Ordem de servico #{}.pdf'.format(ordem_servico.id))
         else:
             return template
 
     @expose('/servico/<ordem_servico_id>', methods=['POST'])
     def enviar_para_servico(self, ordem_servico_id):
-        model = self.model.query.get_or_404(ordem_servico_id)
-        if model.nova:
-            model.status = 'em_servico'
+        ordem_servico = self.model.query.get_or_404(ordem_servico_id)
+        if ordem_servico.nova:
+            ordem_servico.status = 'em_servico'
+            db.session.commit()
+        return redirect(request.referrer)
+
+    @expose('/confirmar/<ordem_servico_id>', methods=['POST'])
+    def confirmar(self, ordem_servico_id):
+        ordem_servico = self.model.query.get_or_404(ordem_servico_id)
+        if ordem_servico.feita:
+            ordem_servico.status = 'confirmada'
             db.session.commit()
         return redirect(request.referrer)
 
