@@ -36,6 +36,12 @@ $ python manage.py db upgrade
 ```
 para instalar o banco de dados.
 
+Também digite
+```
+$ python manage.py ci criar_admin
+```
+para criar um usuário admin com o email `admin@cidadeiluminada` e senha `admin`.
+
 Para ativar o servidor digite
 ```
 python manage.py runserver
