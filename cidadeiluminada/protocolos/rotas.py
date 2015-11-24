@@ -321,7 +321,7 @@ class OrdemServicoView(_ModelView):
         'status': lambda v, c, model, n: model.status_map[model.status]
     }
 
-    _urbam_accessible = ['mostrar_pdf', 'enviar_para_servico', 'edit_view']
+    _urbam_accessible = ['mostrar_pdf', 'enviar_para_servico', 'edit_view', 'atualizar_item_manutencao']
 
     def is_accessible(self):
         if not current_user.has_role('urbam', invert_for_admin=True):
