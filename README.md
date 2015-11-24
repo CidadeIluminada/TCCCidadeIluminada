@@ -38,9 +38,9 @@ para instalar o banco de dados.
 
 Também digite
 ```
-$ python manage.py ci criar_admin
+$ python manage.py ci criar_usuarios
 ```
-para criar um usuário admin com o email `admin@cidadeiluminada` e senha `admin`.
+para criar as roles e usuários básicos. O mais importante é o usuário admin com o email `admin@cidadeiluminada` e senha `admin`.
 
 Para ativar o servidor digite
 ```
