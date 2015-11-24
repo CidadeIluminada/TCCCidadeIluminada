@@ -417,7 +417,7 @@ class OrdemServicoView(_ModelView):
     @expose('/pdf/<ordem_servico_id>')
     def mostrar_pdf(self, ordem_servico_id):
         ordem_servico = self.model.query.get_or_404(ordem_servico_id)
-        template = render_template('pdf/ordem_servico.html', model=ordem_servico)
+        template = render_template('pdf/ordem_servico.html', ordem_servico=ordem_servico)
         if not request.args.get('render_html'):
             pdf_path = self._gerar_pdf(template)
             return send_file(pdf_path,  as_attachment=True, mimetype='application/pdf',
