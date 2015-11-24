@@ -10,11 +10,17 @@ manager = Manager(help=_help, description=_help)
 
 
 @manager.command
-def criar_admin():
+def criar_usuarios():
     from cidadeiluminada.models import user_datastore
     admin_role = user_datastore.find_or_create_role('admin')
     user_datastore.create_user(email='admin@cidadeiluminada', password='admin',
                                roles=[admin_role])
+    urbam_role = user_datastore.find_or_create_role('urbam')
+    user_datastore.create_user(email='urbam@cidadeiluminada', password='urbam',
+                               roles=[urbam_role])
+    secretaria_role = user_datastore.find_or_create_role('secretaria')
+    user_datastore.create_user(email='secretaria@cidadeiluminada', password='secretaria',
+                               roles=[secretaria_role])
     user_datastore.commit()
 
 
