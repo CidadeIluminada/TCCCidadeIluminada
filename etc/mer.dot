@@ -1,3 +1,4 @@
+// apt-get install graphviz
 graph ci_mer {
     node [shape=box]; regiao; bairro; logradouro; poste; protocolo;
         item_manutencao; ordem_servico; equipamento;
