@@ -83,3 +83,8 @@ tmp
 .webassets-cache
 instance
 venv
+
+etc/tex/*
+!etc/tex/buildtex.sh
+!etc/tex/abntex2-modelo-trabalho-academico.tex
+!etc/tex/abntex2-modelo-references.bib
