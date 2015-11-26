@@ -1,11 +1,8 @@
 # apt-get install texlive-full
-if [ $1 ] ; then
-    pdflatex $1.tex
-    bibtex $1.aux
-    makeindex $1.idx
-    pdflatex $1.tex
-    pdflatex $1.tex
-    rm  !(*.tex|*.bib|*.sh|*.pdf)
-else
-    echo "Faltou nome do arquivo"
-fi
+pdflatex cidadeiluminada.tex
+bibtex cidadeiluminada.aux
+makeindex cidadeiluminada.idx
+pdflatex cidadeiluminada.tex
+pdflatex cidadeiluminada.tex
+rm  !(*.tex|*.bib|*.sh|*.pdf)
+evince cidadeiluminada.pdf &
