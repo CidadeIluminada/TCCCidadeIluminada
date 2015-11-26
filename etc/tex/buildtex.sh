@@ -5,6 +5,7 @@ if [ $1 ] ; then
     makeindex $1.idx
     pdflatex $1.tex
     pdflatex $1.tex
+    rm  !(*.tex|*.bib|*.sh|*.pdf)
 else
     echo "Faltou nome do arquivo"
 fi
