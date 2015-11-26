@@ -11,7 +11,7 @@
 %%
 %% This work has the LPPL maintenance status `maintained'.
 %%
-%% The Current Maintainmodeer of this work is the abnTeX2 team, led
+%% The Current Maintainer of this work is the abnTeX2 team, led
 %% by Lauro César Araujo. Further information are available on
 %% http://www.abntex.net.br/
 %%
@@ -95,23 +95,29 @@
 % ---
 % Informações de dados para CAPA e FOLHA DE ROSTO
 % ---
-\titulo{Sistema de gerenciamento de serviços de iluminação pública CidadeIluminada}
-\autor{Equipe \abnTeX}
-\local{Brasil}
+\titulo{Sistema de gerenciamento de serviços de iluminação pública \\ CidadeIluminada}
+\autor{Arthur de Paula Bressan \and Thaís Mathias Nogueira}
+\local{São José dos Campos \\ Sâo Paulo \\ Brasil}
 \data{2015, v-1.9.5}
-\orientador{Lauro César Araujo}
-\coorientador{Equipe \abnTeX}
+\orientador{Prof. Marcos Costa Reis}
+\coorientador{Me. Eng. Comp. Gerson Penha Neto}
 \instituicao{%
-  Universidade do Brasil -- UBr
+  Instituto Brasileiro de Tecnologia Avançada -- IBTA
   \par
-  Faculdade de Arquitetura da Informação
+  Faculdade Bilac
   \par
-  Programa de Pós-Graduação}
-\tipotrabalho{Tese (Doutorado)}
+  \
+  \par
+  Faculdade de Ciência da Computação
+  \par
+  Bacharelado de Ciência da Computação}
+\tipotrabalho{Trabalho de Conclusão de Curso}
 % O preambulo deve conter o tipo do trabalho, o objetivo,
 % o nome da instituição e a área de concentração
-\preambulo{Modelo canônico de trabalho monográfico acadêmico em conformidade com
-as normas ABNT apresentado à comunidade de usuários \LaTeX.}
+\preambulo{Solução para: O cadastro e controle de solicitações de reparo de
+pontos de iluminação por parte do munícipe de São José dos Campos; O controle
+de chamados, serviços e materiais por parte da Secretaria de Obras de São José
+dos Campos}
 % ---
 
 
@@ -183,7 +189,7 @@ as normas ABNT apresentado à comunidade de usuários \LaTeX.}
 % Folha de rosto
 % (o * indica que haverá a ficha bibliográfica)
 % ---
-\imprimirfolhaderosto*
+\imprimirfolhaderosto
 % ---
 
 % ---
@@ -201,66 +207,66 @@ as normas ABNT apresentado à comunidade de usuários \LaTeX.}
 %     \includepdf{fig_ficha_catalografica.pdf}
 % \end{fichacatalografica}
 
-\begin{fichacatalografica}
-	\sffamily
-	\vspace*{\fill}					% Posição vertical
-	\begin{center}					% Minipage Centralizado
-	\fbox{\begin{minipage}[c][8cm]{13.5cm}		% Largura
-	\small
-	\imprimirautor
-	%Sobrenome, Nome do autor
+% \begin{fichacatalografica}
+% 	\sffamily
+% 	\vspace*{\fill}					% Posição vertical
+% 	\begin{center}					% Minipage Centralizado
+% 	\fbox{\begin{minipage}[c][8cm]{13.5cm}		% Largura
+% 	\small
+% 	\imprimirautor
+% 	%Sobrenome, Nome do autor
 
-	\hspace{0.5cm} \imprimirtitulo  / \imprimirautor. --
-	\imprimirlocal, \imprimirdata-
+% 	\hspace{0.5cm} \imprimirtitulo  / \imprimirautor. --
+% 	\imprimirlocal, \imprimirdata-
 
-	\hspace{0.5cm} \pageref{LastPage} p. : il. (algumas color.) ; 30 cm.\\
+% 	\hspace{0.5cm} \pageref{LastPage} p. : il. (algumas color.) ; 30 cm.\\
 
-	\hspace{0.5cm} \imprimirorientadorRotulo~\imprimirorientador\\
+% 	\hspace{0.5cm} \imprimirorientadorRotulo~\imprimirorientador\\
 
-	\hspace{0.5cm}
-	\parbox[t]{\textwidth}{\imprimirtipotrabalho~--~\imprimirinstituicao,
-	\imprimirdata.}\\
+% 	\hspace{0.5cm}
+% 	\parbox[t]{\textwidth}{\imprimirtipotrabalho~--~\imprimirinstituicao,
+% 	\imprimirdata.}\\
 
-	\hspace{0.5cm}
-		1. Palavra-chave1.
-		2. Palavra-chave2.
-		2. Palavra-chave3.
-		I. Orientador.
-		II. Universidade xxx.
-		III. Faculdade de xxx.
-		IV. Título
-	\end{minipage}}
-	\end{center}
-\end{fichacatalografica}
+% 	\hspace{0.5cm}
+% 		1. Palavra-chave1.
+% 		2. Palavra-chave2.
+% 		2. Palavra-chave3.
+% 		I. Orientador.
+% 		II. Universidade xxx.
+% 		III. Faculdade de xxx.
+% 		IV. Título
+% 	\end{minipage}}
+% 	\end{center}
+% \end{fichacatalografica}
 % ---
 
 % ---
 % Inserir errata
 % ---
-\begin{errata}
-Elemento opcional da \citeonline[4.2.1.2]{NBR14724:2011}. Exemplo:
+% \begin{errata}
+% Elemento opcional da \citeonline[4.2.1.2]{NBR14724:2011}. Exemplo:
 
-\vspace{\onelineskip}
+% \vspace{\onelineskip}
 
-FERRIGNO, C. R. A. \textbf{Tratamento de neoplasias ósseas apendiculares com
-reimplantação de enxerto ósseo autólogo autoclavado associado ao plasma
-rico em plaquetas}: estudo crítico na cirurgia de preservação de membro em
-cães. 2011. 128 f. Tese (Livre-Docência) - Faculdade de Medicina Veterinária e
-Zootecnia, Universidade de São Paulo, São Paulo, 2011.
+% FERRIGNO, C. R. A. \textbf{Tratamento de neoplasias ósseas apendiculares com
+% reimplantação de enxerto ósseo autólogo autoclavado associado ao plasma
+% rico em plaquetas}: estudo crítico na cirurgia de preservação de membro em
+% cães. 2011. 128 f. Tese (Livre-Docência) - Faculdade de Medicina Veterinária e
+% Zootecnia, Universidade de São Paulo, São Paulo, 2011.
 
-\begin{table}[htb]
-\center
-\footnotesize
-\begin{tabular}{|p{1.4cm}|p{1cm}|p{3cm}|p{3cm}|}
-  \hline
-   \textbf{Folha} & \textbf{Linha}  & \textbf{Onde se lê}  & \textbf{Leia-se}  \\
-    \hline
-    1 & 10 & auto-conclavo & autoconclavo\\
-   \hline
-\end{tabular}
-\end{table}
+% \begin{table}[htb]
+% \center
+% \footnotesize
+% \begin{tabular}{|p{1.4cm}|p{1cm}|p{3cm}|p{3cm}|}
+%   \hline
+%    \textbf{Folha} & \textbf{Linha}  & \textbf{Onde se lê}  & \textbf{Leia-se}  \\
+%     \hline
+%     1 & 10 & auto-conclavo & autoconclavo\\
+%    \hline
+% \end{tabular}
+% \end{table}
 
-\end{errata}
+% \end{errata}
 % ---
 
 % ---
@@ -292,7 +298,7 @@ Zootecnia, Universidade de São Paulo, São Paulo, 2011.
     \vspace*{\fill}
    \end{center}
 
-   Trabalho aprovado. \imprimirlocal, 24 de novembro de 2012:
+   Trabalho aprovado. \imprimirlocal, 15 de dezembro de 2015:
 
    \assinatura{\textbf{\imprimirorientador} \\ Orientador}
    \assinatura{\textbf{Professor} \\ Convidado 1}
@@ -327,22 +333,7 @@ Zootecnia, Universidade de São Paulo, São Paulo, 2011.
 % Agradecimentos
 % ---
 \begin{agradecimentos}
-Os agradecimentos principais são direcionados à Gerald Weber, Miguel Frasson,
-Leslie H. Watter, Bruno Parente Lima, Flávio de Vasconcellos Corrêa, Otavio Real
-Salvador, Renato Machnievscz\footnote{Os nomes dos integrantes do primeiro
-projeto abn\TeX\ foram extraídos de
-\url{http://codigolivre.org.br/projects/abntex/}} e todos aqueles que
-contribuíram para que a produção de trabalhos acadêmicos conforme
-as normas ABNT com \LaTeX\ fosse possível.
-
-Agradecimentos especiais são direcionados ao Centro de Pesquisa em Arquitetura
-da Informação\footnote{\url{http://www.cpai.unb.br/}} da Universidade de
-Brasília (CPAI), ao grupo de usuários
-\emph{latex-br}\footnote{\url{http://groups.google.com/group/latex-br}} e aos
-novos voluntários do grupo
-\emph{\abnTeX}\footnote{\url{http://groups.google.com/group/abntex2} e
-\url{http://www.abntex.net.br/}}~que contribuíram e que ainda
-contribuirão para a evolução do \abnTeX.
+Agradecimentos
 
 \end{agradecimentos}
 % ---
@@ -353,11 +344,8 @@ contribuirão para a evolução do \abnTeX.
 \begin{epigrafe}
     \vspace*{\fill}
 	\begin{flushright}
-		\textit{`Não vos amoldeis às estruturas deste mundo, \\
-		mas transformai-vos pela renovação da mente, \\
-		a fim de distinguir qual é a vontade de Deus: \\
-		o que é bom, o que Lhe é agradável, o que é perfeito.\\
-		(Bíblia Sagrada, Romanos 12, 2)}
+		\textit{`Na Internet, ninguém sabe que você é um cachorro.\\
+		(Peter Steiner)}
 	\end{flushright}
 \end{epigrafe}
 % ---
@@ -378,7 +366,7 @@ contribuirão para a evolução do \abnTeX.
  resumo, antecedidas da expressão Palavras-chave:, separadas entre si por
  ponto e finalizadas também por ponto.
 
- \textbf{Palavras-chave}: latex. abntex. editoração de texto.
+ \textbf{Palavras-chave}: Web, Sistema de Gerenciamento, Python, Android
 \end{resumo}
 
 % resumo em inglês
@@ -389,27 +377,27 @@ contribuirão para a evolução do \abnTeX.
    \vspace{\onelineskip}
 
    \noindent
-   \textbf{Keywords}: latex. abntex. text editoration.
+   \textbf{Keywords}: Web, Management System, Python, Android.
  \end{otherlanguage*}
 \end{resumo}
 
-% resumo em francês
-\begin{resumo}[Résumé]
- \begin{otherlanguage*}{french}
-    Il s'agit d'un résumé en français.
+% % resumo em francês
+% \begin{resumo}[Résumé]
+%  \begin{otherlanguage*}{french}
+%     Il s'agit d'un résumé en français.
 
-   \textbf{Mots-clés}: latex. abntex. publication de textes.
- \end{otherlanguage*}
-\end{resumo}
+%    \textbf{Mots-clés}: latex. abntex. publication de textes.
+%  \end{otherlanguage*}
+% \end{resumo}
 
-% resumo em espanhol
-\begin{resumo}[Resumen]
- \begin{otherlanguage*}{spanish}
-   Este es el resumen en español.
+% % resumo em espanhol
+% \begin{resumo}[Resumen]
+%  \begin{otherlanguage*}{spanish}
+%    Este es el resumen en español.
 
-   \textbf{Palabras clave}: latex. abntex. publicación de textos.
- \end{otherlanguage*}
-\end{resumo}
+%    \textbf{Palabras clave}: latex. abntex. publicación de textos.
+%  \end{otherlanguage*}
+% \end{resumo}
 % ---
 
 % ---
@@ -470,43 +458,110 @@ contribuirão para a evolução do \abnTeX.
 \addcontentsline{toc}{chapter}{Introdução}
 % ----------------------------------------------------------
 
-Este documento e seu código-fonte são exemplos de referência de uso da classe
-\textsf{abntex2} e do pacote \textsf{abntex2cite}. O documento
-exemplifica a elaboração de trabalho acadêmico (tese, dissertação e outros do
-gênero) produzido conforme a ABNT NBR 14724:2011 \emph{Informação e documentação
-- Trabalhos acadêmicos - Apresentação}.
+A Iluminação pública é um instrumento de cidadania, pois é um item essencial à
+qualidade de vida e a segurança dos centros urbanos, ajudando a preservar e
+embelezar os patrimônios públicos e a prática de diversas atividade noturnas no
+espaço público.
 
-A expressão ``Modelo Canônico'' é utilizada para indicar que \abnTeX\ não é
-modelo específico de nenhuma universidade ou instituição, mas que implementa tão
-somente os requisitos das normas da ABNT. Uma lista completa das normas
-observadas pelo \abnTeX\ é apresentada em \citeonline{abntex2classe}.
+Segundo Aver[1] a falta de iluminação contribui consideravelmente com o aumento
+dos índices de criminalidade e a falta de segurança dos cidadãos que por algum
+motivo tem que transitar no período noturno por pontos sem iluminação, ou com
+iluminação precária. Estudos feitos pela organização Campbell Collaboration[2],
+mostraram que a melhoria na iluminação pública em algumas cidades do Reino
+Unido e EUA, ajudaram a reduzir a criminalidade em até 21\%, e concluiu que
+esta melhoria promoveu o aumento da vigilância da comunidade, que atuou como
+elemento inibidor contra a criminalidade local.
 
-Sinta-se convidado a participar do projeto \abnTeX! Acesse o site do projeto em
-\url{http://www.abntex.net.br/}. Também fique livre para conhecer,
-estudar, alterar e redistribuir o trabalho do \abnTeX, desde que os arquivos
-modificados tenham seus nomes alterados e que os créditos sejam dados aos
-autores originais, nos termos da ``The \LaTeX\ Project Public
-License''\footnote{\url{http://www.latex-project.org/lppl.txt}}.
+Os responsáveis pela instalação e manutenção da iluminação pública dos municípios
+no Brasil mudou em dezembro de 2014. Até então, elas eram feitas pelo estado,
+normalmente através das concessionárias de energia elétrica. Agora é a própria
+prefeitura que tem a responsabilidade por garantir as lâmpadas acessas. Essa
+mudança foi ocasionada pela Resolução Normativa 414 [3], uma determinação
+constitucional expedida pela ANEEL (Agencia Nacional de Energia Elétrica) que
+obrigou todos os 5.570 municípios brasileiros a se responsabilizar pela
+manutenção da infraestrutura da iluminação pública.
 
-Encorajamos que sejam realizadas customizações específicas deste exemplo para
-universidades e outras instituições --- como capas, folha de aprovação, etc.
-Porém, recomendamos que ao invés de se alterar diretamente os arquivos do
-\abnTeX, distribua-se arquivos com as respectivas customizações.
-Isso permite que futuras versões do \abnTeX~não se tornem automaticamente
-incompatíveis com as customizações promovidas. Consulte
-\citeonline{abntex2-wiki-como-customizar} par mais informações.
+A cidade de São José dos Campos/SP conta hoje com 56.688 pontos de iluminação
+distribuídos pela cidade. A média de lâmpadas com defeito é de 300 por mês, de
+acordo com a Secretaria de Obras da cidade [4]. Um dos maiores problemas a
+serem enfrentados é o recebimento de chamados para solucionar problemas com os
+postes defeituosos, já que o canal de reclamações da prefeitura engloba todos
+os problemas da cidade, causando assim, uma sobrecarga no atendimento.
 
-Este documento deve ser utilizado como complemento dos manuais do \abnTeX\
-\cite{abntex2classe,abntex2cite,abntex2cite-alf} e da classe \textsf{memoir}
-\cite{memoir}.
+A Urbanizadora Municipal (URBAM) foi a empresa contratada pela prefeitura de
+São José dos Campos para realizar a manutenção da iluminação pública do
+município. Com a proposta de auxiliar a URBAM no encontro dos pontos com
+problemas e agilizar as respostas aos chamados abertos pelos munícipes, o
+trabalho “Cidade Iluminada” apresenta uma solução de um aplicativo para
+smartphones e uma aplicação Web para a gestão das solicitações de manutenção
+dos pontos de iluminação pública.
 
-Esperamos, sinceramente, que o \abnTeX\ aprimore a qualidade do trabalho que
-você produzirá, de modo que o principal esforço seja concentrado no principal:
-na contribuição científica.
+O atual processo de recebimento de chamadas funciona de maneira manual, onde
+um funcionário deve entrar em um sistema do canal de recebimentos de denuncias,
+o 156, e coletar manualmente todas as denuncias recebidas no dia, colocar em
+uma planilha no Excel, e separar por regiões. Após este passo, a planilha já
+dividida em regiões, são checados os chamados um a um caso haja duplicidade.
+Uma vez que todos os pedidos já estão na planilha e caso não haja duplicidade,
+uma ordem de serviço é feita e enviada a URBAM para que a manutenção seja
+feita. Quando a manutenção é feita, esta ordem de serviço retorna e são
+retirados da planilha os chamados que foram atendidos.
 
-Equipe \abnTeX
+Evidentemente é um processo muito complexo, e passível a erros, onde por um
+menor descuido vários detalhes poderão ser perdidos, como denuncias duplicadas
+que irão gerar o retrabalho quando a ordem de serviço é gerada. Por isso nós
+propomos uma solução, onde não será mais necessária a coleta e verificação
+manual de todas as denuncias. Todo este trabalho excessivo será reduzido e em
+poucos cliques toda a análise será feita automaticamente.
 
-Lauro César Araujo
+Nossa missão é disponibilizar uma ferramenta que irá aperfeiçoar o recebimento
+dos chamados relacionados aos postes de iluminação e viabilizar a comunicação
+do cidadão diretamente com a entidade competente através de uma aplicação
+Android e um ambiente Web onde essas informações serão processadas.
+Neste aplicativo, o usuário poderá registrar o problema na rede pública de
+iluminação, enviar uma foto e a localização do problema e acompanhar o
+andamento do protocolo aberto por ele. No ambiente Web, este protocolo será
+analisado e separado de acordo com a região, bairro, rua e tipo de problemas,
+também serão analisados se não há duplicidade em algum ponto. E além disso,
+o sistema tem como função preparar a ordem de serviço para a manutenção, e
+fazer o controle dos materiais utilizados.
+
+% Este documento e seu código-fonte são exemplos de referência de uso da classe
+% \textsf{abntex2} e do pacote \textsf{abntex2cite}. O documento
+% exemplifica a elaboração de trabalho acadêmico (tese, dissertação e outros do
+% gênero) produzido conforme a ABNT NBR 14724:2011 \emph{Informação e documentação
+% - Trabalhos acadêmicos - Apresentação}.
+
+% A expressão ``Modelo Canônico'' é utilizada para indicar que \abnTeX\ não é
+% modelo específico de nenhuma universidade ou instituição, mas que implementa tão
+% somente os requisitos das normas da ABNT. Uma lista completa das normas
+% observadas pelo \abnTeX\ é apresentada em \citeonline{abntex2classe}.
+
+% Sinta-se convidado a participar do projeto \abnTeX! Acesse o site do projeto em
+% \url{http://www.abntex.net.br/}. Também fique livre para conhecer,
+% estudar, alterar e redistribuir o trabalho do \abnTeX, desde que os arquivos
+% modificados tenham seus nomes alterados e que os créditos sejam dados aos
+% autores originais, nos termos da ``The \LaTeX\ Project Public
+% License''\footnote{\url{http://www.latex-project.org/lppl.txt}}.
+
+% Encorajamos que sejam realizadas customizações específicas deste exemplo para
+% universidades e outras instituições --- como capas, folha de aprovação, etc.
+% Porém, recomendamos que ao invés de se alterar diretamente os arquivos do
+% \abnTeX, distribua-se arquivos com as respectivas customizações.
+% Isso permite que futuras versões do \abnTeX~não se tornem automaticamente
+% incompatíveis com as customizações promovidas. Consulte
+% \citeonline{abntex2-wiki-como-customizar} par mais informações.
+
+% Este documento deve ser utilizado como complemento dos manuais do \abnTeX\
+% \cite{abntex2classe,abntex2cite,abntex2cite-alf} e da classe \textsf{memoir}
+% \cite{memoir}.
+
+% Esperamos, sinceramente, que o \abnTeX\ aprimore a qualidade do trabalho que
+% você produzirá, de modo que o principal esforço seja concentrado no principal:
+% na contribuição científica.
+
+% Equipe \abnTeX
+
+% Lauro César Araujo
 
 % ----------------------------------------------------------
 % PARTE
