@@ -86,5 +86,5 @@ venv
 
 etc/tex/*
 !etc/tex/buildtex.sh
-!etc/tex/abntex2-modelo-trabalho-academico.tex
-!etc/tex/abntex2-modelo-references.bib
+!etc/tex/cidadeiluminada.tex
+!etc/tex/bibliografia.bib

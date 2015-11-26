@@ -6,5 +6,5 @@ if [ $1 ] ; then
     pdflatex $1.tex
     pdflatex $1.tex
 else
-    echo "falsey"
+    echo "Faltou nome do arquivo"
 fi
