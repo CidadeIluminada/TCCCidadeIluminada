@@ -3,8 +3,10 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
 {% endblock %}
+
+{% set user_urbam = current_user.has_role('urbam') %}
+{% set user_secretaria = current_user.has_role('secretaria') %}
 
 {% block body %}
     <h1>Ordem de Serviço #{{ model.id }} - {{ os_status_map[model.status] }} </h1>
@@ -28,9 +30,22 @@
                 <th>
                     Motivo não realização
                 </th>
-                <th>
-                    Salvar servico
-                </th>
+                {% if user_urbam %}
+                    <th>
+                        Salvar servico
+                    </th>
+                {% endif %}
+                {% if user_secretaria %}
+                    <th>
+                        Protocolos
+                    </th>
+                    <th>
+                        Comentários
+                    </th>
+                    <th>
+                        Fechar serviço?
+                    </th>
+                {% endif %}
             </tr>
             <tr>
                 <th colspan="2"></th>
@@ -39,66 +54,103 @@
                     {{ equipamento.abreviacao }}
                 </th>
                 {% endfor %}
-                <th colspan="2"></th>
+                <th colspan="4"></th>
             </tr>
         </thead>
         <tbody>
             {% for servico in model.servicos %}
-            <form action="{{ url_for('ordemservico.atualizar_item_manutencao', ordem_servico_id=model.id) }}" method="POST">
-                <tr>
-                    <td>
-                        {{ servico.item_manutencao.poste }}
-                    </td>
-                    <td>
-                        {% if servico.feito %}
-                            <i class="glyphicon glyphicon-ok"></i>
-                        {% elif servico.feito == False %}
-                            <i class="glyphicon glyphicon-remove"></i>
-                        {% else %}
-                            <label>
-                                <input type="radio" name="servico_realizado_{{ servico.id }}" value="true"> Sim
-                            </label>
-                            <br/>
-                            <label>
-                                <input type="radio" name="servico_realizado_{{ servico.id }}" value="false"> Não
-                            </label>
-                        {% endif %}
-                    </td>
-                    {% for equipamento in equipamentos %}
-                    <td>
-                        {% if servico.feito == None %}
-                            <input name="equipamento_{{ equipamento.id }}" type="number" class="form-control" max="99" min="0" value="0">
-                        {% else %}
-                            {% for material in servico.material %}
-                                {% if equipamento == material.equipamento %}
-                                    {{ material.quantidade }}
+                {% set servico_nao_realizado = servico.feito == None %}
+                {% set servico_feito = servico.feito == True %}
+                {% set servico_nao_feito = servico.feito == False %}
+                {% set servico_confirmado = servico.confirmado %}
+                <form action="{{ url_for('ordemservico.atualizar_item_manutencao', ordem_servico_id=model.id) }}" method="POST">
+                    <tr>
+                        <input type="hidden" value="{{ servico.id }}" name="servico_id">
+                        <td>
+                            {{ servico.item_manutencao.poste }}
+                        </td>
+                        <td>
+                            {% if servico_feito %}
+                                <i class="glyphicon glyphicon-ok"></i>
+                            {% elif servico_nao_feito %}
+                                <i class="glyphicon glyphicon-remove"></i>
+                            {% else %}
+                                {% if user_urbam %}
+                                    <label>
+                                        <input type="radio" class="controle_urbam" name="servico_realizado_{{ servico.id }}" value="true"> Sim
+                                    </label>
+                                    <br/>
+                                    <label>
+                                        <input type="radio" class="controle_urbam" name="servico_realizado_{{ servico.id }}" value="false"> Não
+                                    </label>
                                 {% endif %}
-                            {% endfor %}
+                                {% if user_secretaria %}
+                                    <i class="fa fa-refresh"></i>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        {% for equipamento in equipamentos %}
+                        <td>
+                            {% if servico_nao_realizado and user_urbam %}
+                                <input name="equipamento_{{ equipamento.id }}" type="number" class="form-control controle_urbam" max="99" min="0" value="0">
+                            {% else %}
+                                {% for material in servico.material %}
+                                    {% if equipamento == material.equipamento %}
+                                        {{ material.quantidade }}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                        <td>
+                            {% if servico_nao_realizado and user_urbam %}
+                                <select class="form-control controle_urbam" name="comentario_nao_realizacao" required>
+                                    <option value=""></option>
+                                    <option>Não encontrado</option>
+                                    <option>Já realizado</option>
+                                </select>
+                            {% elif servico_nao_feito %}
+                                {{ servico.obs_urbam }}
+                            {% endif %}
+                        </td>
+                        {% if user_urbam %}
+                            <td>
+                                {% if servico_nao_realizado %}
+                                    <button class="btn btn-primary controle_urbam" type="submit">
+                                        Salvar
+                                        <i class="fa fa-chevron-right"></i>
+                                    </button>
+                                {% endif %}
+                            </td>
                         {% endif %}
-                    </td>
-                    {% endfor %}
-                    <td>
-                        {% if servico.feito == None %}
-                            <select class="form-control" name="motivo_urbam" required>
-                                <option value=""></option>
-                                <option>Não encontrado</option>
-                                <option>Já realizado</option>
-                            </select>
-                        {% elif servico.feito == False %}
-                            {{ servico.obs_urbam }}
+                        {% if user_secretaria %}
+                            <td>
+                                <a href="{{ url_for('protocolo.index_view', flt1_item_manutencao_id_equals=servico.item_manutencao.id) }} ">
+                                    Ver protocolos ({{ servico.item_manutencao.protocolos | length }})
+                                </a>
+                            </td>
+                            <td>
+                                {% if not servico_nao_realizado and not servico_confirmado %}
+                                    <input type="text" class="form-control controle_secretaria" name="comentario_fechamento">
+                                {% elif servico_confirmado %}
+                                    {{ servico.obs_secretaria }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if not servico_nao_realizado and not servico_confirmado %}
+                                    <button class="btn btn-success controle_secretaria" name="fechado" type="submit" value="true">
+                                        Sim
+                                    </button>
+                                    <button class="btn btn-default controle_secretaria" name="fechado" type="submit" value="false">
+                                        Não
+                                    </button>
+                                {% elif servico_confirmado %}
+                                    Serviço fechado
+                                {% endif %}
+                            </td>
                         {% endif %}
-                    </td>
-                    <td>
-                        {% if servico.feito == None %}
-                            <input type="hidden" value="{{ servico.id }}" name="servico_id">
-                            <button class="btn btn-primary" type="submit">
-                                Salvar
-                                <i class="fa fa-chevron-right"></i>
-                            </button>
-                        {% endif %}
-                    </td>
-                </tr>
-            </form>
+                    </tr>
+                </form>
             {% endfor %}
         </tbody>
     </table>
@@ -108,7 +160,7 @@
     <script type="text/javascript">
         'use strict'
         $(function() {
-            $('input[type=number], select, button[type=submit]').attr('disabled' ,'disabled');
+            $('.controle_urbam').attr('disabled' ,'disabled');
             $('input[type=radio]').change(function() {
                 var row = $(this).parents('tr');
                 var realizado = $(this).val() == 'true';
