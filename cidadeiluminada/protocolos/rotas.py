@@ -385,6 +385,9 @@ class OrdemServicoView(_ModelView):
                 equipamento_id_quantidade[int(equipamento_id)] = int(form[key])
             equipamentos = Equipamento.query \
                 .filter(Equipamento.id.in_(equipamento_id_quantidade.keys()))
+            if all(quantidade == 0 for quantidade in equipamento_id_quantidade.values()):
+                flash(u'Serviço deve usar pelo menos um equipamento', u'error')
+                return redirect(request.referrer)
             for equipamento in equipamentos:
                 quantidade = equipamento_id_quantidade[equipamento.id]
                 if quantidade:
