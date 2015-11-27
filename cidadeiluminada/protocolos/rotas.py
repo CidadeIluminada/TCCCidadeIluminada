@@ -21,7 +21,8 @@ from wtforms.validators import Required
 from cidadeiluminada.models import User, Role
 from cidadeiluminada.protocolos import utils
 from cidadeiluminada.protocolos.models import Regiao, Bairro, Logradouro, \
-    Poste, ItemManutencao, Protocolo, OrdemServico, Servico, Equipamento, Material
+    Poste, ItemManutencao, Protocolo, OrdemServico, Servico, Equipamento, Material, \
+    PrecoEquipamento
 from cidadeiluminada.base import db, mail
 
 
@@ -95,16 +96,27 @@ class _UserModelsView(_ModelView):
 
 class EquipamentoView(_ModelView):
     model = Equipamento
-    name = 'Equipamento'
-    category = 'Equipamento'
+    name = u'Equipamento'
+    category = u'Equipamentos'
 
     column_labels = {
         'nome': u'Nome',
-        'garantia_dias': u'Dias de garantia',
-        'preco': u'Preço',
     }
 
-    form_excluded_columns = ['materiais']
+    form_excluded_columns = ['materiais', 'precos']
+    column_exclude_list = ['precos']
+
+
+class PrecoEquipamentoView(_ModelView):
+    model = PrecoEquipamento
+    name = u'Preços'
+    category = u'Equipamentos'
+
+    column_labels = {
+        'preco': u'Preço',
+        'garantia_mes': 'Garantia em meses',
+        'inicio_vigencia': u'Início de vigência'
+    }
 
 
 class RegiaoView(_ModelView):
@@ -473,16 +485,22 @@ def init_app(app):
     }
     imv = ItemManutencaoView()
     views = [
+        # endereco
         RegiaoView(),
         BairroView(),
         LogradouroView(),
+        # protocolos
+        ProtocoloView(),
         PosteView(imv),
         imv,  # Retirar em prod
-        ProtocoloView(),
         OrdemServicoView(),
+        # equipamentos
+        EquipamentoView(),
+        PrecoEquipamentoView(),
+        # usuarios
         UserView(),
         RoleView(),
-        EquipamentoView(),
+
     ]
     index = IndexView(name='Principal', **config)
     admin = Admin(app, template_mode='bootstrap3', index_view=index, name='Cidade Iluminada',

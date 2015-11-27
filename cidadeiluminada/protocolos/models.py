@@ -6,7 +6,7 @@ import re
 
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship, validates
-from sqlalchemy.types import Integer, String, DateTime, Boolean, Numeric
+from sqlalchemy.types import Integer, String, DateTime, Boolean, Numeric, Date
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from cidadeiluminada.base import db, JSONSerializationMixin
@@ -175,16 +175,31 @@ class OrdemServico(db.Model):
 class Equipamento(db.Model):
     id = Column(Integer, primary_key=True)
     nome = Column(String(255))
-    garantia_dias = Column(Integer)
-    preco = Column(Numeric(2), default=0)
+    precos = relationship('PrecoEquipamento', backref='equipamento',
+                          order_by='PrecoEquipamento.inicio_vigencia')
+
+    def preco_atual(self):
+        return self.precos[0]
 
     materiais = relationship('Material', backref='equipamento')
+
+    def __str__(self):
+        return self.nome
 
 
 class Material(db.Model):
     id = Column(Integer, primary_key=True)
 
     servico_id = Column(Integer, ForeignKey('servico.id'))
+    equipamento_id = Column(Integer, ForeignKey('equipamento.id'))
+
+
+class PrecoEquipamento(db.Model):
+    id = Column(Integer, primary_key=True)
+    preco = Column(Numeric(2), default=0)
+    garantia_mes = Column(Integer, default=1)
+    inicio_vigencia = Column(Date)
+
     equipamento_id = Column(Integer, ForeignKey('equipamento.id'))
 
 
