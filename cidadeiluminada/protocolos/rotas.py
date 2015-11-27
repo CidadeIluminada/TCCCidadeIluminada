@@ -377,12 +377,20 @@ class OrdemServicoView(_ModelView):
         servico = Servico.query.get_or_404(servico_id)
         servico.feito = feito
         if feito:
-            equipamento_ids = request.form.getlist('equipamentos')
-            equipamentos = Equipamento.query.filter(Equipamento.id.in_(equipamento_ids))
+            equipamento_keys = [key for key in request.form.keys() if u'equipamento' in key]
+            equipamento_id_quantidade = {}
+            for key in equipamento_keys:
+                _, equipamento_id = key.split(u'_')
+                equipamento_id_quantidade[int(equipamento_id)] = int(request.form[key])
+            equipamentos = Equipamento.query \
+                .filter(Equipamento.id.in_(equipamento_id_quantidade.keys()))
             for equipamento in equipamentos:
-                material = Material(equipamento=equipamento, servico=servico)
-                db.session.add(material)
-        if all(servico.feito for servico in ordem_servico.servicos):
+                quantidade = equipamento_id_quantidade[equipamento.id]
+                if quantidade:
+                    material = Material(equipamento=equipamento, servico=servico,
+                                        quantidade=quantidade)
+                    db.session.add(material)
+        if all(servico.feito is not None for servico in ordem_servico.servicos):
             ordem_servico.status = 'feita'
         db.session.commit()
         return redirect(request.referrer)
@@ -390,13 +398,11 @@ class OrdemServicoView(_ModelView):
     @expose('/new/', methods=('GET', 'POST'))
     def create_view(self):
         if request.method == 'POST':
-            print request.form
             postes_id = request.form.getlist('postes')
             if not postes_id:
                 abort(400)
             query = self.item_manutencao_query().filter(Poste.id.in_(postes_id))
             count = query.count()
-            print count
             if count <= 0 or count > 50:
                 abort(400)
             self.itens_manutencao_adicionar = query.all()
@@ -404,7 +410,7 @@ class OrdemServicoView(_ModelView):
 
     @expose('/edit/', methods=('GET', 'POST'))
     def edit_view(self):
-        self._template_args['equipamentos'] = Equipamento.query
+        self._template_args['equipamentos'] = Equipamento.query.filter(Equipamento.ativo == True)
         self._template_args['os_status_map'] = OrdemServico.status_map
         return super(OrdemServicoView, self).edit_view()
 
