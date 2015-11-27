@@ -110,6 +110,7 @@ class EquipamentoView(_ModelView):
     column_labels = {
         'nome': u'Nome',
         u'precos': u'Preços',
+        u'abreviacao': u'Abreviação',
     }
 
     form_excluded_columns = ['materiais']

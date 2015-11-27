@@ -1,7 +1,7 @@
 # coding: UTF-8
 from __future__ import absolute_import
 
-from datetime import datetime
+from datetime import datetime, date
 import re
 
 from sqlalchemy import Column, ForeignKey
@@ -200,9 +200,9 @@ class Material(db.Model):
 
 class PrecoEquipamento(db.Model):
     id = Column(Integer, primary_key=True)
-    preco = Column(Numeric(2), default=0)
+    preco = Column(Numeric(scale=2), default=0)
     garantia_mes = Column(Integer, default=1)
-    inicio_vigencia = Column(Date)
+    inicio_vigencia = Column(Date, default=date.today)
 
     equipamento_id = Column(Integer, ForeignKey('equipamento.id'))
 
