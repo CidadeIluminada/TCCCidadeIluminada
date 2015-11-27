@@ -7,13 +7,12 @@ from StringIO import StringIO
 from tempfile import mkstemp
 
 from flask import request, abort, redirect, url_for, jsonify, render_template, send_file, \
-    current_app, flash
+    flash
 from flask.ext.admin import Admin, expose, AdminIndexView
 from flask.ext.admin.model import typefmt, InlineFormAdmin
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
 from flask.ext.admin.form.widgets import Select2Widget
-from flask.ext.mail import Message
 from flask.ext.security import current_user, login_required, roles_accepted, roles_required
 from xhtml2pdf import pisa
 from wtforms.validators import Required
@@ -23,7 +22,7 @@ from cidadeiluminada.protocolos import utils
 from cidadeiluminada.protocolos.models import Regiao, Bairro, Logradouro, \
     Poste, ItemManutencao, Protocolo, OrdemServico, Servico, Equipamento, Material, \
     PrecoEquipamento
-from cidadeiluminada.base import db, mail
+from cidadeiluminada.base import db
 
 
 class IndexView(AdminIndexView):
@@ -54,7 +53,7 @@ class IndexView(AdminIndexView):
             qty_im = im_query.filter(Regiao.id == regiao.id).count()
             regioes_select_map[regiao.id] = u'Região {}'.format(regiao.nome)
             regioes_qty_map[regiao.id] = qty_im
-        return self.render('admin/index_postes.html', regioes_map=regioes_select_map,
+        return self.render('admin/index_secretaria.html', regioes_map=regioes_select_map,
                            regioes_qty=regioes_qty_map)
 
     @expose('/urbam')
@@ -340,7 +339,8 @@ class OrdemServicoView(_ModelView):
         'status': lambda v, c, model, n: model.status_map[model.status]
     }
 
-    _urbam_accessible = ['mostrar_pdf', 'enviar_para_servico', 'edit_view', 'atualizar_item_manutencao']
+    _urbam_accessible = ['mostrar_pdf', 'enviar_para_servico', 'details_view',
+                         'atualizar_item_manutencao']
 
     def is_accessible(self):
         if not current_user.has_role('urbam', invert_for_admin=True):
@@ -417,7 +417,7 @@ class OrdemServicoView(_ModelView):
 
     @expose('/details/', methods=('GET', 'POST'))
     def details_view(self):
-        self._template_args['equipamentos'] = Equipamento.query.filter(Equipamento.ativo == True)
+        self._template_args['equipamentos'] = Equipamento.query.filter(Equipamento.ativo == True)  # NOQA
         self._template_args['os_status_map'] = OrdemServico.status_map
         return super(OrdemServicoView, self).details_view()
 

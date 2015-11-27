@@ -1,0 +1,108 @@
+{% extends "admin/master.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% macro painel_os() %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Ordens de Serviço em aberto
+            </h3>
+        </div>
+        <div class="panel-body">
+            <h4>Novas</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Data de criação
+                        </th>
+                        <th>
+                            Salvar PDF
+                        </th>
+                        <th>
+                            Enviar para serviço
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ordem_servico in ordens_servico_novas %}
+                        <tr>
+                            <td>
+                                {{ ordem_servico.id }}
+                            </td>
+                            <td>
+                                {{ ordem_servico.criacao | datetime_format }}
+                            </td>
+                            <td>
+                                <a class="btn btn-default" href="{{ url_for('ordemservico.mostrar_pdf', ordem_servico_id=ordem_servico.id) }}">
+                                    <i class="fa fa-file-pdf-o"></i>
+                                    Salvar
+                                </a>
+                            </td>
+                            <td>
+                                <form action="{{ url_for('ordemservico.enviar_para_servico', ordem_servico_id=ordem_servico.id) }}" method="POST">
+                                    <button class="btn btn-primary" type="submit">
+                                        Enviar para serviço
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="999">
+                                Nenhuma ordem de serviço nova.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h4>Em serviço</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Data de criação
+                        </th>
+                        <th>
+                            Iniciar fechamento
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ordem_servico in ordens_servico_em_servico %}
+                        <tr>
+                            <td>
+                                {{ ordem_servico.id }}
+                            </td>
+                            <td>
+                                {{ ordem_servico.criacao | datetime_format }}
+                            </td>
+                            <td>
+                                <a href="{{ url_for('ordemservico.details_view', id=ordem_servico.id) }}">
+                                    Iniciar Fechamento <i class="fa fa-chevron-right"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="999">
+                                Nenhuma ordem de serviço em serviço.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer">
+        </div>
+    </div>
+{% endmacro %}
