@@ -100,14 +100,16 @@ class Servico(db.Model):
 
     confirmado = Column(Boolean, default=False)
 
-    @validates('feito')
-    def validate_feito(self, key, feito):
-        if feito:
+    @validates('confirmado')
+    def validate_confirmado(self, key, confirmado):
+        if not confirmado:
+            return confirmado
+        if self.feito:
             self.item_manutencao.status = 'fechado'
             self.resolucao = datetime.now()
         else:
             self.item_manutencao.status = 'aberto'
-        return feito
+        return confirmado
 
 
 class ItemManutencao(db.Model):

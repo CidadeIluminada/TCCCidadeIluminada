@@ -7,6 +7,8 @@
 
 {% set user_urbam = current_user.has_role('urbam') %}
 {% set user_secretaria = current_user.has_role('secretaria') %}
+{% set os_servico = model.status == 'em_servico' %}
+{% set os_feita = model.status == 'feita' %}
 
 {% block body %}
     <h1>Ordem de Serviço #{{ model.id }} - {{ os_status_map[model.status] }} </h1>
@@ -18,43 +20,41 @@
     <table class="table table-striped table-bordered table-hover model-list">
         <thead>
             <tr>
-                <th style="width: 40%">
+                <th rowspan="2">
                     Poste
                 </th>
-                <th style="width: 8%">
+                <th rowspan="2">
                     Realizado
                 </th>
-                <th colspan="{{ equipamentos.count() }}" style="width: 20%">
+                <th colspan="{{ equipamentos.count() }}">
                     Materiais utilizados
                 </th>
-                <th>
+                <th rowspan="2">
                     Motivo não realização
                 </th>
                 {% if user_urbam %}
-                    <th>
+                    <th rowspan="2">
                         Salvar servico
                     </th>
                 {% endif %}
                 {% if user_secretaria %}
-                    <th>
+                    <th rowspan="2">
                         Protocolos
                     </th>
-                    <th>
+                    <th rowspan="2">
                         Comentários
                     </th>
-                    <th>
-                        Fechar serviço?
+                    <th rowspan="2">
+                        Confirmar serviço
                     </th>
                 {% endif %}
             </tr>
             <tr>
-                <th colspan="2"></th>
                 {% for equipamento in equipamentos %}
                 <th>
                     {{ equipamento.abreviacao }}
                 </th>
                 {% endfor %}
-                <th colspan="4"></th>
             </tr>
         </thead>
         <tbody>
@@ -75,7 +75,7 @@
                             {% elif servico_nao_feito %}
                                 <i class="glyphicon glyphicon-remove"></i>
                             {% else %}
-                                {% if user_urbam %}
+                                {% if user_urbam and os_servico %}
                                     <label>
                                         <input type="radio" class="controle_urbam" name="servico_realizado_{{ servico.id }}" value="true"> Sim
                                     </label>
@@ -115,7 +115,7 @@
                         </td>
                         {% if user_urbam %}
                             <td>
-                                {% if servico_nao_realizado %}
+                                {% if servico_nao_realizado and os_servico %}
                                     <button class="btn btn-primary controle_urbam" type="submit">
                                         Salvar
                                         <i class="fa fa-chevron-right"></i>
@@ -130,22 +130,18 @@
                                 </a>
                             </td>
                             <td>
-                                {% if not servico_nao_realizado and not servico_confirmado %}
+                                {% if os_feita and not servico_confirmado %}
                                     <input type="text" class="form-control controle_secretaria" name="comentario_fechamento">
-                                {% elif servico_confirmado %}
+                                {% elif servico.obs_secretaria %}
                                     {{ servico.obs_secretaria }}
                                 {% endif %}
                             </td>
                             <td>
-                                {% if not servico_nao_realizado and not servico_confirmado %}
-                                    <button class="btn btn-success controle_secretaria" name="fechado" type="submit" value="true">
-                                        Sim
+                                {% if os_feita and not servico_nao_realizado and not servico_confirmado %}
+                                    <button class="btn btn-success controle_secretaria" name="fechar" type="submit" value="true">
+                                        Confirmar
+                                        <i class="fa fa-chevron-right"></i>
                                     </button>
-                                    <button class="btn btn-default controle_secretaria" name="fechado" type="submit" value="false">
-                                        Não
-                                    </button>
-                                {% elif servico_confirmado %}
-                                    Serviço fechado
                                 {% endif %}
                             </td>
                         {% endif %}
@@ -160,7 +156,7 @@
     <script type="text/javascript">
         'use strict'
         $(function() {
-            $('.controle_urbam').attr('disabled' ,'disabled');
+            $('.controle_urbam:not(input[type=radio])').attr('disabled' ,'disabled');
             $('input[type=radio]').change(function() {
                 var row = $(this).parents('tr');
                 var realizado = $(this).val() == 'true';

@@ -378,37 +378,47 @@ class OrdemServicoView(_ModelView):
 
     @expose('/atualizar_item_manutencao/<ordem_servico_id>', methods=['POST'])
     def atualizar_item_manutencao(self, ordem_servico_id):
+        def _str_to_bool(value):
+            return value == u'true'
+
         form = request.form
         ordem_servico = OrdemServico.query.get_or_404(ordem_servico_id)
         servico_id = form['servico_id']
         servico = Servico.query.get_or_404(servico_id)
-        feito = form['servico_realizado_{}'.format(servico.id)]
-        if feito == 'false':
-            feito = False
-        elif feito == 'true':
-            feito = True
-        servico.feito = feito
-        if feito:
-            equipamento_keys = [key for key in form.keys() if u'equipamento' in key]
-            equipamento_id_quantidade = {}
-            for key in equipamento_keys:
-                _, equipamento_id = key.split(u'_')
-                equipamento_id_quantidade[int(equipamento_id)] = int(form[key])
-            equipamentos = Equipamento.query \
-                .filter(Equipamento.id.in_(equipamento_id_quantidade.keys()))
-            if all(quantidade == 0 for quantidade in equipamento_id_quantidade.values()):
-                flash(u'Serviço deve usar pelo menos um equipamento', u'error')
-                return redirect(request.referrer)
-            for equipamento in equipamentos:
-                quantidade = equipamento_id_quantidade[equipamento.id]
-                if quantidade:
-                    material = Material(equipamento=equipamento, servico=servico,
-                                        quantidade=quantidade)
-                    db.session.add(material)
+        if ordem_servico.em_servico:
+            feito = form['servico_realizado_{}'.format(servico.id)]
+            feito = _str_to_bool(feito)
+            servico.feito = feito
+            if feito:
+                equipamento_keys = [key for key in form.keys() if u'equipamento' in key]
+                equipamento_id_quantidade = {}
+                for key in equipamento_keys:
+                    _, equipamento_id = key.split(u'_')
+                    equipamento_id_quantidade[int(equipamento_id)] = int(form[key])
+                equipamentos = Equipamento.query \
+                    .filter(Equipamento.id.in_(equipamento_id_quantidade.keys()))
+                if all(quantidade == 0 for quantidade in equipamento_id_quantidade.values()):
+                    flash(u'Serviço deve usar pelo menos um equipamento', u'error')
+                    return redirect(request.referrer)
+                for equipamento in equipamentos:
+                    quantidade = equipamento_id_quantidade[equipamento.id]
+                    if quantidade:
+                        material = Material(equipamento=equipamento, servico=servico,
+                                            quantidade=quantidade)
+                        db.session.add(material)
+            else:
+                servico.obs_urbam = form[u'comentario_nao_realizacao']
+            if all(servico.feito is not None for servico in ordem_servico.servicos):
+                ordem_servico.status = 'feita'
+        elif ordem_servico.feita:
+            fechar = _str_to_bool(form[u'fechar'])
+            servico.confirmado = fechar
+            if fechar:
+                servico.obs_secretaria = form[u'comentario_fechamento']
+            if all(servico.confirmado for servico in ordem_servico.servicos):
+                ordem_servico.status = 'confirmada'
         else:
-            servico.obs_urbam = form[u'motivo_urbam']
-        if all(servico.feito is not None for servico in ordem_servico.servicos):
-            ordem_servico.status = 'feita'
+            flash(u'Ordem de serviço em status inválido', u'error')
         db.session.commit()
         return redirect(request.referrer)
 
