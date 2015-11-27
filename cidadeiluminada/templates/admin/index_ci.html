@@ -80,6 +80,8 @@
                         <th>
                             {% if current_user.has_role('urbam') %}
                                 Iniciar fechamento
+                            {% else %}
+                                Visualizar
                             {% endif %}
                         </th>
                     </tr>
