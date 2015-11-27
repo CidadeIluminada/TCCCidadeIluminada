@@ -367,14 +367,15 @@ class OrdemServicoView(_ModelView):
 
     @expose('/atualizar_item_manutencao/<ordem_servico_id>', methods=['POST'])
     def atualizar_item_manutencao(self, ordem_servico_id):
+        print request.form
         ordem_servico = OrdemServico.query.get_or_404(ordem_servico_id)
-        feito = request.form['feito']
+        servico_id = request.form['servico_id']
+        servico = Servico.query.get_or_404(servico_id)
+        feito = request.form['servico_realizado_{}'.format(servico.id)]
         if feito == 'false':
             feito = False
         elif feito == 'true':
             feito = True
-        servico_id = request.form['servico_id']
-        servico = Servico.query.get_or_404(servico_id)
         servico.feito = feito
         if feito:
             equipamento_keys = [key for key in request.form.keys() if u'equipamento' in key]

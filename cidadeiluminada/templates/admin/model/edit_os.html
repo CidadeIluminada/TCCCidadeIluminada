@@ -16,65 +16,85 @@
     <table class="table table-striped table-bordered table-hover model-list">
         <thead>
             <tr>
-                <th style="width: 55%">
+                <th style="width: 40%">
                     Poste
                 </th>
-                <th colspan="{{ equipamentos.count() }}">
+                <th style="width: 8%">
+                    Realizado
+                </th>
+                <th colspan="{{ equipamentos.count() }}" style="width: 20%">
                     Materiais utilizados
                 </th>
                 <th>
-                    Serviço realizado
+                    Motivo não realização
+                </th>
+                <th>
+                    Salvar servico
                 </th>
             </tr>
             <tr>
-                <th></th>
+                <th colspan="2"></th>
                 {% for equipamento in equipamentos %}
                 <th>
                     {{ equipamento.abreviacao }}
                 </th>
-                {% else %}
-                <th></th>
                 {% endfor %}
-                <th></th>
+                <th colspan="2"></th>
             </tr>
         </thead>
         <tbody>
             {% for servico in model.servicos %}
-            <tr>
-                <td>
-                    {{ servico.item_manutencao.poste }}
-                </td>
-                <form class="form-inline" action="{{ url_for('ordemservico.atualizar_item_manutencao', ordem_servico_id=model.id) }}" method="POST">
-                {% for equipamento in equipamentos %}
-                <td>
-                    {% if servico.feito == None %}
-                        <input name="equipamento_{{ equipamento.id }}" type="number" class="form-control equipamento-control" max="99" min="0" value="0">
-                    {% else %}
-                        {% for material in servico.material %}
-                            {% if equipamento == material.equipamento %}
-                                {{ material.quantidade }}
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                </td>
-                {% endfor %}
-                <td>
-                    {% if servico.feito == None %}
-                        <input type="hidden" value="{{ servico.id }}" name="servico_id">
-                        <button class="btn btn-primary" type="submit" name="feito" value="true">
-                            Sim
-                        </button>
-                        <button class="btn btn-default" name="feito" type="submit" value="false">
-                            Não
-                        </button>
-                    {% elif servico.feito == True%}
-                        <i class="glyphicon glyphicon-ok"></i>
-                    {% else %}
-                        <i class="glyphicon glyphicon-remove"></i>
-                    {% endif %}
-                </td>
-                </form>
-            </tr>
+            <form action="{{ url_for('ordemservico.atualizar_item_manutencao', ordem_servico_id=model.id) }}" method="POST">
+                <tr>
+                    <td>
+                        {{ servico.item_manutencao.poste }}
+                    </td>
+                    <td>
+                        {% if servico.feito %}
+                            <i class="glyphicon glyphicon-ok"></i>
+                        {% elif servico.feito == False %}
+                            <i class="glyphicon glyphicon-remove"></i>
+                        {% else %}
+                            <label>
+                                <input type="radio" name="servico_realizado_{{ servico.id }}" value="true"> Sim
+                            </label>
+                            <br/>
+                            <label>
+                                <input type="radio" name="servico_realizado_{{ servico.id }}" value="false"> Não
+                            </label>
+                        {% endif %}
+                    </td>
+                    {% for equipamento in equipamentos %}
+                    <td>
+                        {% if servico.feito == None %}
+                            <input name="equipamento_{{ equipamento.id }}" type="number" class="form-control" max="99" min="0" value="0">
+                        {% else %}
+                            {% for material in servico.material %}
+                                {% if equipamento == material.equipamento %}
+                                    {{ material.quantidade }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                    <td>
+                        <select class="form-control" name="motivo">
+                            <option value=""></option>
+                            <option>Não encontrado</option>
+                            <option>Já realizado</option>
+                        </select>
+                    </td>
+                    <td>
+                        {% if servico.feito == None %}
+                            <input type="hidden" value="{{ servico.id }}" name="servico_id">
+                            <button class="btn btn-primary" type="submit">
+                                Salvar
+                                <i class="fa fa-chevron-right"></i>
+                            </button>
+                        {% endif %}
+                    </td>
+                </tr>
+            </form>
             {% endfor %}
         </tbody>
     </table>
@@ -82,10 +102,16 @@
 
 {% block tail %}
     <script type="text/javascript">
+        'use strict'
         $(function() {
-            $('select[name=equipamentos]').select2({
-                'width': 'component'
-            });
+            $('input[type=number], select, button[type=submit]').attr('disabled' ,'disabled');
+            $('input[type=radio]').change(function() {
+                var row = $(this).parents('tr');
+                var realizado = $(this).val() == 'true';
+                row.find('input[type=number]').attr('disabled', !realizado);
+                row.find('select').attr('disabled', realizado);
+                row.find('button[type=submit]').attr('disabled', false)
+            })
         })
     </script>
 {% endblock %}
