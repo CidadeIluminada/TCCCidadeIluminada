@@ -2,11 +2,12 @@
 graph ci_mer {
     node [shape=box]; regiao; bairro; logradouro; poste; protocolo;
         item_manutencao; ordem_servico; equipamento;
-        servico, material;
+        servico, material, preco_equipamento;
     node [shape=diamond]; r_b [label="Possui"]; b_l [label="Possui"];
-        l_pos [label="Possui"]; pro_im [label="Referido"];
+        l_pos [label="Possui"]; pro_im [label="Refere"];
         im_os [label="Pertence"]; os_im [label="Contém"];
         pos_im [label="Mantido"]; e_s [label="Compõe"]; s_e [label="Consome"];
+        e_h [label="Refere"];
 
     // Endereço
     regiao -- r_b [label="1"];
@@ -34,6 +35,9 @@ graph ci_mer {
     equipamento -- e_s [label="1"];
     servico -- s_e [label="1"];
     e_s -- material -- s_e [label="n"];
+
+    equipamento -- e_h [label="n"];
+    e_h -- preco_equipamento [label="1"];
 
     //$ cat mer.dot | dot -Tsvg > mer.svg
     //$ cat mer.dot | dot -Tjpg > mer.jpg
