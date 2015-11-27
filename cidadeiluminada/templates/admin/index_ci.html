@@ -27,7 +27,9 @@
                             Salvar PDF
                         </th>
                         <th>
-                            Enviar para serviço
+                            {% if current_user.has_role('urbam') %}
+                                Enviar para serviço
+                            {% endif %}
                         </th>
                     </tr>
                 </thead>
@@ -47,11 +49,13 @@
                                 </a>
                             </td>
                             <td>
-                                <form action="{{ url_for('ordemservico.enviar_para_servico', ordem_servico_id=ordem_servico.id) }}" method="POST">
-                                    <button class="btn btn-primary" type="submit">
-                                        Enviar para serviço
-                                    </button>
-                                </form>
+                                {% if current_user.has_role('urbam') %}
+                                    <form action="{{ url_for('ordemservico.enviar_para_servico', ordem_servico_id=ordem_servico.id) }}" method="POST">
+                                        <button class="btn btn-primary" type="submit">
+                                            Enviar para serviço
+                                        </button>
+                                    </form>
+                                {% endif %}
                             </td>
                         </tr>
                     {% else %}
@@ -74,7 +78,9 @@
                             Data de criação
                         </th>
                         <th>
-                            Iniciar fechamento
+                            {% if current_user.has_role('urbam') %}
+                                Iniciar fechamento
+                            {% endif %}
                         </th>
                     </tr>
                 </thead>
@@ -89,7 +95,11 @@
                             </td>
                             <td>
                                 <a href="{{ url_for('ordemservico.details_view', id=ordem_servico.id) }}">
-                                    Iniciar Fechamento <i class="fa fa-chevron-right"></i>
+                                    {% if current_user.has_role('urbam') %}
+                                        Iniciar Fechamento <i class="fa fa-chevron-right"></i>
+                                    {% else %}
+                                        Visualizar <i class="fa fa-eye"></i>
+                                    {% endif %}
                                 </a>
                             </td>
                         </tr>
@@ -102,8 +112,49 @@
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
-        <div class="panel-footer">
+            <h4>Feitas</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Data de criação
+                        </th>
+                        <th>
+                            {% if current_user.has_role('secretaria') %}
+                                Confirmar serviços
+                            {% endif %}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ordem_servico in ordens_servico_feitas %}
+                        <tr>
+                            <td>
+                                {{ ordem_servico.id }}
+                            </td>
+                            <td>
+                                {{ ordem_servico.criacao }}
+                            </td>
+                            <td>
+                                {% if current_user.has_role('secretaria') %}
+                                    <a href="{{ url_for('ordemservico.details_view', id=ordem_servico.id) }}">
+                                        Confirmar serviços <i class="fa fa-chevron-right"></i>
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="999">
+                                Nenhuma ordem de serviço a ser confirmada.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endmacro %}

@@ -47,9 +47,12 @@ class IndexView(AdminIndexView):
             .order_by(OrdemServico.id.desc())
         em_servico = OrdemServico.query.filter(OrdemServico.em_servico) \
             .order_by(OrdemServico.id.desc())
+        feitas = OrdemServico.query.filter(OrdemServico.feita) \
+            .order_by(OrdemServico.id.desc())
         return {
             u'ordens_servico_novas': novas,
             u'ordens_servico_em_servico': em_servico,
+            u'ordens_servico_feitas': feitas,
         }
 
     @expose('/secretaria')
