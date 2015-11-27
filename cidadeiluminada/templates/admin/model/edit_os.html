@@ -78,11 +78,15 @@
                     </td>
                     {% endfor %}
                     <td>
-                        <select class="form-control" name="motivo">
-                            <option value=""></option>
-                            <option>Não encontrado</option>
-                            <option>Já realizado</option>
-                        </select>
+                        {% if servico.feito == None %}
+                            <select class="form-control" name="motivo_urbam" required>
+                                <option value=""></option>
+                                <option>Não encontrado</option>
+                                <option>Já realizado</option>
+                            </select>
+                        {% elif servico.feito == False %}
+                            {{ servico.obs_urbam }}
+                        {% endif %}
                     </td>
                     <td>
                         {% if servico.feito == None %}

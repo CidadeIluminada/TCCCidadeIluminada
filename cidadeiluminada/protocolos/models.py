@@ -6,7 +6,7 @@ import re
 
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship, validates
-from sqlalchemy.types import Integer, String, DateTime, Boolean, Numeric, Date
+from sqlalchemy.types import Integer, String, DateTime, Boolean, Numeric, Date, Text
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from cidadeiluminada.base import db, JSONSerializationMixin
@@ -90,6 +90,8 @@ class Servico(db.Model):
     item_manutencao_id = Column(Integer, ForeignKey('item_manutencao.id'))
 
     feito = Column(Boolean, default=None)
+    obs_urbam = Column(Text)
+    obs_secretaria = Column(Text)
 
     criacao = Column(DateTime, default=datetime.now)
     resolucao = Column(DateTime)
