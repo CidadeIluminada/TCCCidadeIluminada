@@ -325,7 +325,7 @@ class OrdemServicoView(_ModelView):
         },
     }
 
-    edit_template = 'admin/model/edit_os.html'
+    details_template = 'admin/model/details_os.html'
     form_excluded_columns = ['itens_manutencao']
     column_labels = {
         'criacao': u'Criação',
@@ -333,7 +333,8 @@ class OrdemServicoView(_ModelView):
     }
     column_display_pk = True
     column_default_sort = ('id', True)
-    can_edit = True
+    can_edit = False
+    can_view_details = True
 
     column_formatters = {
         'status': lambda v, c, model, n: model.status_map[model.status]
@@ -414,11 +415,11 @@ class OrdemServicoView(_ModelView):
             self.itens_manutencao_adicionar = query.all()
         return super(OrdemServicoView, self).create_view()
 
-    @expose('/edit/', methods=('GET', 'POST'))
-    def edit_view(self):
+    @expose('/details/', methods=('GET', 'POST'))
+    def details_view(self):
         self._template_args['equipamentos'] = Equipamento.query.filter(Equipamento.ativo == True)
         self._template_args['os_status_map'] = OrdemServico.status_map
-        return super(OrdemServicoView, self).edit_view()
+        return super(OrdemServicoView, self).details_view()
 
     def _gerar_pdf(self, template):
         fd, temp_path = mkstemp()
@@ -426,23 +427,6 @@ class OrdemServicoView(_ModelView):
             pisa.CreatePDF(StringIO(template), pdf_file)
         os.close(fd)
         return temp_path
-
-    @expose('/enviar_pdf/<ordem_servico_id>', methods=['POST'])
-    def enviar_pdf(self, ordem_servico_id):
-        ordem_servico = self.model.query.get_or_404(ordem_servico_id)
-        recipients = [request.form['email_urbam']]
-        recipients.extend(current_app.config.get('MAIL_DEFAULT_RECIPIENTS'))
-        assunto = current_app.config.get('MAIL_DEFAULT_SUBJECT')
-        email_template = render_template('email/ordem_servico.txt')
-        email = Message(subject=assunto.format(ordem_servico_id=ordem_servico.id),
-                        recipients=recipients, body=email_template)
-        pdf_template = render_template('pdf/ordem_servico.html', model=ordem_servico)
-        pdf_path = self._gerar_pdf(pdf_template)
-        with open(pdf_path, 'rb') as pdf_file:
-            email.attach('ordem de servico.pdf', 'application/pdf', pdf_file.read())
-        mail.send(email)
-        flash('Email enviado.', 'success')
-        return redirect(url_for('ordemservico.edit_view', id=ordem_servico.id))
 
     @expose('/pdf/<ordem_servico_id>')
     def mostrar_pdf(self, ordem_servico_id):
