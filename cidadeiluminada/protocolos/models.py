@@ -176,6 +176,7 @@ class Equipamento(db.Model):
     id = Column(Integer, primary_key=True)
     nome = Column(String(255))
     abreviacao = Column(String(255))
+    ativo = Column(Boolean, default=True)
 
     precos = relationship('PrecoEquipamento', backref='equipamento',
                           order_by='PrecoEquipamento.inicio_vigencia')
