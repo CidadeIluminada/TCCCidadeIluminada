@@ -435,9 +435,12 @@ class OrdemServicoView(_ModelView):
             self.itens_manutencao_adicionar = query.all()
         return super(OrdemServicoView, self).create_view()
 
+    def _equipamento_query(self):
+        return Equipamento.query.filter(Equipamento.ativo == True)  # NOQA
+
     @expose('/details/', methods=('GET', 'POST'))
     def details_view(self):
-        self._template_args['equipamentos'] = Equipamento.query.filter(Equipamento.ativo == True)  # NOQA
+        self._template_args['equipamentos'] = self._equipamento_query()
         self._template_args['os_status_map'] = OrdemServico.status_map
         return super(OrdemServicoView, self).details_view()
 
@@ -451,7 +454,8 @@ class OrdemServicoView(_ModelView):
     @expose('/pdf/<ordem_servico_id>')
     def mostrar_pdf(self, ordem_servico_id):
         ordem_servico = self.model.query.get_or_404(ordem_servico_id)
-        template = render_template('pdf/ordem_servico.html', ordem_servico=ordem_servico)
+        template = self.render('pdf/ordem_servico.html', ordem_servico=ordem_servico,
+                               equipamentos=self._equipamento_query())
         if not request.args.get('render_html'):
             pdf_path = self._gerar_pdf(template)
             return send_file(pdf_path,  as_attachment=True, mimetype='application/pdf',

@@ -155,11 +155,6 @@
               background-color: #f9f9f9;
             }
 
-            .table-hover tbody tr:hover td,
-            .table-hover tbody tr:hover th {
-              background-color: #f5f5f5;
-            }
-
             /*table td[class*="span"],
             table th[class*="span"],
             .row-fluid table td[class*="span"],
@@ -269,21 +264,6 @@
               background-color: #d9edf7;
             }
 
-            .table-hover tbody tr.success:hover td {
-              background-color: #d0e9c6;
-            }
-
-            .table-hover tbody tr.error:hover td {
-              background-color: #ebcccc;
-            }
-
-            .table-hover tbody tr.warning:hover td {
-              background-color: #faf2cc;
-            }
-
-            .table-hover tbody tr.info:hover td {
-              background-color: #c4e3f3;
-            }
         </style>
         {# <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css"> #}
     </head>
@@ -291,12 +271,28 @@
         <h1>Ordem de servico #{{ ordem_servico.id }} </h1>
         <table class="table table-striped table-bordered">
             <thead>
-                <th>
-                    Endereço
-                </th>
-                <th style="width: 50%">
-                    Serviço realizado
-                </th>
+                <tr>
+                    <th style="width: 50%" rowspan="2">
+                        Endereço
+                    </th>
+                    <th rowspan="2">
+                        Serviço realizado (S/N)
+                    </th>
+                    <th rowspan="2">
+                        Motivo não realização
+                    </th>
+                    <th colspan="{{ equipamentos.count() }}">
+                        Material utilizado
+                    </th>
+                </tr>
+                <tr>
+                    {% for equipamento in equipamentos %}
+                        <th>
+                            {{ equipamento.abreviacao }}
+                        </th>
+                    {% endfor %}
+                </tr>
+            </tr>
             </thead>
             <tbody>
                 {% for servico in ordem_servico.servicos %}
@@ -304,9 +300,11 @@
                     <td>
                         {{ servico.item_manutencao.poste }}
                     </td>
-                    <td>
-                        &nbsp;
-                    </td>
+                    <td></td>
+                    <td></td>
+                    {% for equipamento in equipamentos %}
+                        <td></td>
+                    {% endfor %}
                 </tr>
                 {% endfor %}
             </tbody>
