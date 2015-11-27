@@ -9,7 +9,7 @@ from tempfile import mkstemp
 from flask import request, abort, redirect, url_for, jsonify, render_template, send_file, \
     current_app, flash
 from flask.ext.admin import Admin, expose, AdminIndexView
-from flask.ext.admin.model import typefmt
+from flask.ext.admin.model import typefmt, InlineFormAdmin
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
 from flask.ext.admin.form.widgets import Select2Widget
@@ -94,6 +94,14 @@ class _UserModelsView(_ModelView):
         return current_user.has_role('admin')
 
 
+class InlinePrecoEquipamentoForm(InlineFormAdmin):
+    column_labels = {
+        'preco': u'Preço',
+        'garantia_mes': 'Garantia em meses',
+        'inicio_vigencia': u'Início de vigência'
+    }
+
+
 class EquipamentoView(_ModelView):
     model = Equipamento
     name = u'Equipamento'
@@ -101,22 +109,19 @@ class EquipamentoView(_ModelView):
 
     column_labels = {
         'nome': u'Nome',
+        u'precos': u'Preços',
     }
 
-    form_excluded_columns = ['materiais', 'precos']
+    form_excluded_columns = ['materiais']
     column_exclude_list = ['precos']
+
+    inline_models = [InlinePrecoEquipamentoForm(PrecoEquipamento)]
 
 
 class PrecoEquipamentoView(_ModelView):
     model = PrecoEquipamento
     name = u'Preços'
     category = u'Equipamentos'
-
-    column_labels = {
-        'preco': u'Preço',
-        'garantia_mes': 'Garantia em meses',
-        'inicio_vigencia': u'Início de vigência'
-    }
 
 
 class RegiaoView(_ModelView):
