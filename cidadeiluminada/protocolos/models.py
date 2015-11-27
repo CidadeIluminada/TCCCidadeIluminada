@@ -190,6 +190,8 @@ class Equipamento(db.Model):
 class Material(db.Model):
     id = Column(Integer, primary_key=True)
 
+    quantidade = Column(Integer)
+
     servico_id = Column(Integer, ForeignKey('servico.id'))
     equipamento_id = Column(Integer, ForeignKey('equipamento.id'))
 
