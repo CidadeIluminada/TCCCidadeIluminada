@@ -98,6 +98,8 @@ class Servico(db.Model):
 
     material = relationship('Material', backref='servico')
 
+    confirmado = Column(Boolean, default=False)
+
     @validates('feito')
     def validate_feito(self, key, feito):
         if feito:
