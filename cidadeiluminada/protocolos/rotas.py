@@ -42,6 +42,16 @@ class IndexView(AdminIndexView):
     def index_admin(self):
         return self.render('admin/index_admin.html')
 
+    def _carregar_os(self):
+        novas = OrdemServico.query.filter(OrdemServico.nova) \
+            .order_by(OrdemServico.id.desc())
+        em_servico = OrdemServico.query.filter(OrdemServico.em_servico) \
+            .order_by(OrdemServico.id.desc())
+        return {
+            u'ordens_servico_novas': novas,
+            u'ordens_servico_em_servico': em_servico,
+        }
+
     @expose('/secretaria')
     @roles_accepted('admin', 'secretaria')
     def index_secretaria(self):
@@ -53,18 +63,15 @@ class IndexView(AdminIndexView):
             qty_im = im_query.filter(Regiao.id == regiao.id).count()
             regioes_select_map[regiao.id] = u'Região {}'.format(regiao.nome)
             regioes_qty_map[regiao.id] = qty_im
+        ordens_servico = self._carregar_os()
         return self.render('admin/index_secretaria.html', regioes_map=regioes_select_map,
-                           regioes_qty=regioes_qty_map)
+                           regioes_qty=regioes_qty_map, **ordens_servico)
 
     @expose('/urbam')
     @roles_accepted('admin', 'urbam')
     def index_urbam(self):
-        ordens_servico_novas = OrdemServico.query.filter(OrdemServico.nova) \
-            .order_by(OrdemServico.id.desc())
-        ordens_servico_em_servico = OrdemServico.query.filter(OrdemServico.em_servico) \
-            .order_by(OrdemServico.id.desc())
-        return self.render('admin/index_urbam.html', ordens_servico_novas=ordens_servico_novas,
-                           ordens_servico_em_servico=ordens_servico_em_servico)
+        ordens_servico = self._carregar_os()
+        return self.render('admin/index_urbam.html', **ordens_servico)
 
 
 default_formatters = dict(typefmt.BASE_FORMATTERS, **{
