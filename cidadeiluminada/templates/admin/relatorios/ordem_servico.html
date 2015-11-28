@@ -1,0 +1,41 @@
+{% extends 'admin/master.html' %}
+{% import 'admin/lib.html' as lib with context %}
+
+{% block head %}
+    {{ super() }}
+    {{ lib.form_css() }}
+{% endblock %}
+
+{% block body %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Gerar relatório de ordens de serviço finalizadas:</h3>
+    </div>
+    <div class="panel-body">
+        <form method="GET" action="xxx">
+            <input type="text" class="form-control" name="periodo">
+
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">Entre</span>
+                <input type="date" class="form-control">
+                <span class="input-group-addon">e</span>
+                <input type="date" class="form-control">
+                <span class="input-group-btn">
+                    <button class="btn btn-default">
+                        Gerar
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block tail %}
+    {{ super() }}
+    {{ lib.form_js() }}
+    <script type="text/javascript">
+        'use strict'
+
+    </script>
+{% endblock %}

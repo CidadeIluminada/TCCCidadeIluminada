@@ -2,13 +2,12 @@
 from __future__ import absolute_import
 
 import os
-from datetime import datetime
+from datetime import datetime, date
 from StringIO import StringIO
 from tempfile import mkstemp
 
-from flask import request, abort, redirect, url_for, jsonify, render_template, send_file, \
-    flash
-from flask.ext.admin import Admin, expose, AdminIndexView
+from flask import request, abort, redirect, url_for, jsonify, send_file, flash
+from flask.ext.admin import Admin, expose, AdminIndexView, BaseView
 from flask.ext.admin.model import typefmt, InlineFormAdmin
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
@@ -23,6 +22,36 @@ from cidadeiluminada.protocolos.models import Regiao, Bairro, Logradouro, \
     Poste, ItemManutencao, Protocolo, OrdemServico, Servico, Equipamento, Material, \
     PrecoEquipamento
 from cidadeiluminada.base import db
+
+default_formatters = dict(typefmt.BASE_FORMATTERS, **{
+    datetime: lambda view, value: utils.datetime_format(value),
+    date: lambda view, value: utils.date_format(value),
+})
+
+form_widget_formats = {
+    u'datetime': {
+        'data-date-format': u'DD/MM/YYYY HH:mm',
+    },
+    u'date': {
+        'data-date-format': u'DD/MM/YYYY',
+    }
+}
+
+form_args_formats = {
+    u'datetime': {
+        u'format': '%d/%m/%Y %H:%M',
+    },
+    u'date': {
+        'format': '%d/%m/%Y',
+    }
+}
+
+preco_equipamento_labels = {
+    'preco': u'Preço',
+    'garantia_mes': 'Garantia em meses',
+    'inicio_vigencia': u'Início de vigência',
+    u'equipamento': u'Equipamento',
+}
 
 
 class IndexView(AdminIndexView):
@@ -77,9 +106,24 @@ class IndexView(AdminIndexView):
         return self.render('admin/index_urbam.html', **ordens_servico)
 
 
-default_formatters = dict(typefmt.BASE_FORMATTERS, **{
-    datetime: lambda view, value: utils.datetime_format(value)
-})
+class RelatorioOrdemServicoView(BaseView):
+
+    name = u'Ordem de Serviço'
+    category = u'Relatórios'
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('name', self.name)
+        kwargs.setdefault('category', self.category)
+        self.model = OrdemServico
+        super(RelatorioOrdemServicoView, self).__init__(*args, **kwargs)
+
+    def is_accessible(self):
+        has_secretaria = current_user.has_role('secretaria')
+        return current_user.is_authenticated() and has_secretaria
+
+    @expose(u'/')
+    def index(self):
+        return self.render(u'admin/relatorios/ordem_servico.html')
 
 
 class _ModelView(ModelView):
@@ -104,11 +148,7 @@ class _UserModelsView(_ModelView):
 
 
 class InlinePrecoEquipamentoForm(InlineFormAdmin):
-    column_labels = {
-        'preco': u'Preço',
-        'garantia_mes': 'Garantia em meses',
-        'inicio_vigencia': u'Início de vigência'
-    }
+    column_labels = preco_equipamento_labels
 
 
 class EquipamentoView(_ModelView):
@@ -132,6 +172,18 @@ class PrecoEquipamentoView(_ModelView):
     model = PrecoEquipamento
     name = u'Preços'
     category = u'Equipamentos'
+
+    column_labels = preco_equipamento_labels
+
+    form_args = {
+        u'inicio_vigencia': form_args_formats[u'date'],
+    }
+
+    form_widget_args = {
+        u'inicio_vigencia': form_widget_formats[u'date'],
+    }
+
+    edit_template = 'admin/model/edit_modelo_datetime.html'
 
 
 class RegiaoView(_ModelView):
@@ -283,15 +335,11 @@ class ProtocoloView(_ModelView):
     }
 
     form_args = {
-        u'criacao': {
-            u'format': '%d/%m/%Y %H:%M',
-        }
+        u'criacao': form_args_formats[u'datetime'],
     }
 
     form_widget_args = {
-        u'criacao': {
-            'data-date-format': u'dd/mm/yyyy HH:MM'
-        }
+        u'criacao': form_widget_formats[u'datetime'],
     }
 
     def on_model_change(self, form, protocolo, is_created):
@@ -535,6 +583,8 @@ def init_app(app):
         # equipamentos
         EquipamentoView(),
         PrecoEquipamentoView(),
+        # Relatorios
+        RelatorioOrdemServicoView(),
         # usuarios
         UserView(),
         RoleView(),
