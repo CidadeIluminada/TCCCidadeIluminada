@@ -282,6 +282,18 @@ class ProtocoloView(_ModelView):
                                   validators=[Required(u'Campo obrigatório')])
     }
 
+    form_args = {
+        u'criacao': {
+            u'format': '%d/%m/%Y %H:%M',
+        }
+    }
+
+    form_widget_args = {
+        u'criacao': {
+            'data-date-format': u'dd/mm/yyyy HH:MM'
+        }
+    }
+
     def on_model_change(self, form, protocolo, is_created):
         if is_created:
             poste = form.poste.data
