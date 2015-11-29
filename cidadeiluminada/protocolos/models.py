@@ -102,8 +102,7 @@ class Servico(db.Model):
 
     @property
     def custo(self):
-        return sum(material.equipamento.preco_periodo(self.resolucao).preco * material.quantidade
-                   for material in self.material)
+        return sum(material.custo for material in self.material)
 
     @validates('confirmado')
     def validate_confirmado(self, key, confirmado):
@@ -111,7 +110,6 @@ class Servico(db.Model):
             return confirmado
         if self.feito:
             self.item_manutencao.status = 'fechado'
-            self.resolucao = datetime.now()
         else:
             self.item_manutencao.status = 'aberto'
         return confirmado
@@ -220,11 +218,20 @@ class Material(db.Model):
     servico_id = Column(Integer, ForeignKey('servico.id'))
     equipamento_id = Column(Integer, ForeignKey('equipamento.id'))
 
+    em_garantia = Column(Boolean, default=False)
+
+    @property
+    def custo(self):
+        if self.em_garantia:
+            return 0
+        resolucao = self.servico.resolucao
+        return self.quantidade * self.equipamento.preco_periodo(resolucao).preco
+
 
 class PrecoEquipamento(db.Model):
     id = Column(Integer, primary_key=True)
     preco = Column(Numeric(scale=2), default=0)
-    garantia_mes = Column(Integer, default=1)
+    garantia = Column(Integer, default=30)
     inicio_vigencia = Column(Date, default=date.today)
 
     equipamento_id = Column(Integer, ForeignKey('equipamento.id'))

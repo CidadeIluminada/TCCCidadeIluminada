@@ -82,7 +82,12 @@
                                                         {{ preco_equipamento | moeda }}
                                                     </td>
                                                     <td>
-                                                        {{ (material.quantidade * preco_equipamento) | moeda }}
+                                                        {{ material.custo | moeda }}
+                                                        {% if material.em_garantia %}
+                                                            <span data-garantia="{{ material.em_garantia }}" data-toggle="tooltip" title="Material dentro da garantia">
+                                                                *
+                                                            </span>
+                                                        {% endif %}
                                                     </td>
                                                 </tr>
                                             {% endfor %}
@@ -123,4 +128,13 @@
         </div>
         <div class="panel-footer">Panel footer</div>
     </div>
+{% endblock %}
+
+{% block tail %}
+    {{ super() }}
+    <script type="text/javascript">
+    $(function () {
+        $('[data-garantia="True"]').tooltip()
+    })
+    </script>
 {% endblock %}

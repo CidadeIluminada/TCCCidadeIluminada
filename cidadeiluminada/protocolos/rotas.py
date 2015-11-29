@@ -2,7 +2,7 @@
 from __future__ import absolute_import
 
 import os
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from StringIO import StringIO
 from tempfile import mkstemp
 
@@ -86,9 +86,9 @@ form_args_formats = {
 
 preco_equipamento_labels = {
     'preco': u'Preço',
-    'garantia_mes': 'Garantia em meses',
+    'garantia': u'Dias de garantia',
     'inicio_vigencia': u'Início de vigência',
-    u'equipamento': u'Equipamento',
+    'equipamento': u'Equipamento',
 }
 
 
@@ -472,6 +472,7 @@ class OrdemServicoView(_ModelView):
             feito = form['servico_realizado_{}'.format(servico.id)]
             feito = _str_to_bool(feito)
             servico.feito = feito
+            servico.resolucao = datetime.now()
             if feito:
                 equipamento_keys = [key for key in form.keys() if u'equipamento' in key]
                 equipamento_id_quantidade = {}
@@ -486,8 +487,18 @@ class OrdemServicoView(_ModelView):
                 for equipamento in equipamentos:
                     quantidade = equipamento_id_quantidade[equipamento.id]
                     if quantidade:
+                        td = timedelta(days=equipamento.preco_atual.garantia)
+                        poste = servico.item_manutencao.poste
+                        servicos_poste_equipamento = Servico.query.join(Material) \
+                            .join(Equipamento).join(ItemManutencao) \
+                            .filter(Servico.id != servico.id, ItemManutencao.poste == poste,
+                                    ItemManutencao.fechado, Equipamento.id == equipamento.id) \
+                            .order_by(Servico.resolucao.asc()).all()
+                        em_garantia = False
+                        for _servico in servicos_poste_equipamento:
+                            em_garantia = _servico.resolucao + td > datetime.now()
                         material = Material(equipamento=equipamento, servico=servico,
-                                            quantidade=quantidade)
+                                            em_garantia=em_garantia, quantidade=quantidade)
                         db.session.add(material)
             else:
                 servico.obs_urbam = form[u'comentario_nao_realizacao']
@@ -568,7 +579,8 @@ class OrdemServicoView(_ModelView):
         ids = request.args.getlist(u'ids')
         if not ids:
             abort(400)
-        ordens_servico = self.model.query.filter(self.model.id.in_(ids))
+        ordens_servico = self.model.query.filter(self.model.id.in_(ids), OrdemServico.confirmada) \
+            .order_by(self.model.id.desc())
         return self.render(u'admin/relatorios/ordem_servico.html', ordens_servico=ordens_servico)
 
     @action(u'relatorio', u'Relatório')
