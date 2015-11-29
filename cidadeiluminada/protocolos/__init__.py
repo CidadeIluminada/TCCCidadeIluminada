@@ -10,5 +10,9 @@ def init_app(app):
     def datetime_format(input):
         return utils.datetime_format(input)
 
+    @app.template_filter('moeda')
+    def moeda(input):
+        return utils.currency_format(input)
+
     models.init_app(app)
     rotas.init_app(app)

@@ -9,6 +9,7 @@ from tempfile import mkstemp
 
 from flask import request, abort, redirect, url_for, jsonify, send_file, flash, json
 from flask.ext.admin import Admin, expose, AdminIndexView
+from flask.ext.admin.actions import action
 from flask.ext.admin.model import typefmt, InlineFormAdmin
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
@@ -423,6 +424,7 @@ class OrdemServicoView(_ModelView):
     column_default_sort = ('id', True)
     can_edit = False
     can_view_details = True
+    can_delete = False
 
     column_formatters = {
         'status': lambda v, c, model, n: model.status_map[model.status]
@@ -560,6 +562,18 @@ class OrdemServicoView(_ModelView):
             ordem_servico.status = 'confirmada'
             db.session.commit()
         return redirect(request.referrer)
+
+    @expose(u'/relatorio')
+    def relatorio(self):
+        ids = request.args.getlist(u'ids')
+        if not ids:
+            abort(400)
+        ordens_servico = self.model.query.filter(self.model.id.in_(ids))
+        return self.render(u'admin/relatorios/ordem_servico.html', ordens_servico=ordens_servico)
+
+    @action(u'relatorio', u'Relatório')
+    def gerar_relatorio(self, ids):
+        return redirect(url_for('.relatorio', ids=ids))
 
 
 class UserView(_UserModelsView):

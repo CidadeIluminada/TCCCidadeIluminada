@@ -1,13 +1,116 @@
 {% extends 'admin/master.html' %}
 
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+{% endblock %}
+
 {% block body %}
     <h1>Relatório de Ordens de Serviço</h1>
-    <h3>
-        De: {{ inicio.strftime(date_format) }} até {{ fim.strftime(date_format) }}
-        Mostrando {{ ordens_servico.count() }}
-    </h3>
     {% for ordem_servico in ordens_servico %}
-
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Ordem Serviço # {{ ordem_servico.id }} </h3>
+            </div>
+            <div class="panel-body">
+                <h4>
+                    Serviços
+                </h4>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Poste
+                        </th>
+                        <th>
+                            Realizado
+                        </th>
+                        <th>
+                            Material
+                        </th>
+                        <th>
+                            Motivo não realização
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for servico in ordem_servico.servicos %}
+                        <tr>
+                            <td>
+                                {{ servico.item_manutencao.poste }}
+                            </td>
+                            <td>
+                               {% if servico.feito %}
+                                    <i class="fa fa-check"></i>
+                                    <br>
+                                    {{ servico.resolucao | datetime_format }}
+                                {% else %}
+                                    <i class="fa fa-times"></i>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if servico.material %}
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Nome
+                                                </th>
+                                                <th>
+                                                    Quantidade
+                                                </th>
+                                                <th>
+                                                    Preço unitário
+                                                </th>
+                                                <th>
+                                                    Preço total
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for material in servico.material %}
+                                                <tr>
+                                                    <td>
+                                                        {{ material.equipamento.nome }}
+                                                    </td>
+                                                    <td>
+                                                        {{ material.quantidade }}
+                                                    </td>
+                                                    <td>
+                                                        {{ material.equipamento.preco_atual.preco | moeda }}
+                                                    </td>
+                                                    <td>
+                                                        {{ (material.quantidade * material.equipamento.preco_atual.preco) | moeda }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="3">
+                                                    <b>Subtotal Serviço</b>
+                                                </td>
+                                                <td>
+                                                    $$$$
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ servico.obs_urbam if servico.obs_urbam else '' }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="panel-footer">
+                <h3>
+                    Subtotal Ordem de Serviço: $$$$
+                </h3>
+            </div>
+        </div>
     {% endfor %}
-    {{ ordens_servico.all() }}
 {% endblock %}

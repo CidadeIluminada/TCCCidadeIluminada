@@ -187,6 +187,7 @@ class Equipamento(db.Model):
     precos = relationship('PrecoEquipamento', backref='equipamento',
                           order_by='PrecoEquipamento.inicio_vigencia')
 
+    @property
     def preco_atual(self):
         return self.precos[0]
 
