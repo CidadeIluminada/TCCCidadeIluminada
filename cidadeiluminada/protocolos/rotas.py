@@ -6,8 +6,9 @@ from datetime import datetime, date
 from StringIO import StringIO
 from tempfile import mkstemp
 
-from flask import request, abort, redirect, url_for, jsonify, send_file, flash
-from flask.ext.admin import Admin, expose, AdminIndexView, BaseView
+
+from flask import request, abort, redirect, url_for, jsonify, send_file, flash, json
+from flask.ext.admin import Admin, expose, AdminIndexView
 from flask.ext.admin.model import typefmt, InlineFormAdmin
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
@@ -28,18 +29,54 @@ default_formatters = dict(typefmt.BASE_FORMATTERS, **{
     date: lambda view, value: utils.date_format(value),
 })
 
+_datetimepicker_locale = json.dumps({
+    "applyLabel": "Aplicar",
+    "cancelLabel": "Cancelar",
+    "fromLabel": "De",
+    "toLabel": "Até",
+    "customRangeLabel": "Customizar",
+    "daysOfWeek": [
+        "Dom",
+        "Seg",
+        "Ter",
+        "Qua",
+        "Qui",
+        "Sex",
+        "Sab"
+    ],
+    "monthNames": [
+        "Janeiro",
+        "Fevereiro",
+        "Março",
+        "Abril",
+        "Maio",
+        "Junho",
+        "Julho",
+        "Agosto",
+        "Setembro",
+        "Outubro",
+        "Novembro",
+        "Dezembro"
+    ],
+    "firstDay": 0
+})
+
 form_widget_formats = {
     u'datetime': {
-        'data-date-format': u'DD/MM/YYYY HH:mm',
+        'data-date-format': u'DD/MM/YYYY HH:mm:ss',
+        'data-locale': _datetimepicker_locale,
+        'data-separator': u' até '
     },
     u'date': {
         'data-date-format': u'DD/MM/YYYY',
+        'data-locale': _datetimepicker_locale,
+        'data-separator': u' até '
     }
 }
 
 form_args_formats = {
     u'datetime': {
-        u'format': '%d/%m/%Y %H:%M',
+        u'format': '%d/%m/%Y %H:%M:%S',
     },
     u'date': {
         'format': '%d/%m/%Y',
@@ -106,26 +143,6 @@ class IndexView(AdminIndexView):
         return self.render('admin/index_urbam.html', **ordens_servico)
 
 
-class RelatorioOrdemServicoView(BaseView):
-
-    name = u'Ordem de Serviço'
-    category = u'Relatórios'
-
-    def __init__(self, *args, **kwargs):
-        kwargs.setdefault('name', self.name)
-        kwargs.setdefault('category', self.category)
-        self.model = OrdemServico
-        super(RelatorioOrdemServicoView, self).__init__(*args, **kwargs)
-
-    def is_accessible(self):
-        has_secretaria = current_user.has_role('secretaria')
-        return current_user.is_authenticated() and has_secretaria
-
-    @expose(u'/')
-    def index(self):
-        return self.render(u'admin/relatorios/ordem_servico.html')
-
-
 class _ModelView(ModelView):
 
     category = None
@@ -183,7 +200,7 @@ class PrecoEquipamentoView(_ModelView):
         u'inicio_vigencia': form_widget_formats[u'date'],
     }
 
-    edit_template = 'admin/model/edit_modelo_datetime.html'
+    # edit_template = 'admin/model/edit_modelo_datetime.html'
 
 
 class RegiaoView(_ModelView):
@@ -374,6 +391,9 @@ class ItemManutencaoView(_ModelView):
         'criacao': u'Criação'
     }
 
+    def is_accessible(self):
+        return current_user.has_role(u'admin')
+
 
 class OrdemServicoView(_ModelView):
     def __init__(self, *args, **kwargs):
@@ -387,11 +407,12 @@ class OrdemServicoView(_ModelView):
     name = u'Ordem de Serviço'
     category = 'Protocolos'
 
+    form_args = {
+        u'criacao': form_args_formats[u'datetime'],
+    }
+
     form_widget_args = {
-        'criacao': {
-            'readonly': True,
-            'disabled': True,
-        },
+        u'criacao': form_widget_formats[u'datetime'],
     }
 
     details_template = 'admin/model/details_os.html'
@@ -411,6 +432,8 @@ class OrdemServicoView(_ModelView):
 
     _urbam_accessible = ['mostrar_pdf', 'enviar_para_servico', 'details_view',
                          'atualizar_item_manutencao']
+
+    column_filters = ['criacao']
 
     def is_accessible(self):
         if not current_user.has_role('urbam', invert_for_admin=True):
@@ -583,8 +606,6 @@ def init_app(app):
         # equipamentos
         EquipamentoView(),
         PrecoEquipamentoView(),
-        # Relatorios
-        RelatorioOrdemServicoView(),
         # usuarios
         UserView(),
         RoleView(),
