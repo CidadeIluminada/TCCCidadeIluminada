@@ -113,9 +113,9 @@
                 </tbody>
             </table>
             <div class="panel-footer">
-                <h3>
-                    Subtotal Ordem de Serviço: {{ ordem_servico.custo | moeda }}
-                </h3>
+                <h5>
+                    Subtotal: {{ ordem_servico.custo | moeda }}
+                </h5>
             </div>
         </div>
     {% endfor %}
@@ -123,10 +123,11 @@
         <div class="panel-heading">
             <h3 class="panel-title">Totais</h3>
         </div>
-        <div class="panel-body">
-            Panel content
+        <div class="panel-footer">
+            <h4>
+                Custo total: {{ total_geral | moeda }}
+            </h4>
         </div>
-        <div class="panel-footer">Panel footer</div>
     </div>
 {% endblock %}
 

@@ -581,7 +581,9 @@ class OrdemServicoView(_ModelView):
             abort(400)
         ordens_servico = self.model.query.filter(self.model.id.in_(ids), OrdemServico.confirmada) \
             .order_by(self.model.id.desc())
-        return self.render(u'admin/relatorios/ordem_servico.html', ordens_servico=ordens_servico)
+        total_geral = sum(ordem_servico.custo for ordem_servico in ordens_servico)
+        return self.render(u'admin/relatorios/ordem_servico.html', ordens_servico=ordens_servico,
+                           total_geral=total_geral)
 
     @action(u'relatorio', u'Relatório')
     def gerar_relatorio(self, ids):
