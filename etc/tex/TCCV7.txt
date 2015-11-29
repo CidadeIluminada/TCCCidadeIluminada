@@ -68,21 +68,6 @@ ________________
 
 
 
-________________
-
-
-
-
-Arthur BRESSAN
-Thais Matias NOGUEIRA
-
-
-
-
-
-
-
-
 CIDADE ILUMINADA
 
 
@@ -118,35 +103,45 @@ Profª. ???????
 Faculdade Bilac
 
 
+
+
+
+
+
+
 “Na Internet, ninguém sabe que você é um cachorro.”
 Peter Steiner
 ________________
 
 
 AGRADECIMENTOS
-(pendente)
+A Deus, pela força concedida e pela oportunidade de estar concluindo mais uma etapa da minha vida. 
+A nossos pais e familiares  por todo carinho e segurança que me foi passada. 
+Ao orientador, Prof. Marcos Reis pela ajuda e dedicação para que esse trabalho fosse concluído com sucesso. 
+Aos professores de Ciência da Computação da Faculdade Bilac, e em especial os professores Gerson Penha Neto, e Walter Abraha que sempre que solicitados se mostraram disponíveis a esclarecer dúvidas e questionamentos. 
+Aos Aos demais colegas do curso de Ciência da Computação, pelos anos de amizade que tornaram-se um grande aprendizado.
 ________________
 
 
 RESUMO
-(Pendente)
 
 
+Este trabalho apresenta um estudo sobre dispositivos móveis, explicando a implementação de um protótipo de software que auxiliará no recebimento e análise de denuncias relacionados a iluminação pública na cidade de São José dos Campos. O aplicativo foi desenvolvido em Android e será responsável por enviar estas denuncias para um ambiente web. A aplicação web será responsável por responder às requisições do aplicativo Android e processa-las de modo que a manutenção dos pontos de iluminação pública seja feita de uma maneira mais rápida e menos burocrática . 
 
 
-Palavras-chave: Lógica de programação, Aprendizado, Sistema web para aprendizagem.
+Palavras-chave: Iluminação pública, Aplicativo Android, Sistema web para manutenção.
 ________________
 
 
 
 
 ABSTRACT
-(On hold)
+This paper presents a study on mobile devices, explaining the implementation of a software prototype that will assist in receiving complaints and analysis related to street lighting in the city of São José dos Campos. The application was developed on Android and will be responsible for sending these complaints to a web environment. The web application will be responsible for responding to requests from the Android application and process them so that the maintenance of public lighting points is done in a faster and less bureaucratic way.
 
 
 
 
-Keywords: Programming Logic, Learning, Web System for Learning.
+Keywords: Public lighting system, Android Application, web system for maintenance.
 
 
 
@@ -211,6 +206,23 @@ LISTA DE ABREVIATURAS E SIGLAS
 
 
 
+EUA - Estados Unidos da América
+ANEEL - Agencia Nacional de Energia Elétrica
+URBAM - Urbanizadora Municipal
+GPS - Sistema de Posicionamento Global
+WAP - Protocolode aplicação Wireless
+SQL - Structured Query Language
+CRUD - Acrónimo de Create, Read, Update e Delete na língua Inglesa
+PDF - Formato Portátil de Documento
+HTML - HyperText Markup Language
+SSH - Secure Shell
+UTC - Tempo Coordenado Universal
+API - Interface de Programação de Aplicativos
+ORM - Mapeamento objeto-relacional
+JSON - JavaScript Object Notation
+MVC - Model-View-Controller
+
+
 
 
 
@@ -268,26 +280,46 @@ LISTA DE ABREVIATURAS E SIGLAS
 SUMÁRIO
 
 
+
+
 INTRODUÇÃO
 2. FUNDAMENTAÇÃO TEÓRICA
-2.1 Engenharia de software
+2.1 Engenharia de Software
+2.1.1 Método de desenvolvimento Agile, Kanban e Scrum
 2.2 Resolução Normativa 414
 2.3 Desenvolvimento mobile
-3. TECNOLOGIAS E FERRAMENTAS
-3.1 Java
-3.2 Android
-3.3 Javascript
-3.4 JSON
-3.5 Python
-3.6 Flask
-3.7 AngularJS
-3.8 Método de desenvolvimento Agile, Kanban e Scrum
+3. TECNOLOGIAS
+3.1 Python
+3.1.1 Flask
+3.1.2 SQLAlchemy e Flask-SQLAlchemy
+3.1.3 Flask-Migrate e alembic
+3.1.4 Flask-Admin
+3.1.5 Flask-Script
+3.1.6 xhtml2pdf
+3.1.7 fabric e fabtools
+3.1.8 unicodecsv
+3.1.9 Flask-Security
+3.3.1 GSON
+3.3.2 Joda-Time
+3.3.3 Retrofit
+3.3.4 Sugar
+3.4 JavaScript
+3.4.1 JSON
+3.4.2 AngularJS
+3.4.3 JQuery
+3.5 Representational State Transfer (REST)
 4. DESENVOLVIMENTO
-Backlog de atividades
-5. LEVANTAMENTO DE REQUISITOS
-REFERÊNCIAS
-
-
+4.1 APLICATIVO ANDROID E SEU SISTEMA DE GERENCIAMENTO
+4.1.1 Backlog de atividades
+4.1.2 Definição dos Sprints
+4.1.3 Apresentação para a Secretaria de Obras
+4.2 SISTEMA DE GERENCIAMENTO DE PONTOS DE ILUMINAÇÃO E ORDENS DE SERVIÇO
+4.2.1. Entrevista inicial ao cliente
+4.2.2 Requisitos do sistema
+5. CONCLUSÃO
+5.1 Conclusões
+5.2 Trabalhos futuros
+   
 
 
 ________________
@@ -327,7 +359,8 @@ A fase de definição, estabelece as propriedades, características, limitaçõe
 A fase de desenvolvimento, é a parte onde os desenvolvedores transformas as especificações em código. O projeto é analisado, estabelecendo a arquitetura e estrutura dos dados, seguida pela codificação numa linguagem de programação que atenta as necessidades do projeto.
 E finalmente a fase de manutenção dedica-se a aprimorar ainda amais o sistema, sendo validado pelo usuário final, que nem sempre está satisfeito. Algumas mudanças podem ocorrer no projeto final, como correções pontuais que acontecem quando usuário acha um erro, adaptações caso novos atributos precisarem ser adicionados, e por fim o aprimoramento funcional, que acontece a medida que o usuário se acostuma a utilizar o sistema, e poderá sugerir novas funcionalidades.
 2.1.1 Método de desenvolvimento Agile, Kanban e Scrum
-<< Colocar a board do trello em um apêndice >>
+
+
 O Agile foi publicado em 2001 por meio da publicação de um manifesto por Jeff Sutherland, Ken Schwaber et. al. que priorizava a rápida adaptação às novas situações, a colaboração entre si dos times de desenvolvimento, a colaboração dos times de desenvolvimento com os seus clientes e a entrega de softwares que estejam funcionando. [5]
 Apesar do Agile não ditar como o desenvolvimento deva ser feito por si só, ele é um conjunto de conceitos para que métodos, como o Kanban e o Scrum, sejam construídos.
 O Scrum consiste basicamente em separar atividades de trabalho em sprints, com o objetivo de entregar todas as atividades da forma mais completa possível, trabalhando assim de modo incremental a cada sprint até que o cliente decida que o software esteja com uma qualidade suficiente para ser entregue. Além disso, seguindo os princípios dos métodos Agile, o Scrum ajuda na colaboração intra-equipe por meio de reuniões stand-up diárias e uma reunião pós-sprint de retrospectiva e uma reunião pré-sprint para planejamento do próximo sprint. Para facilitar o planejamento, existem somente três “papéis” no Scrum: O Dono do Produto (Product Owner), o Mestre do Scrum (Scrum Master) e a Equipe (Team).
@@ -336,18 +369,21 @@ O Kanban é uma técnica que separa as atividades em estados pré-definidos pela
 2.2 Resolução Normativa 414
 
 
-<< Pesquisar o histórico de responsabilidade de quem era a manuranção e fazer um comparativo entre as eras  OK>>
+
+
 A Agência Nacional de Energia Elétrica (Aneel), determinou que a partir de janeiro de 2015, a responsabilidade da manutenção da iluminação pública será do município. Esta resolução vem de uma determinação da Constituição Federal de 1988 que, em seu artigo 149-A e conforme Emenda Constitucional número 39, de 19 de dezembro de 2002. A partir desta data limite, o município terá que arcar também com os investimentos para a ampliação e modernização da rede, instalação de medidores de acordo com a concessionária e também a manutenção do cadastro de ativos georreferenciados.
 A responsabilidade da manutenção da rede até então era das concessionarias de distribuição de energia elétrica locais. E segundo um sondagem da Confederação Nacional dos Municípios (CNM), esse transferência poderá aumentar aproximadamente até 28% a despensa anual dos municípios.[17]
 2.3 Desenvolvimento mobile
-<< Fazer um histórico do uso de celulares e smartphones
-<< Pegar estatísticas de uso de smartphone (níveis de uso, aceitação e quantidade de smartphones que usam aplicativos) no Brasil e justificar o por que do desenvolvimento mobile >>
+
+
 Durante as últimas décadas foi notável o aumento significativo do uso de dispositivos móveis, segundo o grupo Ibope[12], com diversas funções e finalidades específicas, como computadores de bolso, smartphones, telefones celular, consoles portáteis combinado com as mais diversas tecnologias como GPS, navegadores de Internet, WAP, leitores de áudio, vídeo e texto, entre outros, e juntamente com a evolução das tecnologias e o aumento do poder computacional tornou-se possível o desenvolvimento de aplicações independentes do hardware ou software do dispositivo.
 Na América Latina não foi diferente, até o ano de 2014 o Brasil possuía certa de 137 milhões de usuário,um pouco mais de 67% da população, segundo pesquisa conduzida pela eMarketer [19], que ainda prevê um aumento de mais 4 milhões de usuários até o final de 2015.
 Com base nesses dados é irrefutável o crescimento do mercado neste segmento o que propicia muitas oportunidades no desenvolvimento de aplicativos mobile. É visível a necessidade de encontrar novas soluções para os usuários de smartphones, e integrar novas tenologias a este mercado, pois a necessidade não para de crescer junto com  número de usuários. 
 ________________
-3. TECNOLOGIAS E FERRAMENTAS
+3. TECNOLOGIAS
 3.1 Python
+
+
 Python é uma linguagem de programação multiparadigma (se destacando os paradigmas orientado a objetos e funcional) , interpretada, imperativa e de alto nível; possui tipagem dinâmica e código fonte livre[9] e gratuito, que pode ser facilmente encontrado na Internet e podendo ser livremente modificado e redistribuído, e também possui fácil integração com outras plataformas como .NET, Java e C/C++.
 A linguagem foi originalmente concebida e implementada pelo holandês Guido Van Rossum no final de 1990 [10], e a ideia original era de criar um sucessor para a linguagem ABC.
 Uma das grandes vantagens de utilizar o Python é devido à comunidade que surgiu ao redor da linguagem, ocasionando portanto, em um grande número de bibliotecas (cerca de 70,000 pacotes, de acordo com o repositório central Python Package Index)[20] tanto open-source como bibliotecas de livre utilização.
@@ -355,6 +391,10 @@ O Python foi escolhido para a implementação, junto com o framework web Flask, 
 3.1.1 Flask
 Flask é um microframework para desenvolvimento web, criado em Python baseado em duas ferramentas Werkzeug e Jinja2. O Flask mantém o núcleo simples e, para isso, ele suporta extensões que são capazes de adicionar diversas funcionalidades a aplicação como por exemplo suporte a banco de dados, camadas de cache, geração de formulários, etc..[21]
 Existem vários outros frameworks de desenvolvimento web para Python, como por exemplo o Django, Pyramid, Tornado, entre outros.  O Flask foi escolhido devido a sua grande capacidade de extensão e por causa de experiências anteriores com o desenvolvimento de aplicativos Web.
+
+
+
+
 3.1.2 SQLAlchemy e Flask-SQLAlchemy
 O SQLAlchemy é um conjunto de ferramentas para operar com SQL no Python de forma abstrata, englobando assim um ORM e um conjunto de ferramentas para a utilização do SQL no Python de forma natural para os usuários de Python. [22]
 Além disso, o SQLAlchemy abstrai os principais bancos de dados, como o MySQL, PostgresSQL, Oracle e até mesmo SQLite. Isso permite a codificação do acesso ao banco de dados da aplicação sem precisar depender de qual banco específico.
@@ -384,26 +424,24 @@ O módulo csv do Python é disponibilizado na biblioteca padrão do Python para 
 Uma dessas bibliotecas e justamente o unicodecsv, que simplesmente faz o tratamento de textos em Unicode para que não ocorra erros na leitura e escrita desses arquivos com a codificação Unicode.[31]
 Ela foi escolhida pois, além de atender perfeitamente essa demanda, ela tem uma grande facilidade no seu uso, pois a sua interface e idêntica ao módulo csv padrão do Python
 3.1.9 Flask-Security
+
+
 O Flask-Security é a integração de uma série de bibliotecas do Flask relacionadas ao controle de acesso de usuários com o objetivo de facilitar a implementação desse tipo de sistema.
 Apesar de sua baixa flexibilidade, o Flask-Security foi escolhido para ser usado no controle de acesso pois ele realmente facilita a implementação e manutenção desse aspecto.
-
-
-3.2 Java
-A linguagem de programação Java foi lançada em 1995, e, desde o início de seu desenvolvimento em 1993 ela foi especificada para ser “independente de plataformas, porém segura o suficiente para atravessar redes e poderosa o suficiente para substituir código nativo”.
-O Java teve as mais diversas aplicações, sendo usado para applets para a Web, para programas desktop, para serviços em servidores, para aplicações Web e até rodando em sistemas embarcados. Essa última aplicação provavelmente possibilitando a implementação do sistema operacional para smartphones Android.
-O Java foi utilizado para a implantação do aplicativo Android do Cidade Iluminada pois é a linguagem que o sistema operacional Android usa nativamente para as aplicações, tornando assim o desenvolvimento do aplicativos de acordo com os padrões de desenvolvimento Android.
-3.3 Android
-O sistema operacional Android foi lançado pela Google no ano de 2007, e no ano de 2008 foi lançado uma API para os desenvolvedores. Desde o seu lançamento, este sistema operacional obteve grande popularidade em seu uso, chegando a ter mais de 89% do mercado brasileiro no primeiro trimestre de 2015, segundo o site Kantar Worldpanel ComTech.
-A Google provê uma API  de fácil manipulação, com código fonte aberto baseada em Java para incentivar e simplificar o desenvolvimento de aplicações, o que tem sido uma boa estratégia já que o número de aplicativos disponíveis no Android Market chegou a 1.6 milhões no último semestre de 2015.
-O sucesso do Android no mercado brasileiro, que segundo a pesquisa do site The Statistics Portal, o market share do sistema operacional chegou a mais de 77% no primeiro semestre de 2015[18], e a facilidade de desenvolvimento foram os principais motivos da escolha do uso deste para o desenvolvimento do aplicativo Cidade Iluminada.
-Foi escolhido para a implantação do projeto no sistema Android por alguns fatores importantes, como a experiência anterior de desenvolvimento neste sistema e, como se trata de um aplicativo voltado para a população em geral, a penetração do Android no mercado brasileiro[18].
+.
 3.3.1 GSON
+
+
 GSON é uma biblioteca do Google para a serialização e deserialização de objetos Java arbitrários. O objetivo desta biblioteca, além de prover essas conversões, é trabalhar com objetos que o programador não necessariamente tem o código-fonte disponível, mantendo uma interface simples (métodos fromJson e toJson) para quando for precisar converter de e para JSON. [33]
 A biblioteca foi utilizada pois ela atende a necessidade principal de tratar JSON mas ainda sendo relativamente fácil de utilizar e configurar as classes que precisam dessa conversão. 
 3.3.2 Joda-Time
+
+
 A biblioteca Joda-Time tem como objetivo retirar algumas dificuldades que a linguagem Java possui na sua biblioteca padrão de manipulação de tempos e datas.
 Ela foi utilizada para a geração de timestamps em UTC para marcar o envio das requisições do aplicativo e para gerar os nomes de arquivos das fotos tiradas pelo aplicativo. A  biblioteca Joda-Time foi escolhida para substituir a biblioteca padrão do Java nas suas proximas versões.[34]
 3.3.3 Retrofit
+
+
 A biblioteca Retrofit tem como objetivo disponibilizar ferramentas para que se possa definir APIs REST como interfaces Java para serem então usadas no código da aplicação sem maiores dificuldades. Além disso, ela disponibiliza modos de fazer requisições síncronas ou assíncronas, dependendo das necessidades de cada aplicação.[35]
 A biblioteca Retrofit foi utilizada devido a sua facilidade de utilização e adaptação à API já definida do trabalho. Houve uma primeira tentativa de implementação utilizando a biblioteca Unirest, mas devido a dificuldades de compilação da biblioteca para utilização no ecossistema Android a Unirest foi substituida pela Retrofit.[36]
 3.3.4 Sugar
@@ -423,6 +461,8 @@ AngularJS é um framework do tipo MVC (Model-View-Controller) JavaScript que tem
 O framework foi utilizado na criação da página de controle dos protocolos oriundos da aplicação Android, sendo parte fundamental da parte em tempo real desta página.
 O AngularJS foi escolhido devido a sua grande capacidade de facilitar o desenvolvimento e manutenção de páginas Web altamente interativos.
 3.4.3 JQuery
+
+
 JQuery é uma biblioteca JavaScript que tem como objetivo principal facilitar a seleção e manipulação de documentos HTML e o controle de eventos nas páginas. Além disso, o JQuery disponibiliza uma API única para todos os navegadores principais. [38]
 O JQuery foi utilizado em várias das páginas da parte de gerenciamento de protocolos e serviços, pois ela se tornou quase como a biblioteca padrão para se manipular páginas HTML por JavaScript. O principal uso da biblioteca se deu na página de criação de Ordens de Serviço, onde a parte de seleção de postes foi implementada em JQuery.
 3.5 Representational State Transfer (REST)
@@ -433,9 +473,8 @@ O REST é um estilo de arquitetura para aplicações Web proposta por Roy Thomas
 * Interface uniforme: De acordo com Fielding em sua dissertação, é a característica fundamental que aplicações REST têm de implementar. Ela consiste em padronizar todos os componentes para que as implementações de clientes e serviços sejam simplificados.
 * Sistema em camadas: Cada componente deve não conhecer ou depender de componentes de que este componente não precise interagir. A principal vantagem, de acordo com Fielding, é que o sistema em camadas pode ser usado para encapsular clientes e serviços legados
 * “Code-on-demand”: A aplicação REST teria que oferecer um conjunto de recursos que viriam como código a ser executado no cliente. Este código seria como uma interface mínima da aplicação para o cliente consumir. A principal vantagem de implementar o Code-on-demand seria que, a parte básica da API não precisaria ser reimplementada pelo cliente. É o único quesito opcional para que uma interface fosse considerada como REST.
-3.6 Levantamento de requisitos
-Quando pensamos em qualidade de software, o foco está em entender os requisitos estabelecidos para assim evitar, ou minimizar a insatisfação do cliente final. Segundo Carvalho, Tavares [14] “A demanda por qualidade tem estimulado a comunidade de software para o desenvolvimento de modelos que conduzam a qualidade dos sistemas. Existe uma forte ligação entre requisitos e qualidade. ” 
-Em um sistema computacional, os requisitos definem o escopo e os serviços que o sistema deve oferecer, assim como as restrições que são aplicáveis a suas operações. 
+
+
 
 
 ________________
@@ -519,6 +558,12 @@ Não existe, é pelo número da casa mais próxima ao poste.
 12). Vocês atualizam informações sobre cada ocorrência após o retorno da ordem de serviço? Se sim, o que vocês atualizam?
 Sim, a URBAM retorna uma planilha com as tarefas executadas e o que foi trocado, e após, estas informações são colocadas numa planilha chamada “Executados”, e depois é respondido para o munícipe no 156.
 4.2.2 Requisitos do sistema
+
+
+Quando pensamos em qualidade de software, o foco está em entender os requisitos estabelecidos para assim evitar, ou minimizar a insatisfação do cliente final. Segundo Carvalho, Tavares [14] “A demanda por qualidade tem estimulado a comunidade de software para o desenvolvimento de modelos que conduzam a qualidade dos sistemas. Existe uma forte ligação entre requisitos e qualidade. ” 
+Em um sistema computacional, os requisitos definem o escopo e os serviços que o sistema deve oferecer, assim como as restrições que são aplicáveis a suas operações. 
+
+
 De acordo com as respostas levantadas na reunião com a Cíntia, foram então levantados os seguintes requisitos funcionais:
 RF01: O sistema deverá fazer a coleta automática dos protocolos no sistema do 156 direcionados para a secretaria de obras.
 RF02: O sistema deverá fazer essa coleta e, de acordo com a informação de cada protocolo, separar em bairros e regiões corretas para cada endereço.
@@ -531,7 +576,6 @@ RF08: O sistema deverá permitir que se faça buscas na base de postes e protoco
 ________________
 
 
-________________
 
 
 
@@ -539,14 +583,19 @@ ________________
 5. CONCLUSÃO
 
 
-<< Retomar um pouco da introdução >>
-A gestão da prefeitura de SJC é burocrática e ineficiente, refletindo assim no atendimento de várias partes da administração do município, vistas principalmente na gestão de manutenção de chamados de iluminação pública.
+5.1 Conclusões
 
 
-<< Benchmarks de atendimento de chamados do 156 comparando o sistma anterior com o Cidade Iluminada>>
-<< Coletar o que eles disseram para melhorar (layout usabilidade) >>
-<< Comparar custos de desenvolvimento e implantação do software >>
-________________
+A gestão de pendencias relativas a iluminação pública da prefeitura de São José dos Campos é burocrática, o que reflete na lentidão do atendimento e manutenção de um serviço tão essencial ao bem estar e segurança da população. O fato da responsabilidade pela manutenção ter sido passada para as prefeituras recentemente também é um fator crítico no desempenho do atendimento, já que as prefeituras tiveram que se adaptar rapidamente.
+Partindo desta problemática, incentivados pela ideia de agilizar este processo, desenvolvemos o projeto Cidade Iluminada, onde o ambiente web, que que passou pela validação da equipe da Secretaria de Obras da Prefeitura Municipal de São José dos Campos provou reduzir a carga de trabalho e facilitar o recolhimento e análise das denuncias recebidas, automatizando um trabalho que era feito manualmente. 
+Infelizmente o aplicativo ainda não será disponibilizado para os munícipes a pedido do cliente, que alega que este canal de denuncias poderia  neste primeiro momento congestionar os recebimentos de denuncias já que a equipe ainda não possui um processo estruturado para a demanda, o aplicativo será usado por funcionários para a identificação de pontos de iluminação defeituosos.
+
+
+5.2 Trabalhos futuros
+        
+Como trabalho futuro, foi proposto que o aplicativo seja liberado para o uso dos munícipes, integrando ao ambiente web para que ele receba as denúncias diretamente. Para que o aplicativo seja liberado, também é necessário que além de Android seja desenvolvido para iOS assim alcançando todos os públicos.
+Relacionado ao trabalho em questão, seria interessante que futuramente novas funcionalidades sejam integradas, utilizando o aplicativo para outras utilizações além de denuncias relacionadas a iluminação pública. 
+Uma outra possibilidade é a melhoria da interface gráfica, tornando o ambiente web mais amigável para o uso de funcionários com vários níveis de conhecimento.
 
 
 
