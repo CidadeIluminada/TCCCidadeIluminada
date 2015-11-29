@@ -100,6 +100,11 @@ class Servico(db.Model):
 
     confirmado = Column(Boolean, default=False)
 
+    @property
+    def custo(self):
+        return sum(material.equipamento.preco_periodo(self.resolucao).preco * material.quantidade
+                   for material in self.material)
+
     @validates('confirmado')
     def validate_confirmado(self, key, confirmado):
         if not confirmado:
@@ -177,6 +182,10 @@ class OrdemServico(db.Model):
 
     servicos = relationship('Servico', backref='ordem_servico', order_by='Servico.id')
 
+    @property
+    def custo(self):
+        return sum(servico.custo for servico in self.servicos)
+
 
 class Equipamento(db.Model):
     id = Column(Integer, primary_key=True)
@@ -185,11 +194,17 @@ class Equipamento(db.Model):
     ativo = Column(Boolean, default=True)
 
     precos = relationship('PrecoEquipamento', backref='equipamento',
-                          order_by='PrecoEquipamento.inicio_vigencia')
+                          order_by='PrecoEquipamento.inicio_vigencia.desc()')
 
     @property
     def preco_atual(self):
-        return self.precos[0]
+        return self.preco_periodo(datetime.today())
+
+    def preco_periodo(self, periodo):
+        precos_vigentes = PrecoEquipamento.query.filter_by(equipamento=self) \
+            .filter(PrecoEquipamento.inicio_vigencia < periodo) \
+            .order_by(PrecoEquipamento.inicio_vigencia.desc()).all()
+        return precos_vigentes[0]
 
     materiais = relationship('Material', backref='equipamento')
 
@@ -213,6 +228,9 @@ class PrecoEquipamento(db.Model):
     inicio_vigencia = Column(Date, default=date.today)
 
     equipamento_id = Column(Integer, ForeignKey('equipamento.id'))
+
+    def __repr__(self):
+        return u'{} - {} - {}'.format(self.equipamento.abreviacao, self.inicio_vigencia, self.preco)
 
 
 def init_app(app):

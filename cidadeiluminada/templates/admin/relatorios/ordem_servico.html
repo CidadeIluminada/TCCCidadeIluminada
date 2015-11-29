@@ -70,6 +70,7 @@
                                         </thead>
                                         <tbody>
                                             {% for material in servico.material %}
+                                                {% set preco_equipamento = material.equipamento.preco_periodo(servico.resolucao).preco %}
                                                 <tr>
                                                     <td>
                                                         {{ material.equipamento.nome }}
@@ -78,10 +79,10 @@
                                                         {{ material.quantidade }}
                                                     </td>
                                                     <td>
-                                                        {{ material.equipamento.preco_atual.preco | moeda }}
+                                                        {{ preco_equipamento | moeda }}
                                                     </td>
                                                     <td>
-                                                        {{ (material.quantidade * material.equipamento.preco_atual.preco) | moeda }}
+                                                        {{ (material.quantidade * preco_equipamento) | moeda }}
                                                     </td>
                                                 </tr>
                                             {% endfor %}
@@ -92,7 +93,7 @@
                                                     <b>Subtotal Serviço</b>
                                                 </td>
                                                 <td>
-                                                    $$$$
+                                                    {{ servico.custo | moeda }}
                                                 </td>
                                             </tr>
                                         </tfoot>
@@ -108,9 +109,18 @@
             </table>
             <div class="panel-footer">
                 <h3>
-                    Subtotal Ordem de Serviço: $$$$
+                    Subtotal Ordem de Serviço: {{ ordem_servico.custo | moeda }}
                 </h3>
             </div>
         </div>
     {% endfor %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Totais</h3>
+        </div>
+        <div class="panel-body">
+            Panel content
+        </div>
+        <div class="panel-footer">Panel footer</div>
+    </div>
 {% endblock %}
