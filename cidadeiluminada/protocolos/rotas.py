@@ -200,8 +200,6 @@ class PrecoEquipamentoView(_ModelView):
         u'inicio_vigencia': form_widget_formats[u'date'],
     }
 
-    # edit_template = 'admin/model/edit_modelo_datetime.html'
-
 
 class RegiaoView(_ModelView):
     model = Regiao
