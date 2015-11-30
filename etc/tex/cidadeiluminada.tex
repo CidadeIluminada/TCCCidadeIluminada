@@ -33,7 +33,7 @@
 	11pt,				% tamanho da fonte
 	oneside,			% para impressão apenas no verso. Oposto a twoside
 	a4paper,			% tamanho do papel.
-    twocolumn,
+    % twocolumn,
 	% -- opções da classe abntex2 --
 	%chapter=TITLE,		% títulos de capítulos convertidos em letras maiúsculas
 	%section=TITLE,		% títulos de seções convertidos em letras maiúsculas
@@ -325,7 +325,7 @@ O Agile foi publicado em 2001 por meio da publicação de um manifesto por Jeff
 Sutherland, Ken Schwaber et. al. que priorizava a rápida adaptação às novas
 situações, a colaboração entre si dos times de desenvolvimento, a colaboração dos
 times de desenvolvimento com os seus clientes e a entrega de softwares que estejam
-funcionando. [5]
+funcionando. \cite{agilemanifesto}
 
 Apesar do Agile não ditar como o desenvolvimento deva ser feito por si só, ele
 é um conjunto de conceitos para que métodos, como o Kanban e o Scrum, sejam
@@ -346,7 +346,7 @@ implementação do produto baseado nas necessidades do Dono, que é responsável
 demonstrar os seus requisitos. O Mestre do Scrum é responsável por além de
 transformar os requisitos do Dono em atividades que podem ser divididas entre os
 membros da Equipe, é responsável principalmente por gerenciar a equipe para que
-as atividades sejam cumpridas em cada sprint. [6]
+as atividades sejam cumpridas em cada sprint. \cite{scrum}
 
 O Kanban é uma técnica que separa as atividades em estados pré-definidos pela
 equipe que a utiliza, e é utilizada principalmente para visualizar o progresso
@@ -354,136 +354,317 @@ de diferentes atividades dentro de um contexto. Por si só, o Kanban não diz co
 introduzir novos processos, mas sim como montar os processos existentes, como o
 Scrum, de forma visual.
 
-A norma ABNT NBR 6022:2003 não estabelece uma margem específica a ser utilizada
-no artigo científico. Dessa maneira, caso deseje alterar as margens, utilize os
-comandos abaixo:
+\subsection{Resolução Normativa 414}
 
-\begin{verbatim}
-   \setlrmarginsandblock{3cm}{3cm}{*}
-   \setulmarginsandblock{3cm}{3cm}{*}
-   \checkandfixthelayout
-\end{verbatim}
+A Agência Nacional de Energia Elétrica (Aneel), determinou que a partir de janeiro
+de 2015, a responsabilidade da manutenção da iluminação pública será do município.
+Esta resolução vem de uma determinação da Constituição Federal de 1988 que,
+em seu artigo 149-A e conforme Emenda Constitucional número 39, de 19 de dezembro
+de 2002. A partir desta data limite, o município terá que arcar também com os
+investimentos para a ampliação e modernização da rede, instalação de medidores
+de acordo com a concessionária e também a manutenção do cadastro de ativos
+georreferenciados.
 
-\subsection{Duas colunas}
+A responsabilidade da manutenção da rede até então era das concessionarias de
+distribuição de energia elétrica locais. E segundo um sondagem da Confederação
+Nacional dos Municípios (CNM), esse transferência poderá aumentar aproximadamente
+até 28\% a despensa anual dos municípios.\cite{cdu}
 
-É comum que artigos científicos sejam escritos em duas colunas. Para isso,
-adicione a opção \texttt{twocolumn} à classe do documento, como no exemplo:
+\subsection{Desenvolvimento mobile}
 
-\begin{verbatim}
-   \documentclass[article,11pt,oneside,a4paper,twocolumn]{abntex2}
-\end{verbatim}
+Durante as últimas décadas foi notável o aumento significativo do uso de
+dispositivos móveis, segundo o grupo Ibope[12], com diversas funções e finalidades
+ específicas, como computadores de bolso, smartphones, telefones celular,
+ consoles portáteis combinado com as mais diversas tecnologias como GPS,
+ navegadores de Internet, WAP, leitores de áudio, vídeo e texto, entre outros,
+ e juntamente com a evolução das tecnologias e o aumento do poder computacional
+ tornou-se possível o desenvolvimento de aplicações independentes do hardware ou
+ software do dispositivo.
 
-É possível indicar pontos do texto que se deseja manter em apenas uma coluna,
-geralmente o título e os resumos. Os resumos em única coluna em documentos com
-a opção \texttt{twocolumn} devem ser escritos no ambiente
-\texttt{resumoumacoluna}:
+Na América Latina não foi diferente, até o ano de 2014 o Brasil possuía certa
+de 137 milhões de usuário,um pouco mais de 67\% da população, segundo pesquisa
+conduzida pela eMarketer [19], que ainda prevê um aumento de mais 4 milhões de
+usuários até o final de 2015.
 
-\begin{verbatim}
-   \twocolumn[              % INICIO DE ARTIGO EM DUAS COLUNAS
+Com base nesses dados é irrefutável o crescimento do mercado neste segmento o
+que propicia muitas oportunidades no desenvolvimento de aplicativos mobile.
+É visível a necessidade de encontrar novas soluções para os usuários de
+smartphones, e integrar novas tenologias a este mercado, pois a necessidade
+ não para de crescer junto com  número de usuários.
 
-     \maketitle             % pagina de titulo
+\section{Tecnologias}
 
-     \renewcommand{\resumoname}{Nome do resumo}
-     \begin{resumoumacoluna}
-        Texto do resumo.
+As tecnologias utilizadas foram escolhidas de acordo com o seu nicho específico,
+tendo em mente que cada uma delas cumpre um papel importante para entregar uma
+solução de qualidade para o cliente.
 
-        \vspace{\onelineskip}
+\subsection{Python}
 
-        \noindent
-        \textbf{Palavras-chave}: latex. abntex. editoração de texto.
-     \end{resumoumacoluna}
+Python é uma linguagem de programação multiparadigma (se destacando os paradigmas
+orientado a objetos e funcional) , interpretada, imperativa e de alto nível;
+possui tipagem dinâmica e código fonte livre \cite{pythonlicense} e gratuito, que pode ser
+facilmente encontrado na Internet e podendo ser livremente modificado e
+redistribuído, e também possui fácil integração com outras plataformas como
+.NET, Java e C/C++.
 
-   ]                        % FIM DE ARTIGO EM DUAS COLUNAS
-\end{verbatim}
+A linguagem foi originalmente concebida e implementada pelo holandês Guido Van
+Rossum no início da década de 1990 \cite{pythonlicense}, e a ideia original era de criar um sucessor para
+a linguagem ABC.
 
-\subsection{Recuo do ambiente \texttt{citacao}}
+Uma das grandes vantagens de utilizar o Python é devido à comunidade que surgiu
+ao redor da linguagem, ocasionando portanto, em um grande número de bibliotecas
+(cerca de 70,000 pacotes, de acordo com o repositório central Python Package
+Index)\cite{pypi} tanto open-source como bibliotecas de livre utilização.
 
-Na produção de artigos (opção \texttt{article}), pode ser útil alterar o recuo
-do ambiente \texttt{citacao}. Nesse caso, utilize o comando:
+O Python foi escolhido para a implementação, junto com o framework web Flask,
+devido a sua facilidade e velocidade de implementação, além de experiência
+anteriores com o Python e com o framework Flask.
 
-\begin{verbatim}
-   \setlength{\ABNTEXcitacaorecuo}{1.8cm}
-\end{verbatim}
+\subsubsection{Flask}
 
-Quando um documento é produzido com a opção \texttt{twocolumn}, a classe
-\textsf{abntex2} automaticamente altera o recuo padrão de 4 cm, definido pela
-ABNT NBR 10520:2002 seção 5.3, para 1.8 cm.
+dasdasdasds
 
-\section{Cabeçalhos e rodapés customizados}
+\subsubsection{SQLAlchemy e Flask-SQLAlchemy}
 
-Diferentes estilos de cabeçalhos e rodapés podem ser criados usando os
-recursos padrões do \textsf{memoir}.
+dasdasdasds
 
-Um estilo próprio de cabeçalhos e rodapés pode ser diferente para páginas pares
-e ímpares. Observe que a diferenciação entre páginas pares e ímpares só é
-utilizada se a opção \texttt{twoside} da classe \textsf{abntex2} for utilizado.
-Caso contrário, apenas o cabeçalho padrão da página par (\emph{even}) é usado.
+\subsubsection{Flask-Migrate e alembic}
 
-Veja o exemplo abaixo cria um estilo chamado \texttt{meuestilo}. O código deve
-ser inserido no preâmbulo do documento.
+dasdasdasds
 
-\begin{verbatim}
-%%criar um novo estilo de cabeçalhos e rodapés
-\makepagestyle{meuestilo}
-  %%cabeçalhos
-  \makeevenhead{meuestilo} %%pagina par
-     {topo par à esquerda}
-     {centro \thepage}
-     {direita}
-  \makeoddhead{meuestilo} %%pagina ímpar ou com oneside
-     {topo ímpar/oneside à esquerda}
-     {centro\thepage}
-     {direita}
-  \makeheadrule{meuestilo}{\textwidth}{\normalrulethickness} %linha
-  %% rodapé
-  \makeevenfoot{meuestilo}
-     {rodapé par à esquerda} %%pagina par
-     {centro \thepage}
-     {direita}
-  \makeoddfoot{meuestilo} %%pagina ímpar ou com oneside
-     {rodapé ímpar/onside à esquerda}
-     {centro \thepage}
-     {direita}
-\end{verbatim}
+\subsubsection{Flask-Admin}
 
-Para usar o estilo criado, use o comando abaixo imediatamente após um dos
-comandos de divisão do documento. Por exemplo:
+dasdasdasds
 
-\begin{verbatim}
-   \begin{document}
-     %%usar o estilo criado na primeira página do artigo:
-     \pretextual
-     \pagestyle{meuestilo}
+\subsubsection{Flask-Script}
 
-     \maketitle
-     ...
+dasdasdasds
 
-     %%usar o estilo criado nas páginas textuais
-     \textual
-     \pagestyle{meuestilo}
+\subsubsection{xhtml2pdf}
 
-     \chapter{Novo capítulo}
-     ...
-   \end{document}
-\end{verbatim}
+dasdasdasds
 
-Outras informações sobre cabeçalhos e rodapés estão disponíveis na seção 7.3 do
-manual do \textsf{memoir} \cite{memoir}.
+\subsubsection{fabric e fabtools}
 
-\section{Mais exemplos no Modelo Canônico de Trabalhos Acadêmicos}
+dasdasdasds
 
-Este modelo de artigo é limitado em número de exemplos de comandos, pois são
-apresentados exclusivamente comandos diretamente relacionados com a produção de
-artigos.
+\subsubsection{unicodecsv}
 
-Para exemplos adicionais de \abnTeX\ e \LaTeX, como inclusão de figuras,
-fórmulas matemáticas, citações, e outros, consulte o documento
-\citeonline{abntex2modelo}.
+dasdasdasds
 
-\section{Consulte o manual da classe \textsf{abntex2}}
+\subsubsection{Flask-Security}
 
-Consulte o manual da classe \textsf{abntex2} \cite{abntex2classe} para uma
-referência completa das macros e ambientes disponíveis.
+dasdasdasds
+
+
+\subsection{Java}
+
+dasdasdasds
+
+\subsubsection{Android}
+
+dasdasdasds
+
+\subsubsection{GSON}
+
+dasdasdasds
+
+\subsubsection{Joda-Time}
+
+dasdasdasds
+
+\subsubsection{Retrofit}
+
+dasdasdasds
+
+\subsubsection{Sugar}
+
+dasdasdasds
+
+\subsection{JavaScript}
+
+dasdasdasds
+
+\subsubsection{JSON}
+
+dasdasdasds
+
+\subsubsection{AngularJS}
+
+dasdasdasds
+
+\subsubsection{JQuery}
+
+dasdasdasds
+
+
+\subsection{Representational State Transfer (REST)}
+
+dasdasdasds
+
+
+\section{Desenvolvimento}
+
+dasdasdasds
+
+
+\subsection{Aplicativo Android e seu sistema de gerenciamento}
+
+dasdasdasds
+
+\subsubsection{Backlog de atividades}
+
+dasdasdasds
+
+\subsubsection{Definição dos Sprints}
+
+dasdasdasds
+
+\subsubsection{Apresentação para a Secretaria de Obras}
+
+dasdasdasds
+
+
+\subsection{Sistema de gerenciamento de pontos de iluminação de ordens de serviço}
+
+dasdasdasds
+
+\subsubsection{Entrevista inicial ao cliente}
+
+dasdasdasds
+
+\subsubsection{Requisitos do sistema}
+
+dasdasdasds
+
+
+
+% \begin{verbatim}
+%    \setlrmarginsandblock{3cm}{3cm}{*}
+%    \setulmarginsandblock{3cm}{3cm}{*}
+%    \checkandfixthelayout
+% \end{verbatim}
+
+% \subsection{Duas colunas}
+
+% É comum que artigos científicos sejam escritos em duas colunas. Para isso,
+% adicione a opção \texttt{twocolumn} à classe do documento, como no exemplo:
+
+% \begin{verbatim}
+%    \documentclass[article,11pt,oneside,a4paper,twocolumn]{abntex2}
+% \end{verbatim}
+
+% É possível indicar pontos do texto que se deseja manter em apenas uma coluna,
+% geralmente o título e os resumos. Os resumos em única coluna em documentos com
+% a opção \texttt{twocolumn} devem ser escritos no ambiente
+% \texttt{resumoumacoluna}:
+
+% \begin{verbatim}
+%    \twocolumn[              % INICIO DE ARTIGO EM DUAS COLUNAS
+
+%      \maketitle             % pagina de titulo
+
+%      \renewcommand{\resumoname}{Nome do resumo}
+%      \begin{resumoumacoluna}
+%         Texto do resumo.
+
+%         \vspace{\onelineskip}
+
+%         \noindent
+%         \textbf{Palavras-chave}: latex. abntex. editoração de texto.
+%      \end{resumoumacoluna}
+
+%    ]                        % FIM DE ARTIGO EM DUAS COLUNAS
+% \end{verbatim}
+
+% \subsection{Recuo do ambiente \texttt{citacao}}
+
+% Na produção de artigos (opção \texttt{article}), pode ser útil alterar o recuo
+% do ambiente \texttt{citacao}. Nesse caso, utilize o comando:
+
+% \begin{verbatim}
+%    \setlength{\ABNTEXcitacaorecuo}{1.8cm}
+% \end{verbatim}
+
+% Quando um documento é produzido com a opção \texttt{twocolumn}, a classe
+% \textsf{abntex2} automaticamente altera o recuo padrão de 4 cm, definido pela
+% ABNT NBR 10520:2002 seção 5.3, para 1.8 cm.
+
+% \section{Cabeçalhos e rodapés customizados}
+
+% Diferentes estilos de cabeçalhos e rodapés podem ser criados usando os
+% recursos padrões do \textsf{memoir}.
+
+% Um estilo próprio de cabeçalhos e rodapés pode ser diferente para páginas pares
+% e ímpares. Observe que a diferenciação entre páginas pares e ímpares só é
+% utilizada se a opção \texttt{twoside} da classe \textsf{abntex2} for utilizado.
+% Caso contrário, apenas o cabeçalho padrão da página par (\emph{even}) é usado.
+
+% Veja o exemplo abaixo cria um estilo chamado \texttt{meuestilo}. O código deve
+% ser inserido no preâmbulo do documento.
+
+% \begin{verbatim}
+% %%criar um novo estilo de cabeçalhos e rodapés
+% \makepagestyle{meuestilo}
+%   %%cabeçalhos
+%   \makeevenhead{meuestilo} %%pagina par
+%      {topo par à esquerda}
+%      {centro \thepage}
+%      {direita}
+%   \makeoddhead{meuestilo} %%pagina ímpar ou com oneside
+%      {topo ímpar/oneside à esquerda}
+%      {centro\thepage}
+%      {direita}
+%   \makeheadrule{meuestilo}{\textwidth}{\normalrulethickness} %linha
+%   %% rodapé
+%   \makeevenfoot{meuestilo}
+%      {rodapé par à esquerda} %%pagina par
+%      {centro \thepage}
+%      {direita}
+%   \makeoddfoot{meuestilo} %%pagina ímpar ou com oneside
+%      {rodapé ímpar/onside à esquerda}
+%      {centro \thepage}
+%      {direita}
+% \end{verbatim}
+
+% Para usar o estilo criado, use o comando abaixo imediatamente após um dos
+% comandos de divisão do documento. Por exemplo:
+
+% \begin{verbatim}
+%    \begin{document}
+%      %%usar o estilo criado na primeira página do artigo:
+%      \pretextual
+%      \pagestyle{meuestilo}
+
+%      \maketitle
+%      ...
+
+%      %%usar o estilo criado nas páginas textuais
+%      \textual
+%      \pagestyle{meuestilo}
+
+%      \chapter{Novo capítulo}
+%      ...
+%    \end{document}
+% \end{verbatim}
+
+% Outras informações sobre cabeçalhos e rodapés estão disponíveis na seção 7.3 do
+% manual do \textsf{memoir} \cite{memoir}.
+
+% \section{Mais exemplos no Modelo Canônico de Trabalhos Acadêmicos}
+
+% Este modelo de artigo é limitado em número de exemplos de comandos, pois são
+% apresentados exclusivamente comandos diretamente relacionados com a produção de
+% artigos.
+
+% Para exemplos adicionais de \abnTeX\ e \LaTeX, como inclusão de figuras,
+% fórmulas matemáticas, citações, e outros, consulte o documento
+% \citeonline{abntex2modelo}.
+
+% \section{Consulte o manual da classe \textsf{abntex2}}
+
+% Consulte o manual da classe \textsf{abntex2} \cite{abntex2classe} para uma
+% referência completa das macros e ambientes disponíveis.
 
 % ---
 % Finaliza a parte no bookmark do PDF, para que se inicie o bookmark na raiz
@@ -497,13 +678,45 @@ referência completa das macros e ambientes disponíveis.
 \section*{Considerações finais}
 \addcontentsline{toc}{section}{Considerações finais}
 
-\lipsum[1]
+A gestão de pendencias relativas a iluminação pública da prefeitura de São José
+dos Campos é burocrática, o que reflete na lentidão do atendimento e manutenção
+de um serviço tão essencial ao bem estar e segurança da população. O fato da
+responsabilidade pela manutenção ter sido passada para as prefeituras recentemente
+também é um fator crítico no desempenho do atendimento, já que as prefeituras
+tiveram que se adaptar rapidamente.
 
-\begin{citacao}
-\lipsum[2]
-\end{citacao}
+Partindo desta problemática, incentivados pela ideia de agilizar este processo,
+desenvolvemos o projeto Cidade Iluminada, onde o ambiente web, que que passou
+pela validação da equipe da Secretaria de Obras da Prefeitura Municipal de São
+José dos Campos provou reduzir a carga de trabalho e facilitar o recolhimento e
+análise das denuncias recebidas, automatizando um trabalho que era feito manualmente.
 
-\lipsum[3]
+Infelizmente o aplicativo ainda não será disponibilizado para os munícipes a
+pedido do cliente, que alega que este canal de denuncias poderia  neste primeiro
+momento congestionar os recebimentos de denuncias já que a equipe ainda não
+possui um processo estruturado para a demanda, o aplicativo será usado por
+funcionários para a identificação de pontos de iluminação defeituosos.
+
+Como trabalho futuro, foi proposto que o aplicativo seja liberado para o uso
+dos munícipes, integrando ao ambiente web para que ele receba as denúncias
+diretamente. Para que o aplicativo seja liberado, também é necessário que
+além de Android seja desenvolvido para iOS assim alcançando todos os públicos.
+
+Relacionado ao trabalho em questão, seria interessante que futuramente novas
+funcionalidades sejam integradas, utilizando o aplicativo para outras
+utilizações além de denuncias relacionadas a iluminação pública.
+
+Uma outra possibilidade é a melhoria da interface gráfica, tornando o ambiente
+web mais amigável para o uso de funcionários com vários níveis de conhecimento.
+
+
+% \lipsum[1]
+
+% \begin{citacao}
+% \lipsum[2]
+% \end{citacao}
+
+% \lipsum[3]
 
 % ----------------------------------------------------------
 % ELEMENTOS PÓS-TEXTUAIS
@@ -517,7 +730,7 @@ referência completa das macros e ambientes disponíveis.
 % \twocolumn[    		% INICIO DE ARTIGO EM DUAS COLUNAS
 
 % titulo em inglês
-\titulo{Canonical academic article model with \abnTeX}
+\titulo{Public lighting maintenance management system \\ CidadeIluminada}
 \emptythanks
 \maketitle
 
@@ -564,34 +777,34 @@ referência completa das macros e ambientes disponíveis.
 % ---
 % Inicia os apêndices
 % ---
-\begin{apendicesenv}
+% \begin{apendicesenv}
 
-% ----------------------------------------------------------
-\chapter{Nullam elementum urna vel imperdiet sodales elit ipsum pharetra ligula
-ac pretium ante justo a nulla curabitur tristique arcu eu metus}
-% ----------------------------------------------------------
-\lipsum[55-57]
+% % ----------------------------------------------------------
+% \chapter{Nullam elementum urna vel imperdiet sodales elit ipsum pharetra ligula
+% ac pretium ante justo a nulla curabitur tristique arcu eu metus}
+% % ----------------------------------------------------------
+% \lipsum[55-57]
 
-\end{apendicesenv}
+% \end{apendicesenv}
 % ---
 
 % ----------------------------------------------------------
 % Anexos
 % ----------------------------------------------------------
-\cftinserthook{toc}{AAA}
-% ---
-% Inicia os anexos
-% ---
-%\anexos
-\begin{anexosenv}
+% \cftinserthook{toc}{AAA}
+% % ---
+% % Inicia os anexos
+% % ---
+% %\anexos
+% \begin{anexosenv}
 
-% ---
-\chapter{Cras non urna sed feugiat cum sociis natoque penatibus et magnis dis
-parturient montes nascetur ridiculus mus}
-% ---
+% % ---
+% \chapter{Cras non urna sed feugiat cum sociis natoque penatibus et magnis dis
+% parturient montes nascetur ridiculus mus}
+% % ---
 
-\lipsum[31]
+% \lipsum[31]
 
-\end{anexosenv}
+% \end{anexosenv}
 
 \end{document}

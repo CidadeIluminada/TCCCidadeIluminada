@@ -1,266 +1,4 @@
-﻿http://www.ibta.com.br/images/logo.png
-
-IBTA-BILAC - INSTITUTO BRASILEIRO DE TECNOLOGIA AVANÇADA DE SÃO JOSÉ DOS CAMPOS
-
-
-
-
-Abstract
-
-
-Este trabalho apresenta um estudo sobre dispositivos móveis, explicando a implementação de um protótipo de software que auxiliará no recebimento e análise de denuncias relacionados a iluminação pública na cidade de São José dos Campos. O aplicativo foi desenvolvido em Android e será responsável por enviar estas denuncias para um ambiente web. A aplicação web será responsável por responder às requisições do aplicativo Android e processa-las de modo que a manutenção dos pontos de iluminação pública seja feita de uma maneira mais rápida e menos burocrática .
-
-
-Palavras-chave: Iluminação pública, Aplicativo Android, Sistema web para manutenção.
-________________
-
-
-
-
-ABSTRACT
-This paper presents a study on mobile devices, explaining the implementation of a software prototype that will assist in receiving complaints and analysis related to street lighting in the city of São José dos Campos. The application was developed on Android and will be responsible for sending these complaints to a web environment. The web application will be responsible for responding to requests from the Android application and process them so that the maintenance of public lighting points is done in a faster and less bureaucratic way.
-
-
-
-
-Keywords: Public lighting system, Android Application, web system for maintenance.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Índice de Figuras
-
-
-
-________________
-
-
-LISTA DE ABREVIATURAS E SIGLAS
-
-
-
-
-EUA - Estados Unidos da América
-ANEEL - Agencia Nacional de Energia Elétrica
-URBAM - Urbanizadora Municipal
-GPS - Sistema de Posicionamento Global
-WAP - Protocolode aplicação Wireless
-SQL - Structured Query Language
-CRUD - Acrónimo de Create, Read, Update e Delete na língua Inglesa
-PDF - Formato Portátil de Documento
-HTML - HyperText Markup Language
-SSH - Secure Shell
-UTC - Tempo Coordenado Universal
-API - Interface de Programação de Aplicativos
-ORM - Mapeamento objeto-relacional
-JSON - JavaScript Object Notation
-MVC - Model-View-Controller
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-SUMÁRIO
-
-
-
-
-INTRODUÇÃO
-2. FUNDAMENTAÇÃO TEÓRICA
-2.1 Engenharia de Software
-2.1.1 Método de desenvolvimento Agile, Kanban e Scrum
-2.2 Resolução Normativa 414
-2.3 Desenvolvimento mobile
-3. TECNOLOGIAS
-3.1 Python
-3.1.1 Flask
-3.1.2 SQLAlchemy e Flask-SQLAlchemy
-3.1.3 Flask-Migrate e alembic
-3.1.4 Flask-Admin
-3.1.5 Flask-Script
-3.1.6 xhtml2pdf
-3.1.7 fabric e fabtools
-3.1.8 unicodecsv
-3.1.9 Flask-Security
-3.3.1 GSON
-3.3.2 Joda-Time
-3.3.3 Retrofit
-3.3.4 Sugar
-3.4 JavaScript
-3.4.1 JSON
-3.4.2 AngularJS
-3.4.3 JQuery
-3.5 Representational State Transfer (REST)
-4. DESENVOLVIMENTO
-4.1 APLICATIVO ANDROID E SEU SISTEMA DE GERENCIAMENTO
-4.1.1 Backlog de atividades
-4.1.2 Definição dos Sprints
-4.1.3 Apresentação para a Secretaria de Obras
-4.2 SISTEMA DE GERENCIAMENTO DE PONTOS DE ILUMINAÇÃO E ORDENS DE SERVIÇO
-4.2.1. Entrevista inicial ao cliente
-4.2.2 Requisitos do sistema
-5. CONCLUSÃO
-5.1 Conclusões
-5.2 Trabalhos futuros
-
-
-
-________________
-
-
-
-
-1. INTRODUÇÃO
-
-
-A Iluminação pública é um instrumento de cidadania, pois é um item essencial à qualidade de vida e a segurança dos centros urbanos, ajudando a preservar e embelezar os patrimônios públicos e a prática de diversas atividade noturnas no espaço público.
-Segundo Aver[1] a falta de iluminação contribui consideravelmente com o aumento dos índices de criminalidade e a falta de segurança dos cidadãos que por algum motivo tem que transitar no período noturno por pontos sem iluminação, ou com iluminação precária. Estudos feitos pela organização Campbell Collaboration[2], mostraram que a melhoria na iluminação pública em algumas cidades do Reino Unido e EUA, ajudaram a reduzir a criminalidade em até 21%, e concluiu que esta melhoria promoveu o aumento da vigilância da comunidade, que atuou como elemento inibidor contra a criminalidade local.
-Os responsáveis pela instalação e manutenção da iluminação pública dos municípios no Brasil mudou em dezembro de 2014. Até então, elas eram feitas pelo estado, normalmente através das concessionárias de energia elétrica. Agora é a própria prefeitura que tem a responsabilidade por garantir as lâmpadas acessas. Essa mudança foi ocasionada pela Resolução Normativa 414 [3], uma determinação constitucional expedida pela ANEEL (Agencia Nacional de Energia Elétrica) que obrigou todos os 5.570 municípios brasileiros a se responsabilizar pela manutenção da infraestrutura da iluminação pública.
-A cidade de São José dos Campos/SP conta hoje com 56.688 pontos de iluminação distribuídos pela cidade. A média de lâmpadas com defeito é de 300 por mês, de acordo com a Secretaria de Obras da cidade [4]. Um dos maiores problemas a serem enfrentados é o recebimento de chamados para solucionar problemas com os postes defeituosos, já que o canal de reclamações da prefeitura engloba todos os problemas da cidade, causando assim, uma sobrecarga no atendimento.
-A Urbanizadora Municipal (URBAM) foi a empresa contratada pela prefeitura de São José dos Campos para realizar a manutenção da iluminação pública do município. Com a proposta de auxiliar a URBAM no encontro dos pontos com problemas e agilizar as respostas aos chamados abertos pelos munícipes, o trabalho “Cidade Iluminada” apresenta uma solução de um aplicativo para smartphones e uma aplicação Web para a gestão das solicitações de manutenção dos pontos de iluminação pública.
-O atual processo de recebimento de chamados, funciona de maneira manual, onde um funcionário deve entrar em um sistema do canal de recebimentos de denuncias, o 156, e coletar manualmente todas as denuncias recebidas no dia, colocar em uma planilha no Excel, e separar por regiões. Após este passo, a planilha já dividida em regiões, são checados os chamados um a um caso haja duplicidade. Uma vez que todos os pedidos já estão na planilha e caso não haja duplicidade, uma ordem de serviço é feita e enviada a URBAM para que a manutenção seja feita. Quando a manutenção é feita, esta ordem de serviço retorna e são retirados da planilha os chamados que foram atendidos.
-Evidentemente é um processo muito complexo, e passível a erros, onde por um menor descuido vários detalhes poderão ser perdidos, como denuncias duplicadas que irão gerar o retrabalho quando a ordem de serviço é gerada. Por isso nós propomos uma solução, onde não será mais necessária a coleta e verificação manual de todas as denuncias. Todo este trabalho excessivo será reduzido e em poucos cliques toda a análise será feita automaticamente.
-Nossa missão é disponibilizar uma ferramenta que irá aperfeiçoar o recebimento dos chamados relacionados aos postes de iluminação e viabilizar a comunicação do cidadão diretamente com a entidade competente  através de uma aplicação Android e um ambiente Web onde essas informações serão processadas . Neste aplicativo, o usuário poderá registrar o problema na rede pública de iluminação, enviar uma foto e a localização do problema e acompanhar o andamento do protocolo aberto por ele. No ambiente Web, este protocolo será analisado e separado de acordo com a região, bairro, rua e tipo de problemas, também serão analisados se não há duplicidade em algum ponto. E além disso, o sistema tem como função preparar a ordem de serviço para a manutenção, e fazer o controle dos materiais utilizados.
-________________
-
-
-
-
-
-
-2. FUNDAMENTAÇÃO TEÓRICA
-
-
-2.1 Engenharia de Software
-
-
-Segundo Pressman [15] Engenharia de software é definida como: “O estabelecimento e uso de sólidos princípios de engenharia para que se possa obter economicamente um software que seja confiável e que funcione eficientemente em máquinas reais.”
-O termo Engenharia de software foi criado por volta da década de 60, com o objetivo de sanar a crise do software e contornar os problemas oriundos do grande crescimento da demanda de softwares e da complexidade a eles imposta, assim padronizando o desenvolvimento deixando-o mais controlado e sistemático.
-Segundo Breitman [16] “o desenvolvimento de sistemas de software é uma atividade complexa que envolve um grande número de recursos, coordenados de modo a atingir um mesmo objetivo”.  Por isso esta tarefa exige um planejamento detalhado e documentado por se tratar de um objeto dinâmico que está sempre se adaptando as necessidades dos usuários de acordo com as ferramentas usadas no seu desenvolvimento
-Para Pressman [15] a engenharia de software tem três fases: definição, desenvolvimento e manutenção.
-A fase de definição, estabelece as propriedades, características, limitações e funcionalidades do software. Esta fase é dividida em três etapas, a análise do sistema onde são definidas as funções que o sistema deve apresentar. O planejamento de projeto, onde  são analisados os riscos, custos e recursos que serão necessários no desenvolvimento. E por fim a análise dos requisitos, nesta etapa são verificados os requisitos necessários para que atenda as funções do sistema.
-A fase de desenvolvimento, é a parte onde os desenvolvedores transformas as especificações em código. O projeto é analisado, estabelecendo a arquitetura e estrutura dos dados, seguida pela codificação numa linguagem de programação que atenta as necessidades do projeto.
-E finalmente a fase de manutenção dedica-se a aprimorar ainda amais o sistema, sendo validado pelo usuário final, que nem sempre está satisfeito. Algumas mudanças podem ocorrer no projeto final, como correções pontuais que acontecem quando usuário acha um erro, adaptações caso novos atributos precisarem ser adicionados, e por fim o aprimoramento funcional, que acontece a medida que o usuário se acostuma a utilizar o sistema, e poderá sugerir novas funcionalidades.
-2.1.1 Método de desenvolvimento Agile, Kanban e Scrum
-
-
-O Agile foi publicado em 2001 por meio da publicação de um manifesto por Jeff Sutherland, Ken Schwaber et. al. que priorizava a rápida adaptação às novas situações, a colaboração entre si dos times de desenvolvimento, a colaboração dos times de desenvolvimento com os seus clientes e a entrega de softwares que estejam funcionando. [5]
-Apesar do Agile não ditar como o desenvolvimento deva ser feito por si só, ele é um conjunto de conceitos para que métodos, como o Kanban e o Scrum, sejam construídos.
-O Scrum consiste basicamente em separar atividades de trabalho em sprints, com o objetivo de entregar todas as atividades da forma mais completa possível, trabalhando assim de modo incremental a cada sprint até que o cliente decida que o software esteja com uma qualidade suficiente para ser entregue. Além disso, seguindo os princípios dos métodos Agile, o Scrum ajuda na colaboração intra-equipe por meio de reuniões stand-up diárias e uma reunião pós-sprint de retrospectiva e uma reunião pré-sprint para planejamento do próximo sprint. Para facilitar o planejamento, existem somente três “papéis” no Scrum: O Dono do Produto (Product Owner), o Mestre do Scrum (Scrum Master) e a Equipe (Team).
-A Equipe consiste nos desenvolvedores que irão efetivamente fazer a implementação do produto baseado nas necessidades do Dono, que é responsável por demonstrar os seus requisitos. O Mestre do Scrum é responsável por além de transformar os requisitos do Dono em atividades que podem ser divididas entre os membros da Equipe, é responsável principalmente por gerenciar a equipe para que as atividades sejam cumpridas em cada sprint. [6]
-O Kanban é uma técnica que separa as atividades em estados pré-definidos pela equipe que a utiliza, e é utilizada principalmente para visualizar o progresso de diferentes atividades dentro de um contexto. Por si só, o Kanban não diz como introduzir novos processos, mas sim como montar os processos existentes, como o Scrum, de forma visual.
-2.2 Resolução Normativa 414
-
-
-
-
-A Agência Nacional de Energia Elétrica (Aneel), determinou que a partir de janeiro de 2015, a responsabilidade da manutenção da iluminação pública será do município. Esta resolução vem de uma determinação da Constituição Federal de 1988 que, em seu artigo 149-A e conforme Emenda Constitucional número 39, de 19 de dezembro de 2002. A partir desta data limite, o município terá que arcar também com os investimentos para a ampliação e modernização da rede, instalação de medidores de acordo com a concessionária e também a manutenção do cadastro de ativos georreferenciados.
-A responsabilidade da manutenção da rede até então era das concessionarias de distribuição de energia elétrica locais. E segundo um sondagem da Confederação Nacional dos Municípios (CNM), esse transferência poderá aumentar aproximadamente até 28% a despensa anual dos municípios.[17]
-2.3 Desenvolvimento mobile
-
-
-Durante as últimas décadas foi notável o aumento significativo do uso de dispositivos móveis, segundo o grupo Ibope[12], com diversas funções e finalidades específicas, como computadores de bolso, smartphones, telefones celular, consoles portáteis combinado com as mais diversas tecnologias como GPS, navegadores de Internet, WAP, leitores de áudio, vídeo e texto, entre outros, e juntamente com a evolução das tecnologias e o aumento do poder computacional tornou-se possível o desenvolvimento de aplicações independentes do hardware ou software do dispositivo.
-Na América Latina não foi diferente, até o ano de 2014 o Brasil possuía certa de 137 milhões de usuário,um pouco mais de 67% da população, segundo pesquisa conduzida pela eMarketer [19], que ainda prevê um aumento de mais 4 milhões de usuários até o final de 2015.
-Com base nesses dados é irrefutável o crescimento do mercado neste segmento o que propicia muitas oportunidades no desenvolvimento de aplicativos mobile. É visível a necessidade de encontrar novas soluções para os usuários de smartphones, e integrar novas tenologias a este mercado, pois a necessidade não para de crescer junto com  número de usuários.
+﻿
 ________________
 3. TECNOLOGIAS
 3.1 Python
@@ -307,9 +45,19 @@ Uma dessas bibliotecas e justamente o unicodecsv, que simplesmente faz o tratame
 Ela foi escolhida pois, além de atender perfeitamente essa demanda, ela tem uma grande facilidade no seu uso, pois a sua interface e idêntica ao módulo csv padrão do Python
 3.1.9 Flask-Security
 
-
 O Flask-Security é a integração de uma série de bibliotecas do Flask relacionadas ao controle de acesso de usuários com o objetivo de facilitar a implementação desse tipo de sistema.
 Apesar de sua baixa flexibilidade, o Flask-Security foi escolhido para ser usado no controle de acesso pois ele realmente facilita a implementação e manutenção desse aspecto.
+
+3.2 Java
+A linguagem de programação Java foi lançada em 1995, e, desde o início de seu desenvolvimento em 1993 ela foi especificada para ser “independente de plataformas, porém segura o suficiente para atravessar redes e poderosa o suficiente para substituir código nativo”.
+O Java teve as mais diversas aplicações, sendo usado para applets para a Web, para programas desktop, para serviços em servidores, para aplicações Web e até rodando em sistemas embarcados. Essa última aplicação provavelmente possibilitando a implementação do sistema operacional para smartphones Android.
+O Java foi utilizado para a implantação do aplicativo Android do Cidade Iluminada pois é a linguagem que o sistema operacional Android usa nativamente para as aplicações, tornando assim o desenvolvimento do aplicativos de acordo com os padrões de desenvolvimento Android.
+3.3 Android
+O sistema operacional Android foi lançado pela Google no ano de 2007, e no ano de 2008 foi lançado uma API para os desenvolvedores. Desde o seu lançamento, este sistema operacional obteve grande popularidade em seu uso, chegando a ter mais de 89% do mercado brasileiro no primeiro trimestre de 2015, segundo o site Kantar Worldpanel ComTech.
+A Google provê uma API  de fácil manipulação, com código fonte aberto baseada em Java para incentivar e simplificar o desenvolvimento de aplicações, o que tem sido uma boa estratégia já que o número de aplicativos disponíveis no Android Market chegou a 1.6 milhões no último semestre de 2015.
+O sucesso do Android no mercado brasileiro, que segundo a pesquisa do site The Statistics Portal, o market share do sistema operacional chegou a mais de 77% no primeiro semestre de 2015[18], e a facilidade de desenvolvimento foram os principais motivos da escolha do uso deste para o desenvolvimento do aplicativo Cidade Iluminada.
+Foi escolhido para a implantação do projeto no sistema Android por alguns fatores importantes, como a experiência anterior de desenvolvimento neste sistema e, como se trata de um aplicativo voltado para a população em geral, a penetração do Android no mercado brasileiro[18].
+
 .
 3.3.1 GSON
 
@@ -493,17 +241,13 @@ REFERÊNCIAS
 [2] x
 [3] x
 [4]  Comparativo mercado Android Brasil - http://www.kantarworldpanel.com/global/News/Android-Switchers-Drive-iOS-Growth-in-Europes-Big-Five-Countries
-[5]
-http://www.agilemanifesto.org/
-[6] https://www.scrumalliance.org/why-scrum/core-scrum-values-roles?gclid=CjwKEAjwpaqvBRCxzIGoxs6v2TkSJADel-MIzZiwKysiX_QU25cWumb4QQi5ae356H3APHD-R79FNRoCJaXw_wcB
+[5] x
+[6] x
 [7]
 NIEMEYER, Patrick, LEUCK, Daniel. Learning Java. 4ª Edição. 1005 Gravenstein Highway North, Sebastopol, CA 95472: O’Reilly Media, Inc., 06/06/2013. 1010 pgs. (Série Nutshell)
 [8]
 RAUSCHMAYER, Axel. Speaking JavaScript. 1´ Edição. 1005 Gravenstein Highway North, Sebastopol, CA 95472: O’Reilly Media, Inc., 20/02/2014. 460 páginas. (Série Nutshell)
-[9]
- Python License. Disponível em: https://www.python.org/psf/license.html. Acesso em: 07 setembro 2015.
-[10]
-Python history. Disponivel em: http://python-history.blogspot.com.br/2009/01/brief-timeline-of-python.html. Acesso em: 07 setembro 2015.
+[9] x
 [11]
 https://pt.wikipedia.org/wiki/AngularJS#Hist.C3.B3rico_de_Desenvolvimento
 [12]
@@ -514,12 +258,11 @@ http://www.aneel.gov.br/cedoc/ren2010414.pdf
 http://www1.serpro.gov.br/publicacoes/tematec/pubtem60.htm
 [15] x
 [16] x
-[17] http://www2.camara.leg.br/atividade-legislativa/comissoes/comissoes-permanentes/cdu/noticias/norma-da-aneel-sobre-iluminacao-publica-prejudica-municipios-diz-confederacao
+[17] x
 [18]
 http://www.statista.com/statistics/262167/market-share-held-by-mobile-operating-systems-in-brazil/
 [19] http://www.emarketer.com/Article/Nearly-400-Million-Latin-America-Used-Mobile-Phones-2014/1011818
-[20]
-https://pypi.python.org/pypi
+[20] x
 [21]
 http://flask.pocoo.org/docs/0.10/
 [22]
