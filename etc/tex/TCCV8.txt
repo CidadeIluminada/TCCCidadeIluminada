@@ -1,132 +1,14 @@
-﻿http://www.ibta.com.br/images/logo.png 
+﻿http://www.ibta.com.br/images/logo.png
 
 IBTA-BILAC - INSTITUTO BRASILEIRO DE TECNOLOGIA AVANÇADA DE SÃO JOSÉ DOS CAMPOS
 
 
 
 
+Abstract
 
 
-Arthur BRESSAN
-Thais Matias NOGUEIRA
-  
-
-
- 
-
-
-
-
-CIDADE ILUMINADA
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Arthur BRESSAN
-Thais Matias NOGUEIRA
-
-
-
-
-
-
-
-
-CIDADE ILUMINADA
-
-
-
-
-
-
-
-
-Trabalho de Conclusão de Curso, apresentado à Faculdade Bilac para a obtenção do título de Bacharel em Ciência da Computação.
-
-
-
-
-Orientador: Prof. Marcos Reis
-
-
-
-
-________________
-
-
-
-
-
-
-CIDADE ILUMINADA
-
-
-
-
-Trabalho de Conclusão de Curso, apresentado à Faculdade Bilac para a obtenção do título de Bacharel em Ciência da Computação.
-
-
-
-
-Aprovado em ____ / ____ / ____
-
-
-
-
-BANCA EXAMINADORA
-
-
-
-
-_________________________________________________________________
-Prof. ????????
-Faculdade Bilac
-
-
-_________________________________________________________________
-Prof. ????????
-Faculdade Bilac
-
-
-_________________________________________________________________
-Profª. ???????
-Faculdade Bilac
-
-
-
-
-
-
-
-
-“Na Internet, ninguém sabe que você é um cachorro.”
-Peter Steiner
-________________
-
-
-AGRADECIMENTOS
-A Deus, pela força concedida e pela oportunidade de estar concluindo mais uma etapa da minha vida. 
-A nossos pais e familiares  por todo carinho e segurança que me foi passada. 
-Ao orientador, Prof. Marcos Reis pela ajuda e dedicação para que esse trabalho fosse concluído com sucesso. 
-Aos professores de Ciência da Computação da Faculdade Bilac, e em especial os professores Gerson Penha Neto, e Walter Abraha que sempre que solicitados se mostraram disponíveis a esclarecer dúvidas e questionamentos. 
-Aos Aos demais colegas do curso de Ciência da Computação, pelos anos de amizade que tornaram-se um grande aprendizado.
-________________
-
-
-RESUMO
-
-
-Este trabalho apresenta um estudo sobre dispositivos móveis, explicando a implementação de um protótipo de software que auxiliará no recebimento e análise de denuncias relacionados a iluminação pública na cidade de São José dos Campos. O aplicativo foi desenvolvido em Android e será responsável por enviar estas denuncias para um ambiente web. A aplicação web será responsável por responder às requisições do aplicativo Android e processa-las de modo que a manutenção dos pontos de iluminação pública seja feita de uma maneira mais rápida e menos burocrática . 
+Este trabalho apresenta um estudo sobre dispositivos móveis, explicando a implementação de um protótipo de software que auxiliará no recebimento e análise de denuncias relacionados a iluminação pública na cidade de São José dos Campos. O aplicativo foi desenvolvido em Android e será responsável por enviar estas denuncias para um ambiente web. A aplicação web será responsável por responder às requisições do aplicativo Android e processa-las de modo que a manutenção dos pontos de iluminação pública seja feita de uma maneira mais rápida e menos burocrática .
 
 
 Palavras-chave: Iluminação pública, Aplicativo Android, Sistema web para manutenção.
@@ -195,7 +77,7 @@ Keywords: Public lighting system, Android Application, web system for maintenanc
 
 
 Índice de Figuras
-        
+
 
 
 ________________
@@ -319,7 +201,7 @@ INTRODUÇÃO
 5. CONCLUSÃO
 5.1 Conclusões
 5.2 Trabalhos futuros
-   
+
 
 
 ________________
@@ -330,14 +212,14 @@ ________________
 1. INTRODUÇÃO
 
 
-A Iluminação pública é um instrumento de cidadania, pois é um item essencial à qualidade de vida e a segurança dos centros urbanos, ajudando a preservar e embelezar os patrimônios públicos e a prática de diversas atividade noturnas no espaço público. 
+A Iluminação pública é um instrumento de cidadania, pois é um item essencial à qualidade de vida e a segurança dos centros urbanos, ajudando a preservar e embelezar os patrimônios públicos e a prática de diversas atividade noturnas no espaço público.
 Segundo Aver[1] a falta de iluminação contribui consideravelmente com o aumento dos índices de criminalidade e a falta de segurança dos cidadãos que por algum motivo tem que transitar no período noturno por pontos sem iluminação, ou com iluminação precária. Estudos feitos pela organização Campbell Collaboration[2], mostraram que a melhoria na iluminação pública em algumas cidades do Reino Unido e EUA, ajudaram a reduzir a criminalidade em até 21%, e concluiu que esta melhoria promoveu o aumento da vigilância da comunidade, que atuou como elemento inibidor contra a criminalidade local.
-Os responsáveis pela instalação e manutenção da iluminação pública dos municípios no Brasil mudou em dezembro de 2014. Até então, elas eram feitas pelo estado, normalmente através das concessionárias de energia elétrica. Agora é a própria prefeitura que tem a responsabilidade por garantir as lâmpadas acessas. Essa mudança foi ocasionada pela Resolução Normativa 414 [3], uma determinação constitucional expedida pela ANEEL (Agencia Nacional de Energia Elétrica) que obrigou todos os 5.570 municípios brasileiros a se responsabilizar pela manutenção da infraestrutura da iluminação pública. 
-A cidade de São José dos Campos/SP conta hoje com 56.688 pontos de iluminação distribuídos pela cidade. A média de lâmpadas com defeito é de 300 por mês, de acordo com a Secretaria de Obras da cidade [4]. Um dos maiores problemas a serem enfrentados é o recebimento de chamados para solucionar problemas com os postes defeituosos, já que o canal de reclamações da prefeitura engloba todos os problemas da cidade, causando assim, uma sobrecarga no atendimento. 
+Os responsáveis pela instalação e manutenção da iluminação pública dos municípios no Brasil mudou em dezembro de 2014. Até então, elas eram feitas pelo estado, normalmente através das concessionárias de energia elétrica. Agora é a própria prefeitura que tem a responsabilidade por garantir as lâmpadas acessas. Essa mudança foi ocasionada pela Resolução Normativa 414 [3], uma determinação constitucional expedida pela ANEEL (Agencia Nacional de Energia Elétrica) que obrigou todos os 5.570 municípios brasileiros a se responsabilizar pela manutenção da infraestrutura da iluminação pública.
+A cidade de São José dos Campos/SP conta hoje com 56.688 pontos de iluminação distribuídos pela cidade. A média de lâmpadas com defeito é de 300 por mês, de acordo com a Secretaria de Obras da cidade [4]. Um dos maiores problemas a serem enfrentados é o recebimento de chamados para solucionar problemas com os postes defeituosos, já que o canal de reclamações da prefeitura engloba todos os problemas da cidade, causando assim, uma sobrecarga no atendimento.
 A Urbanizadora Municipal (URBAM) foi a empresa contratada pela prefeitura de São José dos Campos para realizar a manutenção da iluminação pública do município. Com a proposta de auxiliar a URBAM no encontro dos pontos com problemas e agilizar as respostas aos chamados abertos pelos munícipes, o trabalho “Cidade Iluminada” apresenta uma solução de um aplicativo para smartphones e uma aplicação Web para a gestão das solicitações de manutenção dos pontos de iluminação pública.
-O atual processo de recebimento de chamados, funciona de maneira manual, onde um funcionário deve entrar em um sistema do canal de recebimentos de denuncias, o 156, e coletar manualmente todas as denuncias recebidas no dia, colocar em uma planilha no Excel, e separar por regiões. Após este passo, a planilha já dividida em regiões, são checados os chamados um a um caso haja duplicidade. Uma vez que todos os pedidos já estão na planilha e caso não haja duplicidade, uma ordem de serviço é feita e enviada a URBAM para que a manutenção seja feita. Quando a manutenção é feita, esta ordem de serviço retorna e são retirados da planilha os chamados que foram atendidos. 
-Evidentemente é um processo muito complexo, e passível a erros, onde por um menor descuido vários detalhes poderão ser perdidos, como denuncias duplicadas que irão gerar o retrabalho quando a ordem de serviço é gerada. Por isso nós propomos uma solução, onde não será mais necessária a coleta e verificação manual de todas as denuncias. Todo este trabalho excessivo será reduzido e em poucos cliques toda a análise será feita automaticamente. 
-Nossa missão é disponibilizar uma ferramenta que irá aperfeiçoar o recebimento dos chamados relacionados aos postes de iluminação e viabilizar a comunicação do cidadão diretamente com a entidade competente  através de uma aplicação Android e um ambiente Web onde essas informações serão processadas . Neste aplicativo, o usuário poderá registrar o problema na rede pública de iluminação, enviar uma foto e a localização do problema e acompanhar o andamento do protocolo aberto por ele. No ambiente Web, este protocolo será analisado e separado de acordo com a região, bairro, rua e tipo de problemas, também serão analisados se não há duplicidade em algum ponto. E além disso, o sistema tem como função preparar a ordem de serviço para a manutenção, e fazer o controle dos materiais utilizados. 
+O atual processo de recebimento de chamados, funciona de maneira manual, onde um funcionário deve entrar em um sistema do canal de recebimentos de denuncias, o 156, e coletar manualmente todas as denuncias recebidas no dia, colocar em uma planilha no Excel, e separar por regiões. Após este passo, a planilha já dividida em regiões, são checados os chamados um a um caso haja duplicidade. Uma vez que todos os pedidos já estão na planilha e caso não haja duplicidade, uma ordem de serviço é feita e enviada a URBAM para que a manutenção seja feita. Quando a manutenção é feita, esta ordem de serviço retorna e são retirados da planilha os chamados que foram atendidos.
+Evidentemente é um processo muito complexo, e passível a erros, onde por um menor descuido vários detalhes poderão ser perdidos, como denuncias duplicadas que irão gerar o retrabalho quando a ordem de serviço é gerada. Por isso nós propomos uma solução, onde não será mais necessária a coleta e verificação manual de todas as denuncias. Todo este trabalho excessivo será reduzido e em poucos cliques toda a análise será feita automaticamente.
+Nossa missão é disponibilizar uma ferramenta que irá aperfeiçoar o recebimento dos chamados relacionados aos postes de iluminação e viabilizar a comunicação do cidadão diretamente com a entidade competente  através de uma aplicação Android e um ambiente Web onde essas informações serão processadas . Neste aplicativo, o usuário poderá registrar o problema na rede pública de iluminação, enviar uma foto e a localização do problema e acompanhar o andamento do protocolo aberto por ele. No ambiente Web, este protocolo será analisado e separado de acordo com a região, bairro, rua e tipo de problemas, também serão analisados se não há duplicidade em algum ponto. E além disso, o sistema tem como função preparar a ordem de serviço para a manutenção, e fazer o controle dos materiais utilizados.
 ________________
 
 
@@ -378,7 +260,7 @@ A responsabilidade da manutenção da rede até então era das concessionarias d
 
 Durante as últimas décadas foi notável o aumento significativo do uso de dispositivos móveis, segundo o grupo Ibope[12], com diversas funções e finalidades específicas, como computadores de bolso, smartphones, telefones celular, consoles portáteis combinado com as mais diversas tecnologias como GPS, navegadores de Internet, WAP, leitores de áudio, vídeo e texto, entre outros, e juntamente com a evolução das tecnologias e o aumento do poder computacional tornou-se possível o desenvolvimento de aplicações independentes do hardware ou software do dispositivo.
 Na América Latina não foi diferente, até o ano de 2014 o Brasil possuía certa de 137 milhões de usuário,um pouco mais de 67% da população, segundo pesquisa conduzida pela eMarketer [19], que ainda prevê um aumento de mais 4 milhões de usuários até o final de 2015.
-Com base nesses dados é irrefutável o crescimento do mercado neste segmento o que propicia muitas oportunidades no desenvolvimento de aplicativos mobile. É visível a necessidade de encontrar novas soluções para os usuários de smartphones, e integrar novas tenologias a este mercado, pois a necessidade não para de crescer junto com  número de usuários. 
+Com base nesses dados é irrefutável o crescimento do mercado neste segmento o que propicia muitas oportunidades no desenvolvimento de aplicativos mobile. É visível a necessidade de encontrar novas soluções para os usuários de smartphones, e integrar novas tenologias a este mercado, pois a necessidade não para de crescer junto com  número de usuários.
 ________________
 3. TECNOLOGIAS
 3.1 Python
@@ -406,7 +288,7 @@ O Flask-Migrate é a biblioteca de integração do alembic com o Flask. Isso exp
 O alembic foi escolhido não somente pela sua fácil integração com tanto o SQLAlchemy e o Flask, mas também por ele ser uma ferramenta de gerenciamento de migrações de alta qualidade.
 3.1.4 Flask-Admin
 O Flask-Admin é uma extensão do Flask que auxilia a criação de páginas de gerenciamento do back-end de aplicativos em Flask. Isso é feito expondo aos programadores utilidades que geram telas administrativas genéricas para que então cada aplicação as customize de acordo com suas necessidades. [26]
-O Flask-Admin foi escolhido para ser a base das telas do sistema de gerenciamento de ordens de serviço pois grande parte das funcionalidades básicas necessárias para um sistema CRUD já estão maduras no Flask-Admin. 
+O Flask-Admin foi escolhido para ser a base das telas do sistema de gerenciamento de ordens de serviço pois grande parte das funcionalidades básicas necessárias para um sistema CRUD já estão maduras no Flask-Admin.
 3.1.5 Flask-Script
 O Flask-Script disponibiliza um conjunto de ferramentas e classes para o gerenciamento da aplicação Flask.
 Inicialmente, o Flask-Script disponibiliza comandos para o gerenciamento do servidor de desenvolvimento e disponibiliza estruturas para que cada aplicação possa implementar seus próprios comandos. [27] Além disso, o Flask-Script integra o Flask-Migrate disponibilizando comandos para preparar e executar migrações de banco de dados.
@@ -433,7 +315,7 @@ Apesar de sua baixa flexibilidade, o Flask-Security foi escolhido para ser usado
 
 
 GSON é uma biblioteca do Google para a serialização e deserialização de objetos Java arbitrários. O objetivo desta biblioteca, além de prover essas conversões, é trabalhar com objetos que o programador não necessariamente tem o código-fonte disponível, mantendo uma interface simples (métodos fromJson e toJson) para quando for precisar converter de e para JSON. [33]
-A biblioteca foi utilizada pois ela atende a necessidade principal de tratar JSON mas ainda sendo relativamente fácil de utilizar e configurar as classes que precisam dessa conversão. 
+A biblioteca foi utilizada pois ela atende a necessidade principal de tratar JSON mas ainda sendo relativamente fácil de utilizar e configurar as classes que precisam dessa conversão.
 3.3.2 Joda-Time
 
 
@@ -484,7 +366,7 @@ ________________
 
 
 
-4. DESENVOLVIMENTO 
+4. DESENVOLVIMENTO
 O desenvolvimento do trabalho pode ser separado em duas fases e períodos distintos, sendo estes o desenvolvimento do aplicativo para smartphones Android e o sistema de gerenciamento dos protocolos deste, e o desenvolvimento do sistema de gerenciamento de pontos de iluminação e de seus serviços e chamados.
 4.1 APLICATIVO ANDROID E SEU SISTEMA DE GERENCIAMENTO
 Para o desenvolvimento do aplicativo para smartphones Android e seu sistema de gerenciamento, foram aplicadas os métodos Agile de desenvolvimento Scrum e Kanban.
@@ -517,16 +399,16 @@ Um sprint é um período previamente acordado pelo time Agile onde o sistema é 
 Para o desenvolvimento do sistema de gerenciamento dos protocolos e do aplicativo Android, cada sprint teve duração de 14 dias, onde foram escolhidos várias atividades de acordo com os critérios da sua prioridade de implementação e sua facilidade de implementação dada a situação que o projeto se encontrava.
 * Sprint I:
 O primeiro sprint foi feito a modelagem e a implementação do banco de dados, assim como o layout e a wireframe do ambiente web.
-* Sprint II: 
-Nesta segunda etapa foi feita a criação do layout e padronização da interface do ambiente web. Também foram implementados os serviços de criação e inclusão dos protocolos. 
-* Sprint III: 
+* Sprint II:
+Nesta segunda etapa foi feita a criação do layout e padronização da interface do ambiente web. Também foram implementados os serviços de criação e inclusão dos protocolos.
+* Sprint III:
 Implementação das telas do aplicativo Android, e do fluxo principal de telas, também como a funcionalidade de ativar a câmera do aparelho, também foi implementado uma funcionalidade que busca automaticamente a localização do aparelho que está enviando o reporte
-* Sprint IV: 
+* Sprint IV:
 Este sprint foi focado na implementação das funcionalidades do aplicativo como o cadastro do usuário, tela de configurações e status dos protocolos enviados
 * Sprint V:
 No último sprint foram acertado os últimos detalhes do aplicativo, como gravação dos protocolos off-line para envio posterior, busca do status do protocolo e foi finalizado o design da aplicação.
-4.1.3 Apresentação para a Secretaria de Obras 
-Após a finalização da primeira versão do aplicativo e do ambiente web do projeto “Cidade Iluminada”, fomos convidados a apresentar nossa solução para o Secretário de Obras de São José dos Campos, o senhor Rene Mina Vernice e sua equipe, na data de 14 de Setembro de 2015. 
+4.1.3 Apresentação para a Secretaria de Obras
+Após a finalização da primeira versão do aplicativo e do ambiente web do projeto “Cidade Iluminada”, fomos convidados a apresentar nossa solução para o Secretário de Obras de São José dos Campos, o senhor Rene Mina Vernice e sua equipe, na data de 14 de Setembro de 2015.
 Inicialmente, a ideia do aplicativo não foi bem aceita, pois foi alegado que isso geraria ainda mais trabalho para os funcionários responsáveis por recolher as denuncias relacionadas a iluminação pública. Apesar disso, o conceito do ambiente web para gerenciamento foi bem recebido, pois eles enfrentam muitas dificuldades administrando os chamados já existente.
 4.2 SISTEMA DE GERENCIAMENTO DE PONTOS DE ILUMINAÇÃO E ORDENS DE SERVIÇO
 4.2.1. Entrevista inicial ao cliente
@@ -534,7 +416,7 @@ Anteriormente a primeira entrevista, foi realizada uma apresentação do conceit
 Posteriormente, foi feita uma reunião com a assistente do Secretário, a senhora Cintia Firmino para entendermos melhor o funcionamento do processo atual.
             1). Como é o processo atual?
 Processo de atualização feito a partir da coleta manual do sistema 156, e colocado numa planilha para o tratamento de pedidos duplicados e separação dos casos por zona e bairro.
-         2) Como vocês recebem as chamadas dos postes com defeitos? 
+         2) Como vocês recebem as chamadas dos postes com defeitos?
 Os chamados vêm do sistema 156, ou por memorando de Vereadores que tem prioridade, não possui um canal personalizado apenas para eles vem do sistema 156 (156 possui resposta programada)
 3). Como é feita a ordem de serviço?
 A ordem de serviço é feita pelo Excel, separando os chamados por zona, bairro e rua. E após isso esta planilha é enviada para a empresa URBAM por e-mail.
@@ -560,8 +442,8 @@ Sim, a URBAM retorna uma planilha com as tarefas executadas e o que foi trocado,
 4.2.2 Requisitos do sistema
 
 
-Quando pensamos em qualidade de software, o foco está em entender os requisitos estabelecidos para assim evitar, ou minimizar a insatisfação do cliente final. Segundo Carvalho, Tavares [14] “A demanda por qualidade tem estimulado a comunidade de software para o desenvolvimento de modelos que conduzam a qualidade dos sistemas. Existe uma forte ligação entre requisitos e qualidade. ” 
-Em um sistema computacional, os requisitos definem o escopo e os serviços que o sistema deve oferecer, assim como as restrições que são aplicáveis a suas operações. 
+Quando pensamos em qualidade de software, o foco está em entender os requisitos estabelecidos para assim evitar, ou minimizar a insatisfação do cliente final. Segundo Carvalho, Tavares [14] “A demanda por qualidade tem estimulado a comunidade de software para o desenvolvimento de modelos que conduzam a qualidade dos sistemas. Existe uma forte ligação entre requisitos e qualidade. ”
+Em um sistema computacional, os requisitos definem o escopo e os serviços que o sistema deve oferecer, assim como as restrições que são aplicáveis a suas operações.
 
 
 De acordo com as respostas levantadas na reunião com a Cíntia, foram então levantados os seguintes requisitos funcionais:
@@ -587,14 +469,14 @@ ________________
 
 
 A gestão de pendencias relativas a iluminação pública da prefeitura de São José dos Campos é burocrática, o que reflete na lentidão do atendimento e manutenção de um serviço tão essencial ao bem estar e segurança da população. O fato da responsabilidade pela manutenção ter sido passada para as prefeituras recentemente também é um fator crítico no desempenho do atendimento, já que as prefeituras tiveram que se adaptar rapidamente.
-Partindo desta problemática, incentivados pela ideia de agilizar este processo, desenvolvemos o projeto Cidade Iluminada, onde o ambiente web, que que passou pela validação da equipe da Secretaria de Obras da Prefeitura Municipal de São José dos Campos provou reduzir a carga de trabalho e facilitar o recolhimento e análise das denuncias recebidas, automatizando um trabalho que era feito manualmente. 
+Partindo desta problemática, incentivados pela ideia de agilizar este processo, desenvolvemos o projeto Cidade Iluminada, onde o ambiente web, que que passou pela validação da equipe da Secretaria de Obras da Prefeitura Municipal de São José dos Campos provou reduzir a carga de trabalho e facilitar o recolhimento e análise das denuncias recebidas, automatizando um trabalho que era feito manualmente.
 Infelizmente o aplicativo ainda não será disponibilizado para os munícipes a pedido do cliente, que alega que este canal de denuncias poderia  neste primeiro momento congestionar os recebimentos de denuncias já que a equipe ainda não possui um processo estruturado para a demanda, o aplicativo será usado por funcionários para a identificação de pontos de iluminação defeituosos.
 
 
 5.2 Trabalhos futuros
-        
+
 Como trabalho futuro, foi proposto que o aplicativo seja liberado para o uso dos munícipes, integrando ao ambiente web para que ele receba as denúncias diretamente. Para que o aplicativo seja liberado, também é necessário que além de Android seja desenvolvido para iOS assim alcançando todos os públicos.
-Relacionado ao trabalho em questão, seria interessante que futuramente novas funcionalidades sejam integradas, utilizando o aplicativo para outras utilizações além de denuncias relacionadas a iluminação pública. 
+Relacionado ao trabalho em questão, seria interessante que futuramente novas funcionalidades sejam integradas, utilizando o aplicativo para outras utilizações além de denuncias relacionadas a iluminação pública.
 Uma outra possibilidade é a melhoria da interface gráfica, tornando o ambiente web mais amigável para o uso de funcionários com vários níveis de conhecimento.
 
 
@@ -607,11 +489,11 @@ Uma outra possibilidade é a melhoria da interface gráfica, tornando o ambiente
 REFERÊNCIAS
 
 
-[1] Aver - artigo revista online 12-5- 2015 - http://www.ipog.edu.br/uploads/arquivos/7e766f5534244d2d51fc7fe1b55f9444.pdf
-[2] Artigo - 12-5-2015 - http://www.ehow.com.br/correlacao-entre-iluminacao-publica-taxa-criminalidade-fatos_305151/
-[3] Resolução normativa 414 - http://www.aneel.gov.br/biblioteca/downloads/livros/REN_414_2010_atual_REN_499_2012.pdf
+[1] x
+[2] x
+[3] x
 [4]  Comparativo mercado Android Brasil - http://www.kantarworldpanel.com/global/News/Android-Switchers-Drive-iOS-Growth-in-Europes-Big-Five-Countries
-[5] 
+[5]
 http://www.agilemanifesto.org/
 [6] https://www.scrumalliance.org/why-scrum/core-scrum-values-roles?gclid=CjwKEAjwpaqvBRCxzIGoxs6v2TkSJADel-MIzZiwKysiX_QU25cWumb4QQi5ae356H3APHD-R79FNRoCJaXw_wcB
 [7]
@@ -630,8 +512,8 @@ http://www.correiobraziliense.com.br/app/noticia/tecnologia/2015/03/12/interna_t
 http://www.aneel.gov.br/cedoc/ren2010414.pdf
 [14]
 http://www1.serpro.gov.br/publicacoes/tematec/pubtem60.htm
-[15] Livro Pressman (1995 p. 31)
-[16] tese doutorado Breitman http://www.dbd.puc-rio.br/pergamum/tesesabertas/5000294091_00_completo.pdf  (p. 32)
+[15] x
+[16] x
 [17] http://www2.camara.leg.br/atividade-legislativa/comissoes/comissoes-permanentes/cdu/noticias/norma-da-aneel-sobre-iluminacao-publica-prejudica-municipios-diz-confederacao
 [18]
 http://www.statista.com/statistics/262167/market-share-held-by-mobile-operating-systems-in-brazil/

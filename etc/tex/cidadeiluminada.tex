@@ -1,5 +1,5 @@
 %% abtex2-modelo-artigo.tex, v-1.9.5 laurocesar
-%% Copyright 2012-2015 by abnTeX2 group at http://www.abntex.net.br/ 
+%% Copyright 2012-2015 by abnTeX2 group at http://www.abntex.net.br/
 %%
 %% This work may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.3
@@ -10,9 +10,9 @@
 %% version 2005/12/01 or later.
 %%
 %% This work has the LPPL maintenance status `maintained'.
-%% 
+%%
 %% The Current Maintainer of this work is the abnTeX2 team, led
-%% by Lauro César Araujo. Further information are available on 
+%% by Lauro César Araujo. Further information are available on
 %% http://www.abntex.net.br/
 %%
 %% This work consists of the files abntex2-modelo-artigo.tex and
@@ -22,7 +22,7 @@
 % ------------------------------------------------------------------------
 % ------------------------------------------------------------------------
 % abnTeX2: Modelo de Artigo Acadêmico em conformidade com
-% ABNT NBR 6022:2003: Informação e documentação - Artigo em publicação 
+% ABNT NBR 6022:2003: Informação e documentação - Artigo em publicação
 % periódica científica impressa - Apresentação
 % ------------------------------------------------------------------------
 % ------------------------------------------------------------------------
@@ -33,7 +33,7 @@
 	11pt,				% tamanho da fonte
 	oneside,			% para impressão apenas no verso. Oposto a twoside
 	a4paper,			% tamanho do papel.
-    twocolumn, 
+    twocolumn,
 	% -- opções da classe abntex2 --
 	%chapter=TITLE,		% títulos de capítulos convertidos em letras maiúsculas
 	%section=TITLE,		% títulos de seções convertidos em letras maiúsculas
@@ -51,7 +51,7 @@
 % ---
 
 % ---
-% Pacotes fundamentais 
+% Pacotes fundamentais
 % ---
 \usepackage{lmodern}			% Usa a fonte Latin Modern
 \usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
@@ -62,13 +62,13 @@
 \usepackage{graphicx}			% Inclusão de gráficos
 \usepackage{microtype} 			% para melhorias de justificação
 % ---
-		
+
 % ---
 % Pacotes adicionais, usados apenas no âmbito do Modelo Canônico do abnteX2
 % ---
 \usepackage{lipsum}				% para geração de dummy text
 % ---
-		
+
 % ---
 % Pacotes de citações
 % ---
@@ -96,12 +96,11 @@
 % ---
 % Informações de dados para CAPA e FOLHA DE ROSTO
 % ---
-\titulo{Modelo Canônico de\\ Artigo científico com \abnTeX}
-\autor{Equipe \abnTeX\thanks{\url{http://www.abntex.net.br/}} \and Lauro
-César
-Araujo\thanks{laurocesar@laurocesar.com}}
-\local{Brasil}
-\data{2015, v-1.9.5}
+\titulo{Sistema de Gerenciamento de manutenção de pontos de iluminação pública
+\\ CidadeIluminada}
+\autor{Arthur de Paula Bressan \\(IBTA) \and Thais Matias Nogueira \\(IBTA)}
+\local{São José dos Campos, Sâo Paulo, Brasil}
+\data{2015}
 % ---
 
 % ---
@@ -114,11 +113,11 @@ Araujo\thanks{laurocesar@laurocesar.com}}
 \makeatletter
 \hypersetup{
      	%pagebackref=true,
-		pdftitle={\@title}, 
+		pdftitle={\@title},
 		pdfauthor={\@author},
     	pdfsubject={Modelo de artigo científico com abnTeX2},
 	    pdfcreator={LaTeX with abnTeX2},
-		pdfkeywords={abnt}{latex}{abntex}{abntex2}{atigo científico}, 
+		pdfkeywords={abnt}{latex}{abntex}{abntex2}{artigo científico},
 		colorlinks=true,       		% false: boxed links; true: colored links
     	linkcolor=blue,          	% color of internal links
     	citecolor=blue,        		% color of links to bibliography
@@ -127,7 +126,7 @@ Araujo\thanks{laurocesar@laurocesar.com}}
 		bookmarksdepth=4
 }
 \makeatother
-% --- 
+% ---
 
 % ---
 % compila o indice
@@ -143,9 +142,9 @@ Araujo\thanks{laurocesar@laurocesar.com}}
 \checkandfixthelayout
 % ---
 
-% --- 
-% Espaçamentos entre linhas e parágrafos 
-% --- 
+% ---
+% Espaçamentos entre linhas e parágrafos
+% ---
 
 % O tamanho do parágrafo é dado por:
 \setlength{\parindent}{1.3cm}
@@ -166,7 +165,7 @@ Araujo\thanks{laurocesar@laurocesar.com}}
 \selectlanguage{brazil}
 
 % Retira espaço extra obsoleto entre as frases.
-\frenchspacing 
+\frenchspacing
 
 % ----------------------------------------------------------
 % ELEMENTOS PRÉ-TEXTUAIS
@@ -184,18 +183,18 @@ Araujo\thanks{laurocesar@laurocesar.com}}
 
 % resumo em português
 \begin{resumoumacoluna}
- Conforme a ABNT NBR 6022:2003, o resumo é elemento obrigatório, constituído de
- uma sequência de frases concisas e objetivas e não de uma simples enumeração
- de tópicos, não ultrapassando 250 palavras, seguido, logo abaixo, das palavras
- representativas do conteúdo do trabalho, isto é, palavras-chave e/ou
- descritores, conforme a NBR 6028. (\ldots) As palavras-chave devem figurar logo
- abaixo do resumo, antecedidas da expressão Palavras-chave:, separadas entre si por
- ponto e finalizadas também por ponto.
- 
+    Este trabalho apresenta um estudo sobre dispositivos móveis, explicando a
+    implementação de um protótipo de software que auxiliará no recebimento e
+    análise de denuncias relacionados a iluminação pública na cidade de
+    São José dos Campos. O aplicativo foi desenvolvido em Android e será
+    responsável por enviar estas denuncias para um ambiente web.
+    A aplicação web será responsável por responder às requisições do aplicativo
+    Android e processa-las de modo que a manutenção dos pontos de iluminação
+    pública seja feita de uma maneira mais rápida e menos burocrática.
  \vspace{\onelineskip}
- 
+
  \noindent
- \textbf{Palavras-chave}: latex. abntex. editoração de texto.
+ \textbf{Palavras-chave}: Iluminação pública. Aplicativo Android. Sistema web para manutenção.
 \end{resumoumacoluna}
 
 % ]  				% FIM DE ARTIGO EM DUAS COLUNAS
@@ -212,43 +211,148 @@ Araujo\thanks{laurocesar@laurocesar.com}}
 \section*{Introdução}
 \addcontentsline{toc}{section}{Introdução}
 
-Este documento e seu código-fonte são exemplos de referência de uso da classe
-\textsf{abntex2} e do pacote \textsf{abntex2cite}. O documento exemplifica a
-elaboração de publicação periódica científica impressa produzida conforme a ABNT
-NBR 6022:2003 \emph{Informação e documentação - Artigo em publicação periódica
-científica impressa - Apresentação}.
+A Iluminação pública é um instrumento de cidadania, pois é um item essencial
+à qualidade de vida e a segurança dos centros urbanos, ajudando a preservar e
+embelezar os patrimônios públicos e a prática de diversas atividade noturnas
+no espaço público.
 
-A expressão ``Modelo canônico'' é utilizada para indicar que \abnTeX\ não é
-modelo específico de nenhuma universidade ou instituição, mas que implementa tão
-somente os requisitos das normas da ABNT. Uma lista completa das normas
-observadas pelo \abnTeX\ é apresentada em \citeonline{abntex2classe}.
+Segundo \cite{aver} a falta de iluminação contribui consideravelmente com o aumento
+dos índices de criminalidade e a falta de segurança dos cidadãos que por algum
+motivo tem que transitar no período noturno por pontos sem iluminação, ou com
+iluminação precária. Estudos feitos pela organização Campbell Collaboration \cite{newton},
+mostraram que a melhoria na iluminação pública em algumas cidades do Reino Unido e EUA, ajudaram a reduzir a criminalidade em até 21%, e concluiu que esta melhoria promoveu o aumento da vigilância da comunidade, que atuou como elemento inibidor contra a criminalidade local.
+Os responsáveis pela instalação e manutenção da iluminação pública dos municípios
+no Brasil mudou em dezembro de 2014. Até então, elas eram feitas pelo estado,
+normalmente através das concessionárias de energia elétrica. Agora é a própria
+prefeitura que tem a responsabilidade por garantir as lâmpadas acessas. Essa
+mudança foi ocasionada pela Resolução Normativa 414 \cite{aneel414}, uma determinação
+constitucional expedida pela ANEEL (Agencia Nacional de Energia Elétrica) que
+obrigou todos os 5.570 municípios brasileiros a se responsabilizar pela
+manutenção da infraestrutura da iluminação pública.
 
-Sinta-se convidado a participar do projeto \abnTeX! Acesse o site do projeto em
-\url{http://www.abntex.net.br/}. Também fique livre para conhecer,
-estudar, alterar e redistribuir o trabalho do \abnTeX, desde que os arquivos
-modificados tenham seus nomes alterados e que os créditos sejam dados aos
-autores originais, nos termos da ``The \LaTeX\ Project Public
-License''\footnote{\url{http://www.latex-project.org/lppl.txt}}.
+A cidade de São José dos Campos/SP conta hoje com cerca de 75.000 pontos de iluminação
+distribuídos pela cidade. A média de lâmpadas com defeito é cerca de 900 por mês, de
+acordo com a Secretaria de Obras da cidade \cite{secretariaobras}. Um dos maiores problemas a
+serem enfrentados é o recebimento de chamados para solucionar problemas com os
+postes defeituosos, já que o canal de reclamações da prefeitura engloba todos
+os problemas da cidade, causando assim, uma sobrecarga no atendimento.
 
-Encorajamos que sejam realizadas customizações específicas deste documento.
-Porém, recomendamos que ao invés de se alterar diretamente os arquivos do
-\abnTeX, distribua-se arquivos com as respectivas customizações. Isso permite
-que futuras versões do \abnTeX~não se tornem automaticamente incompatíveis com
-as customizações promovidas. Consulte \citeonline{abntex2-wiki-como-customizar}
-par mais informações.
+A Urbanizadora Municipal (URBAM) foi a empresa contratada pela prefeitura de
+São José dos Campos para realizar a manutenção da iluminação pública do município.
+Com a proposta de auxiliar a URBAM no encontro dos pontos com problemas e agilizar
+as respostas aos chamados abertos pelos munícipes, o trabalho “Cidade Iluminada”
+apresenta uma solução de um aplicativo para smartphones e uma aplicação Web para
+a gestão das solicitações de manutenção dos pontos de iluminação pública.
 
-Este exemplo deve ser utilizado como complemento do manual da classe
-\textsf{abntex2} \cite{abntex2classe}, dos manuais do pacote
-\textsf{abntex2cite} \cite{abntex2cite,abntex2cite-alf} e do manual da classe
-\textsf{memoir} \cite{memoir}. Consulte o \citeonline{abntex2modelo} para obter
-exemplos e informações adicionais de uso de \abnTeX\ e de \LaTeX.
+O atual processo de recebimento de chamados, funciona de maneira manual, onde
+um funcionário deve entrar em um sistema do canal de recebimentos de denuncias,
+o 156, e coletar manualmente todas as denuncias recebidas no dia, colocar em uma
+planilha no Excel, e separar por regiões. Após este passo, a planilha já
+dividida em regiões, são checados os chamados um a um caso haja duplicidade.
+Uma vez que todos os pedidos já estão na planilha e caso não haja duplicidade,
+uma ordem de serviço é feita e enviada a URBAM para que a manutenção seja feita.
+Quando a manutenção é feita, esta ordem de serviço retorna e são retirados da
+planilha os chamados que foram atendidos.
+
+Evidentemente é um processo muito complexo, e passível a erros, onde por um
+menor descuido vários detalhes poderão ser perdidos, como denuncias duplicadas
+que irão gerar o retrabalho quando a ordem de serviço é gerada. Por isso nós
+propomos uma solução, onde não será mais necessária a coleta e verificação
+manual de todas as denuncias. Todo este trabalho excessivo será reduzido e em
+poucos cliques toda a análise será feita automaticamente.
+
+Nossa missão é disponibilizar uma ferramenta que irá aperfeiçoar o recebimento
+dos chamados relacionados aos postes de iluminação e viabilizar a comunicação
+do cidadão diretamente com a entidade competente  através de uma aplicação
+Android e um ambiente Web onde essas informações serão processadas . Neste
+aplicativo, o usuário poderá registrar o problema na rede pública de iluminação,
+enviar uma foto e a localização do problema e acompanhar o andamento do
+protocolo aberto por ele. No ambiente Web, este protocolo será analisado e
+separado de acordo com a região, bairro, rua e tipo de problemas, também serão
+analisados se não há duplicidade em algum ponto. E além disso, o sistema tem
+como função preparar a ordem de serviço para a manutenção, e fazer o controle
+dos materiais utilizados.
 
 % ----------------------------------------------------------
 % Seção de explicações
 % ----------------------------------------------------------
-\section{Exemplos de comandos}
+\section{Fundamentação Teórica}
 
-\subsection{Margens}
+\subsection{Engenharia de Software}
+
+Segundo Pressman, a engenharia de software é definida como: “O estabelecimento
+e uso de sólidos princípios de engenharia para que se possa obter economicamente
+um software que seja confiável e que funcione eficientemente em máquinas reais.”\cite{pressman}
+
+O termo engenharia de software foi criado por volta da década de 60, com o
+objetivo de sanar a crise do software e contornar os problemas oriundos do
+grande crescimento da demanda de softwares e da complexidade a eles imposta,
+assim padronizando o desenvolvimento deixando-o mais controlado e sistemático.
+
+Segundo Breitman “o desenvolvimento de sistemas de software é uma
+atividade complexa que envolve um grande número de recursos, coordenados de
+modo a atingir um mesmo objetivo”. \cite{breitman} Por isso esta tarefa exige um planejamento
+detalhado e documentado por se tratar de um objeto dinâmico que está sempre se
+adaptando as necessidades dos usuários de acordo com as ferramentas usadas no
+seu desenvolvimento
+
+Para Pressman, a engenharia de software tem três fases: definição,
+desenvolvimento e manutenção \cite{pressman}.
+
+A fase de definição, estabelece as propriedades, características, limitações e
+funcionalidades do software. Esta fase é dividida em três etapas, a análise do
+sistema onde são definidas as funções que o sistema deve apresentar.
+O planejamento de projeto, onde  são analisados os riscos, custos e recursos que
+serão necessários no desenvolvimento. E por fim a análise dos requisitos,
+nesta etapa são verificados os requisitos necessários para que atenda as
+funções do sistema.
+
+A fase de desenvolvimento, é a parte onde os desenvolvedores transformas as
+especificações em código. O projeto é analisado, estabelecendo a arquitetura e
+estrutura dos dados, seguida pela codificação numa linguagem de programação
+que atenta as necessidades do projeto.
+
+E finalmente a fase de manutenção dedica-se a aprimorar ainda amais o sistema,
+sendo validado pelo usuário final, que nem sempre está satisfeito. Algumas
+mudanças podem ocorrer no projeto final, como correções pontuais que acontecem
+quando usuário acha um erro, adaptações caso novos atributos precisarem ser
+adicionados, e por fim o aprimoramento funcional, que acontece a medida que o
+usuário se acostuma a utilizar o sistema, e poderá sugerir novas funcionalidades.
+
+\subsection{Método de desenvolvimento Agile, Kanban e Scrum}
+
+O Agile foi publicado em 2001 por meio da publicação de um manifesto por Jeff
+Sutherland, Ken Schwaber et. al. que priorizava a rápida adaptação às novas
+situações, a colaboração entre si dos times de desenvolvimento, a colaboração dos
+times de desenvolvimento com os seus clientes e a entrega de softwares que estejam
+funcionando. [5]
+
+Apesar do Agile não ditar como o desenvolvimento deva ser feito por si só, ele
+é um conjunto de conceitos para que métodos, como o Kanban e o Scrum, sejam
+construídos.
+
+O Scrum consiste basicamente em separar atividades de trabalho em sprints, com
+o objetivo de entregar todas as atividades da forma mais completa possível,
+trabalhando assim de modo incremental a cada sprint até que o cliente decida que
+o software esteja com uma qualidade suficiente para ser entregue. Além disso,
+seguindo os princípios dos métodos Agile, o Scrum ajuda na colaboração intra-equipe
+por meio de reuniões stand-up diárias, uma reunião pós-sprint de retrospectiva
+e uma reunião pré-sprint para planejamento do próximo sprint. Para facilitar o
+planejamento, existem somente três “papéis” no Scrum: O Dono do Produto (Product
+Owner), o Mestre do Scrum (Scrum Master) e a Equipe (Team).
+
+A Equipe consiste nos desenvolvedores que irão efetivamente fazer a
+implementação do produto baseado nas necessidades do Dono, que é responsável por
+demonstrar os seus requisitos. O Mestre do Scrum é responsável por além de
+transformar os requisitos do Dono em atividades que podem ser divididas entre os
+membros da Equipe, é responsável principalmente por gerenciar a equipe para que
+as atividades sejam cumpridas em cada sprint. [6]
+
+O Kanban é uma técnica que separa as atividades em estados pré-definidos pela
+equipe que a utiliza, e é utilizada principalmente para visualizar o progresso
+de diferentes atividades dentro de um contexto. Por si só, o Kanban não diz como
+introduzir novos processos, mas sim como montar os processos existentes, como o
+Scrum, de forma visual.
 
 A norma ABNT NBR 6022:2003 não estabelece uma margem específica a ser utilizada
 no artigo científico. Dessa maneira, caso deseje alterar as margens, utilize os
@@ -282,13 +386,13 @@ a opção \texttt{twocolumn} devem ser escritos no ambiente
      \renewcommand{\resumoname}{Nome do resumo}
      \begin{resumoumacoluna}
         Texto do resumo.
-      
+
         \vspace{\onelineskip}
- 
+
         \noindent
         \textbf{Palavras-chave}: latex. abntex. editoração de texto.
      \end{resumoumacoluna}
-   
+
    ]                        % FIM DE ARTIGO EM DUAS COLUNAS
 \end{verbatim}
 
@@ -335,7 +439,7 @@ ser inserido no preâmbulo do documento.
   \makeevenfoot{meuestilo}
      {rodapé par à esquerda} %%pagina par
      {centro \thepage}
-     {direita} 
+     {direita}
   \makeoddfoot{meuestilo} %%pagina ímpar ou com oneside
      {rodapé ímpar/onside à esquerda}
      {centro \thepage}
@@ -350,19 +454,19 @@ comandos de divisão do documento. Por exemplo:
      %%usar o estilo criado na primeira página do artigo:
      \pretextual
      \pagestyle{meuestilo}
-     
+
      \maketitle
      ...
-     
+
      %%usar o estilo criado nas páginas textuais
      \textual
      \pagestyle{meuestilo}
-     
+
      \chapter{Novo capítulo}
      ...
-   \end{document}  
+   \end{document}
 \end{verbatim}
-   
+
 Outras informações sobre cabeçalhos e rodapés estão disponíveis na seção 7.3 do
 manual do \textsf{memoir} \cite{memoir}.
 
@@ -384,7 +488,7 @@ referência completa das macros e ambientes disponíveis.
 % ---
 % Finaliza a parte no bookmark do PDF, para que se inicie o bookmark na raiz
 % ---
-\bookmarksetup{startatroot}% 
+\bookmarksetup{startatroot}%
 % ---
 
 % ---
@@ -421,14 +525,19 @@ referência completa das macros e ambientes disponíveis.
 \renewcommand{\resumoname}{Abstract}
 \begin{resumoumacoluna}
  \begin{otherlanguage*}{english}
-   According to ABNT NBR 6022:2003, an abstract in foreign language is a back
-   matter mandatory element.
-
+   This paper presents a study on mobile development, explaining the
+   implementation of a software prototype that will assist in receiving
+   complaints and analysis related to street lighting in the city of São José
+   dos Campos. The application was developed on Android and will be responsible
+   for sending these complaints to a web environment. The web application
+   will be responsible for responding to requests from the Android application
+   and process them so that the maintenance of public lighting points is done
+   in a faster and less bureaucratic way.
    \vspace{\onelineskip}
- 
+
    \noindent
-   \textbf{Keywords}: latex. abntex.
- \end{otherlanguage*}  
+   \textbf{Keywords}: Public lighting system. Android Application. Web system for maintenance.
+ \end{otherlanguage*}
 \end{resumoumacoluna}
 
 % ]  				% FIM DE ARTIGO EM DUAS COLUNAS
@@ -443,7 +552,7 @@ referência completa das macros e ambientes disponíveis.
 % Glossário
 % ----------------------------------------------------------
 %
-% Há diversas soluções prontas para glossário em LaTeX. 
+% Há diversas soluções prontas para glossário em LaTeX.
 % Consulte o manual do abnTeX2 para obter sugestões.
 %
 %\glossary
