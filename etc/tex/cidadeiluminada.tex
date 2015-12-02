@@ -713,36 +713,38 @@ Fielding em sua dissertação de PhD. [39] Esta tese tinha como objetivo de,
 além de propor esse tipo de arquitetura, avaliar se serviços disponíveis na Web
 até então seguiam os quesitos seguintes:
 
-* Cliente-Servidor: A aplicação teria que manter independentemente suas
+\begin{itemize}
+\item \textbf{Cliente-Servidor:} A aplicação teria que manter independentemente suas
 implementação de clientes (interface gráfica, por exemplo) da implementação dos
 serviços oferecidos por ela (banco de dados, por exemplo)
 
-* Sem estado: Isso significa que, a cada requisição enviada para o servidor,
+\item \textbf{Sem estado:} Isso significa que, a cada requisição enviada para o servidor,
 esta teria que incluir todos os dados para que a própria seja entendida,
 sem que o servidor precise depender de informações que por ventura ele possa
 ter armazenado anteriormente.
 
-* Cacheável: Cada resposta a uma requisição tem que deixar explícito se é
+\item \textbf{Cacheável:} Cada resposta a uma requisição tem que deixar explícito se é
 permitido guardar a resposta em um cache no cliente. A ideia é que, se o
 cliente precisar refazer uma requisição equivalente, esta requisição deveria
 utilizar o cache ao invés de ser enviada para o servidor.
 
-* Interface uniforme: De acordo com Fielding em sua dissertação, é a
+\item \textbf{Interface uniforme:} De acordo com Fielding em sua dissertação, é a
 característica fundamental que aplicações REST têm de implementar. Ela
 consiste em padronizar todos os componentes para que as implementações de
 clientes e serviços sejam simplificados.
 
-* Sistema em camadas: Cada componente deve não conhecer ou depender de
+\item \textbf{Sistema em camadas:} Cada componente deve não conhecer ou depender de
 componentes de que este componente não precise interagir. A principal vantagem,
 de acordo com Fielding, é que o sistema em camadas pode ser usado para
 encapsular clientes e serviços legados
 
-* “Code-on-demand”: A aplicação REST teria que oferecer um conjunto de recursos
+\item \textbf{“Code-on-demand”:} A aplicação REST teria que oferecer um conjunto de recursos
 que viriam como código a ser executado no cliente. Este código seria como uma
 interface mínima da aplicação para o cliente consumir. A principal vantagem de
 implementar o Code-on-demand seria que, a parte básica da API não precisaria
 ser reimplementada pelo cliente. É o único quesito opcional para que uma
 interface fosse considerada como REST.
+\end{itemize}
 
 \section{Desenvolvimento}
 
@@ -793,22 +795,6 @@ mais prioritária.
     \end{center}
 \end{table}
 
-% \begin{table}
-%     \center
-%     \begin{tabular}{|p{1.4cm}|p{1cm}|p{3cm}|}
-%         \hline
-%         \textbf{App} & \textbf{Webservice} & \textbf{Site Secretaria} \\
-%         \hline
-
-
-
-
-
-
-%         \hline
-%     \end{tabular}
-% \end{table}
-
 \subsubsection{Definição dos Sprints}
 
 Um sprint é um período previamente acordado pelo time Agile onde o sistema é de
@@ -820,29 +806,31 @@ Android, cada sprint teve duração de 14 dias, onde foram escolhidos várias
 atividades de acordo com os critérios da sua prioridade de implementação e sua
 facilidade de implementação dada a situação que o projeto se encontrava.
 
-* Sprint I:
-O primeiro sprint foi feito a modelagem e a implementação do banco de dados,
-assim como o layout e a wireframe do ambiente web.
+\begin{description}
+\item[Sprint I:]
+O primeiro sprint foi feito a modelagem e a implementação do
+banco de dados, assim como o layout e a wireframe do ambiente web.
 
-* Sprint II:
+\item[Sprint II:]
 Nesta segunda etapa foi feita a criação do layout e padronização da interface
 do ambiente web. Também foram implementados os serviços de criação e inclusão
 dos protocolos.
 
-* Sprint III:
+\item[Sprint III:]
 Implementação das telas do aplicativo Android, e do fluxo principal de telas,
 também como a funcionalidade de ativar a câmera do aparelho, também foi
 implementado uma funcionalidade que busca automaticamente a localização do
 aparelho que está enviando o reporte
 
-* Sprint IV:
+\item[Sprint IV:]
 Este sprint foi focado na implementação das funcionalidades do aplicativo como
 o cadastro do usuário, tela de configurações e status dos protocolos enviados
 
-* Sprint V:
+\item[Sprint V:]
 No último sprint foram acertado os últimos detalhes do aplicativo, como
 gravação dos protocolos off-line para envio posterior, busca do status do
 protocolo e foi finalizado o design da aplicação.
+\end{description}
 
 \subsubsection{Apresentação para a Secretaria de Obras}
 
@@ -874,69 +862,82 @@ organização dos serviços realizados nos pontos de iluminação.
 
 Posteriormente, foi feita uma reunião com a assistente do Secretário, a senhora
 Cintia Firmino para entendermos melhor o funcionamento do processo atual.
+\begin{enumerate}
 
-1). Como é o processo atual?
+\item \textbf{Como é o processo atual?}
+
 Processo de atualização feito a partir da coleta manual do sistema 156, e
 colocado numa planilha para o tratamento de pedidos duplicados e separação
 dos casos por zona e bairro.
 
-2) Como vocês recebem as chamadas dos postes com defeitos?
+\item \textbf{Como vocês recebem as chamadas dos postes com defeitos?}
+
 Os chamados vêm do sistema 156, ou por memorando de Vereadores que tem
 prioridade, não possui um canal personalizado apenas para eles vem do
 sistema 156 (156 possui resposta programada)
 
-3). Como é feita a ordem de serviço?
+\item \textbf{Como é feita a ordem de serviço?}
+
 A ordem de serviço é feita pelo Excel, separando os chamados por zona,
 bairro e rua. E após isso esta planilha é enviada para a empresa URBAM por
 e-mail.
 
-4). Vocês acham que é o melhor processo? Como poderia melhorar?
+\item \textbf{Vocês acham que é o melhor processo? Como poderia melhorar?}
+
 O processo poderia melhorar se os protocolos já chegassem a nós separados pela
 região, sem duplicidade, com a data, sem a necessidade de analisar todos os
 pedidos que vem do 156
 
-5). Qual seria o processo ideal?
+\item \textbf{Qual seria o processo ideal?}
+
 Receber os protocolos separados pela região, bairro e rua, sem duplicidade.
 Responder ao munícipe automaticamente.
 
-6). Vocês separam os postes por tipos? Quais tipos?
+\item \textbf{Vocês separam os postes por tipos? Quais tipos?}
+
 Temos dois tipos, a iluminação ornamental, e a iluminação de vias.
 
-7). Como vocês agrupam postes da mesma rua? Vocês têm uma base de dados de
-endereços?
+\item \textbf{Como vocês agrupam postes da mesma rua? Vocês têm uma base de dados de
+endereços?}
+
 Os postes são agrupados em até 10 números da mesma rua. Há problemas
 também em verificar os endereços das praças e vielas pois tem mais de um
 endereço, além de algumas praças e vielas não constarem na pesquisa do Google.
 Isso afeta tamém a troca de làmpadas ornamentais.
 
-8). Vocês agrupam as situações das pendências (resolvida, não resolvida,
-enviada para serviço, etc.)? Se não, como seria o ideal?
+\item \textbf{Vocês agrupam as situações das pendências (resolvida, não resolvida,
+enviada para serviço, etc.)? Se não, como seria o ideal?}
+
 Sim, por planilha, quando uma ordem de serviço e é mandada, os pedidos são
 retirados de uma planilha e colocadas em outra sinalizando que foram mandados
 e estamos esperando a resposta da URBAM.
 
-9). Vocês agrupam os tipos de serviços das pendências (troca de lâmpada,
-troca de reator, etc.)? Se não, como seria o ideal?
+\item \textbf{Vocês agrupam os tipos de serviços das pendências (troca de lâmpada,
+troca de reator, etc.)? Se não, como seria o ideal?}
+
 Existem 3 tipos de serviços que nós justo com a URBAM, a troca de lâmpada, a
 troca de reator, e a troca da fotocélula.
 
 O que será trocado é analisado um a um, pela URBAM que depois reporta o que
 foi trocado.
 
-10). Como é feita a identificação de cada poste dentro de uma rua? Pelo
-número aproximado da casa?
+\item \textbf{Como é feita a identificação de cada poste dentro de uma rua? Pelo
+número aproximado da casa?}
+
 Ainda não existe um sistema de identificação no momento.
 
-11). Existe algum código para identificar os postes? Se não, o código ideal
-deve informar o quê?
+\item \textbf{Existe algum código para identificar os postes? Se não, o código ideal
+deve informar o quê?}
+
 Não existe, é pelo número da casa mais próxima ao poste.
 
-12). Vocês atualizam informações sobre cada ocorrência após o retorno da
-ordem de serviço? Se sim, o que vocês atualizam?
+\item \textbf{Vocês atualizam informações sobre cada ocorrência após o retorno da
+ordem de serviço? Se sim, o que vocês atualizam?}
+
 Sim, a URBAM retorna uma planilha com as tarefas executadas e o que foi
 trocado, e após, estas informações são colocadas numa planilha chamada
 “Executados”, e depois é respondido para o munícipe no 156.
-
+\end{enumerate}
 
 \subsubsection{Requisitos do sistema}
 
@@ -952,28 +953,28 @@ operações.
 
 De acordo com as respostas levantadas na reunião com a Cíntia, foram então levantados os seguintes requisitos funcionais:
 
-RF01: O sistema deverá fazer a coleta automática dos protocolos no sistema do 156
+\begin{description}
+\item[RF1:] O sistema deverá fazer a coleta automática dos protocolos no sistema do 156
 direcionados para a secretaria de obras.
-RF02: O sistema deverá fazer essa coleta e, de acordo com a informação de cada
+\item[RF2:] O sistema deverá fazer essa coleta e, de acordo com a informação de cada
 protocolo, separar em bairros e regiões corretas para cada endereço.
-RF03: O sistema deverá fazer a coleta sem adicionar protocolos em duplicidade.
+\item[RF3:] O sistema deverá fazer a coleta sem adicionar protocolos em duplicidade.
 Dois ou mais protocolos em duplicidade se caracterizam por se referirem ao
 mesmo ponto de iluminação pública, tendo em vista que os postes são agrupados
 logicamente de 10 em 10 metros na rua. Por exemplo, se um protocolo se referir
 a um poste no número 10 da rua, e outro protocolo se referir a um poste no número
 12 da rua, isso seria o mesmo poste.
-RF04: O sistema deverá tentar ligar a cada protocolo a um poste, caso isso falhe,
+\item[RF4:] O sistema deverá tentar ligar a cada protocolo a um poste, caso isso falhe,
 os sistemas devem permitir que o usuário faça essa correção manualmente.
-RF05: O sistema deverá gerar a ordem de serviço em formato de planilha com,
+\item[RF5:] O sistema deverá gerar a ordem de serviço em formato de planilha com,
 no máximo 50 pendências. Na geração da ordem de serviço, o sistema deverá
 dar preferência em agrupar protocolos do mesmo bairro e da mesma região da cidade.
-RF06: O sistema deverá permitir a atualização da situação de execução e qual foi
+\item[RF6:] O sistema deverá permitir a atualização da situação de execução e qual foi
 o tipo de manutenção realizada de cada protocolo das ordens de serviço.
-RF07: O sistema deverá identificar as ordens de serviço que foram executadas para
+\item[RF7:] O sistema deverá identificar as ordens de serviço que foram executadas para
 que o munícipe seja alertado.
-RF08: O sistema deverá permitir que se faça buscas na base de postes e protocolos.
-
-
+\item[RF8:] O sistema deverá permitir que se faça buscas na base de postes e protocolos.
+\end{description}
 
 % \begin{verbatim}
 %    \setlrmarginsandblock{3cm}{3cm}{*}
