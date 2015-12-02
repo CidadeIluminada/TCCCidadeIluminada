@@ -373,17 +373,17 @@ até 28\% a despensa anual dos municípios.\cite{cdu}
 \subsection{Desenvolvimento mobile}
 
 Durante as últimas décadas foi notável o aumento significativo do uso de
-dispositivos móveis, segundo o grupo Ibope[12], com diversas funções e finalidades
- específicas, como computadores de bolso, smartphones, telefones celular,
- consoles portáteis combinado com as mais diversas tecnologias como GPS,
- navegadores de Internet, WAP, leitores de áudio, vídeo e texto, entre outros,
- e juntamente com a evolução das tecnologias e o aumento do poder computacional
- tornou-se possível o desenvolvimento de aplicações independentes do hardware ou
- software do dispositivo.
+dispositivos móveis, segundo o grupo Ibope \cite{ibope}, com diversas funções e finalidades
+específicas, como computadores de bolso, smartphones, telefones celular,
+consoles portáteis combinado com as mais diversas tecnologias como GPS,
+navegadores de Internet, WAP, leitores de áudio, vídeo e texto, entre outros,
+e juntamente com a evolução das tecnologias e o aumento do poder computacional
+tornou-se possível o desenvolvimento de aplicações independentes do hardware ou
+software do dispositivo.
 
 Na América Latina não foi diferente, até o ano de 2014 o Brasil possuía certa
 de 137 milhões de usuário,um pouco mais de 67\% da população, segundo pesquisa
-conduzida pela eMarketer [19], que ainda prevê um aumento de mais 4 milhões de
+conduzida pela eMarketer \cite{emarketer}, que ainda prevê um aumento de mais 4 milhões de
 usuários até o final de 2015.
 
 Com base nesses dados é irrefutável o crescimento do mercado neste segmento o
@@ -570,7 +570,7 @@ O sistema operacional Android foi lançado pela Google no ano de 2007, e no ano
 de 2008 foi lançado uma API para os desenvolvedores. Desde o seu lançamento,
 este sistema operacional obteve grande popularidade em seu uso, chegando a ter
 mais de 89\% do mercado brasileiro no primeiro trimestre de 2015, segundo o site
-Kantar Worldpanel ComTech. [4]
+Kantar Worldpanel ComTech. \cite{comtech}
 
 A Google provê uma API de fácil manipulação, com código fonte aberto baseada em
 Java para incentivar e simplificar o desenvolvimento de aplicações, o que tem
@@ -579,7 +579,7 @@ Market chegou a 1.6 milhões no último semestre de 2015.
 
 O sucesso do Android no mercado brasileiro, que segundo a pesquisa do site The
 Statistics Portal, o market share do sistema operacional chegou a mais de
-77\% no primeiro semestre de 2015[18], e a facilidade de desenvolvimento foram
+77\% no primeiro semestre de 2015 \cite{statista}, e a facilidade de desenvolvimento foram
 os principais motivos da escolha do uso deste para o desenvolvimento do
 aplicativo Cidade Iluminada.
 
@@ -589,7 +589,7 @@ GSON é uma biblioteca do Google para a serialização e deserialização de obj
 Java arbitrários. O objetivo desta biblioteca, além de prover essas conversões,
 é trabalhar com objetos que o programador não necessariamente tem o código-fonte
 disponível, mantendo uma interface simples (métodos fromJson e toJson) para
-quando for precisar converter de e para JSON. [33]
+quando for precisar converter de e para JSON. \cite{gson}
 
 A biblioteca foi utilizada pois ela atende a necessidade principal de tratar
 JSON mas ainda sendo relativamente fácil de utilizar e configurar as classes
@@ -604,7 +604,7 @@ deixa a desejar no aspecto de facilidade de uso.
 Ela foi utilizada para a geração de timestamps em UTC para marcar o envio das
 requisições do aplicativo e para gerar os nomes de arquivos das fotos tiradas
 pelo aplicativo. A biblioteca Joda-Time foi escolhida para substituir a
-biblioteca padrão do Java nas suas proximas versões.[34]
+biblioteca padrão do Java nas suas proximas versões.\cite{jodatime}
 
 \subsubsection{Retrofit}
 
@@ -612,13 +612,13 @@ A biblioteca Retrofit tem como objetivo disponibilizar ferramentas para que se
 possa definir APIs REST como interfaces Java para serem então usadas no código
 da aplicação sem maiores dificuldades. Além disso, ela disponibiliza modos de
 fazer requisições síncronas ou assíncronas, dependendo das necessidades de cada
-aplicação.[35]
+aplicação.\cite{retrofit}
 
 A biblioteca Retrofit foi utilizada devido a sua facilidade de utilização e
 adaptação à API já definida do trabalho. Houve uma primeira tentativa de
 implementação utilizando a biblioteca Unirest, mas devido a dificuldades de
 compilação da biblioteca para utilização no ecossistema Android a Unirest foi
-substituida pela Retrofit.[36]
+substituida pela Retrofit.
 
 \subsubsection{Sugar}
 
@@ -626,7 +626,7 @@ Sugar é uma biblioteca que tem como objetivo de ser uma ORM especificamente par
 aplicações Android, tendo uma interface por objetos e classes com o banco de dados
 SQLite do dispositivo. Além disso, ela tem a pretensão de ser simples de usar e
 simples de configurar. Alem disso, ela possui suporte à migraçoes de banco
-automáticas.[37]
+automáticas.\cite{sugar}
 
 O Sugar foi escolhido justamente devido a sua simplicidade tanto na configuração
 quanto no seu uso dentro do codigo.
@@ -650,7 +650,7 @@ sintaxe parecida com a liguagem Java, descartando assim a liguagem Python
 
 Brendan Eich foi contratado para implementar a liguagem Scheme no navegador,
 porém, por causa dessa decisão da Netscape, ele acabou implementando a liguagem
-que seria conhecida como JavaScript (o nome oficial é ECMAScript) em 10 dias. [8]
+que seria conhecida como JavaScript (o nome oficial é ECMAScript) em 10 dias. \cite{javascript}
 
 Apesar de seu surgimento rápido, a linguagem foi passando por várias alterações
 que a deixam muito mais poderosa e mais em linha com as necessidades atuais de
@@ -666,8 +666,8 @@ ambientes pessoais ou corporativos.
 \subsubsection{JSON}
 
 JSON (JavaScript Object Notation) é um formato para guardar e transmitir dados
-em formato de texto . JSON descoberto e formalizado por Douglas Crockford em
-2001. [37] Desde então vem ganhando popularidade como um formato de troca de
+em formato de texto. O JSON foi descoberto e formalizado por Douglas Crockford em
+2001. \cite{json} Desde então vem ganhando popularidade como um formato de troca de
 dados entre aplicações web. Existem bibliotecas para a leitura do formato JSON
 para a maioria das linguagens de programação, além do suporte praticamente
 nativo no JavaScript e Python.
@@ -681,8 +681,8 @@ de quantidade de bytes enviados do que XML para envio de dados mais simples.
 AngularJS é um framework do tipo MVC (Model-View-Controller) JavaScript que
 tem como objetivo facilitar o desenvolvimento web, estendendo e adaptando o
 HTML para melhorar a experiência de desenvolvimento de páginas Web altamente
-dinâmicas. Esta framework foi criada em 2009[11] por  Miško Hevery e Adam
-Abrons, e é open-source.
+dinâmicas. Esta framework foi criada em 2009 por Miško Hevery e Adam
+Abrons, e é open-source. \cite{angularjs}
 
 O framework foi utilizado na criação da página de controle dos protocolos
 vindos da aplicação Android, sendo parte fundamental da implementação do módulo
@@ -697,7 +697,7 @@ JQuery é uma biblioteca JavaScript que tem como objetivo principal facilitar a 
 seleção e manipulação de documentos HTML e o controle de eventos nas páginas.
 Isso possibilita a criação de páginas interativas em JavaScript com muito menos
 dificuldades. Além disso, o JQuery disponibiliza uma API única para todos os
-navegadores principais. [38]
+navegadores principais. \cite{jquery}
 
 O JQuery foi utilizado em várias das páginas da parte de gerenciamento de
 protocolos e serviços, pois ela se tornou uma peça fundamental para o
@@ -709,7 +709,7 @@ implementada em JQuery.
 \subsection{Representational State Transfer (REST)}
 
 O REST é um estilo de arquitetura para aplicações Web proposta por Roy Thomas
-Fielding em sua dissertação de PhD. [39] Esta tese tinha como objetivo de,
+Fielding em sua dissertação de PhD. \cite{fielding} Esta tese tinha como objetivo de,
 além de propor esse tipo de arquitetura, avaliar se serviços disponíveis na Web
 até então seguiam os quesitos seguintes:
 
@@ -837,7 +837,7 @@ protocolo e foi finalizado o design da aplicação.
 Após a finalização da primeira versão do aplicativo e do ambiente web do
 projeto “Cidade Iluminada”, fomos convidados a apresentar nossa solução para o
 Secretário de Obras de São José dos Campos, o senhor Rene Mina Vernice e sua
-equipe, na data de 14 de Setembro de 2015.
+equipe, na data de 14 de Maio de 2015.
 
 Inicialmente, a ideia do aplicativo não foi bem aceita, pois foi alegado que
 isso geraria ainda mais trabalho para os funcionários responsáveis por
@@ -975,6 +975,105 @@ o tipo de manutenção realizada de cada protocolo das ordens de serviço.
 que o munícipe seja alertado.
 \item[RF8:] O sistema deverá permitir que se faça buscas na base de postes e protocolos.
 \end{description}
+
+
+
+% % ---
+% \section{Figuras}
+% % ---
+
+% \index{figuras}Figuras podem ser criadas diretamente em \LaTeX,
+% como o exemplo da \autoref{fig_circulo}.
+
+% \begin{figure}[htb]
+%     \caption{\label{fig_circulo}A delimitação do espaço}
+%     \begin{center}
+%         \setlength{\unitlength}{5cm}
+%         \begin{picture}(1,1)
+%         \put(0,0){\line(0,1){1}}
+%         \put(0,0){\line(1,0){1}}
+%         \put(0,0){\line(1,1){1}}
+%         \put(0,0){\line(1,2){.5}}
+%         \put(0,0){\line(1,3){.3333}}
+%         \put(0,0){\line(1,4){.25}}
+%         \put(0,0){\line(1,5){.2}}
+%         \put(0,0){\line(1,6){.1667}}
+%         \put(0,0){\line(2,1){1}}
+%         \put(0,0){\line(2,3){.6667}}
+%         \put(0,0){\line(2,5){.4}}
+%         \put(0,0){\line(3,1){1}}
+%         \put(0,0){\line(3,2){1}}
+%         \put(0,0){\line(3,4){.75}}
+%         \put(0,0){\line(3,5){.6}}
+%         \put(0,0){\line(4,1){1}}
+%         \put(0,0){\line(4,3){1}}
+%         \put(0,0){\line(4,5){.8}}
+%         \put(0,0){\line(5,1){1}}
+%         \put(0,0){\line(5,2){1}}
+%         \put(0,0){\line(5,3){1}}
+%         \put(0,0){\line(5,4){1}}
+%         \put(0,0){\line(5,6){.8333}}
+%         \put(0,0){\line(6,1){1}}
+%         \put(0,0){\line(6,5){1}}
+%         \end{picture}
+%     \end{center}
+%     \legend{Fonte: os autores}
+% \end{figure}
+
+% Ou então figuras podem ser incorporadas de arquivos externos, como é o caso da
+% \autoref{fig_grafico}. Se a figura que ser incluída se tratar de um diagrama, um
+% gráfico ou uma ilustração que você mesmo produza, priorize o uso de imagens
+% vetoriais no formato PDF. Com isso, o tamanho do arquivo final do trabalho será
+% menor, e as imagens terão uma apresentação melhor, principalmente quando
+% impressas, uma vez que imagens vetorias são perfeitamente escaláveis para
+% qualquer dimensão. Nesse caso, se for utilizar o Microsoft Excel para produzir
+% gráficos, ou o Microsoft Word para produzir ilustrações, exporte-os como PDF e
+% os incorpore ao documento conforme o exemplo abaixo. No entanto, para manter a
+% coerência no uso de software livre (já que você está usando \LaTeX e \abnTeX),
+% teste a ferramenta \textsf{InkScape}\index{InkScape}
+% (\url{http://inkscape.org/}). Ela é uma excelente opção de código-livre para
+% produzir ilustrações vetoriais, similar ao CorelDraw\index{CorelDraw} ou ao Adobe
+% Illustrator\index{Adobe Illustrator}. De todo modo, caso não seja possível
+% utilizar arquivos de imagens como PDF, utilize qualquer outro formato, como
+% JPEG, GIF, BMP, etc. Nesse caso, você pode tentar aprimorar as imagens
+% incorporadas com o software livre \textsf{Gimp}\index{Gimp}
+% (\url{http://www.gimp.org/}). Ele é uma alternativa livre ao Adobe
+% Photoshop\index{Adobe Photoshop}.
+
+% \begin{figure}[htb]
+%     \caption{\label{fig_grafico}Gráfico produzido em Excel e salvo como PDF}
+%     \begin{center}
+%         \includegraphics[scale=0.5]{abntex2-modelo-img-grafico.pdf}
+%     \end{center}
+%     \legend{Fonte: \citeonline[p. 24]{araujo2012}}
+% \end{figure}
+
+% % ---
+% \subsection{Figuras em \emph{minipages}}
+% % ---
+
+% \emph{Minipages} são usadas para inserir textos ou outros elementos em quadros
+% com tamanhos e posições controladas. Veja o exemplo da
+% \autoref{fig_minipage_imagem1} e da \autoref{fig_minipage_grafico2}.
+
+% \begin{figure}[htb]
+%  \label{teste}
+%  \centering
+%   \begin{minipage}{0.4\textwidth}
+%     \centering
+%     \caption{Imagem 1 da minipage} \label{fig_minipage_imagem1}
+%     \includegraphics[scale=0.9]{abntex2-modelo-img-marca.pdf}
+%     \legend{Fonte: Produzido pelos autores}
+%   \end{minipage}
+%   \hfill
+%   \begin{minipage}{0.4\textwidth}
+%     \centering
+%     \caption{Grafico 2 da minipage} \label{fig_minipage_grafico2}
+%     \includegraphics[scale=0.2]{abntex2-modelo-img-grafico.pdf}
+%     \legend{Fonte: \citeonline[p. 24]{araujo2012}}
+%   \end{minipage}
+% \end{figure}
+
 
 % \begin{verbatim}
 %    \setlrmarginsandblock{3cm}{3cm}{*}
