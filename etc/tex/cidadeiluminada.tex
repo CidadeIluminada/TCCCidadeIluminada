@@ -422,120 +422,556 @@ anteriores com o Python e com o framework Flask.
 
 \subsubsection{Flask}
 
-dasdasdasds
+Flask é um microframework para desenvolvimento web, criado em Python baseado
+em duas ferramentas Werkzeug, como servidor de aplicação e Jinja2, como o motor
+de renderização. O Flask mantém o núcleo simples e, para isso, ele suporta
+extensões que são capazes de adicionar diversas funcionalidades a aplicação
+como por exemplo suporte a banco de dados, camadas de cache, geração de
+formulários, etc.. \cite{flask}
+
+Existem vários outros frameworks de desenvolvimento web para Python, como por
+exemplo o Django, Pyramid, Tornado, entre outros.  O Flask foi escolhido devido
+a sua grande capacidade de extensão e por causa de experiências anteriores com
+o desenvolvimento de aplicativos Web.
+
 
 \subsubsection{SQLAlchemy e Flask-SQLAlchemy}
 
-dasdasdasds
+O SQLAlchemy é um conjunto de ferramentas para operar com SQL no Python de
+forma abstrata, englobando assim um ORM e um conjunto de ferramentas para a
+utilização do SQL no Python de forma natural para os usuários de Python. \cite{sqlalchemy}
+
+Além disso, o SQLAlchemy abstrai os principais bancos de dados, como o MySQL,
+PostgresSQL, Oracle e até mesmo SQLite. Isso permite a codificação do acesso ao
+banco de dados da aplicação sem precisar depender de qual banco específico.
+
+A integração do Flask com o SQLAlchemy se dá por meio da extensão
+Flask-SQLAlchemy, e ela tem como objetivo principal facilitar a configuração do
+SQLAlchemy para a sua utilização em aplicativos Flask. \cite{flasksqlalchemy}
+
+O SQLAlchemy e o Flask-SQLAlchemy foram escolhidos devido a sua grande
+flexibilidade e poder expressivo dentro de sua linguagem, além de sua fácil
+integração com o Flask.
 
 \subsubsection{Flask-Migrate e alembic}
 
-dasdasdasds
+O alembic é uma ferramenta que trabalha junto com o SQLAlchemy para a geração e
+execução de migrações de banco de dados. Isso permite que alterações feitas no
+código das classes sejam refletidas na estrutura de tabelas no banco de dados
+de forma semi-automática. \cite{alembic}
+
+O Flask-Migrate é a biblioteca de integração do alembic com o Flask. Isso expõe
+ao Flask comandos que facilitam o gerenciamento destas migrações. \cite{flaskmigrate}
+
+O alembic foi escolhido não somente pela sua fácil integração com tanto o
+SQLAlchemy e o Flask, mas também por ele ser uma ferramenta de gerenciamento de
+migrações de alta qualidade.
+
 
 \subsubsection{Flask-Admin}
 
-dasdasdasds
+O Flask-Admin é uma extensão do Flask que auxilia a criação de páginas de
+gerenciamento do back-end de aplicativos em Flask. Isso é feito expondo aos
+programadores utilidades que geram telas administrativas genéricas para que
+então cada aplicação as customize de acordo com suas necessidades. \cite{flaskadmin}
+
+O Flask-Admin foi escolhido para ser a base das telas do sistema de
+gerenciamento de ordens de serviço pois grande parte das funcionalidades básicas
+necessárias para um sistema CRUD já estão maduras no Flask-Admin.
 
 \subsubsection{Flask-Script}
 
-dasdasdasds
+O Flask-Script disponibiliza um conjunto de ferramentas e classes em Python
+para o gerenciamento da aplicação Flask via linha de comando.
+
+Inicialmente, o Flask-Script disponibiliza comandos para o gerenciamento do
+servidor de desenvolvimento e disponibiliza estruturas para que cada aplicação
+possa implementar seus próprios comandos. \cite{flaskscript} Por exemplo a extensão Flask-Migrate
+disponibiliza comandos via o Flask-Script para preparar e executar migrações de
+banco de dados.
+
+O Flask-Script foi escolhido para realizar a integração pois ela atende
+satisfatoriamente à demanda de auxílio no gerenciamento da aplicação.
 
 \subsubsection{xhtml2pdf}
 
-dasdasdasds
+O xhtml2pdf é uma biblioteca que tem como objetivo transformar páginas HTML
+preparadas para o formato PDF.\cite{xhtml2pdf}
+
+A biblioteca foi utilizada para gerar as tabelas das ordens de serviço para
+compartilhar com a URBAM os endereços dos postes de cada ordem de serviço gerada.
+
+Essa biblioteca foi utilizada pois ela era a mais conveniente de ser utilizada
+dado o fato que o Flask contém um renderizador de templates HTML.
 
 \subsubsection{fabric e fabtools}
 
-dasdasdasds
+O fabric é uma utilidade que tem como objetivo executar comandos de
+gerenciamento de servidores via SSH. A grande vantagem de sua utilização é
+automatizar tarefas de lançamento da aplicação ou até mesmo a preparação de
+ambientes de produção.\cite{fabric}
+
+O fabtools é uma biblioteca que expande o fabric para que a escrita de scripts
+fabric seja ainda mais fácil. Para isso, o fabtools expõe comandos para as
+ferramentas mais utilizadas, como comandos do sistema de arquivos, gerenciamento
+de pacotes de instalações, git, banco de dados, etc.. \cite{fabtools}
+
+O fabric e fabtools foram escolhidos para serem utilizados devido experiências
+positivas anteriores de gerenciamento de servidores.
 
 \subsubsection{unicodecsv}
 
-dasdasdasds
+O módulo csv do Python é disponibilizado na biblioteca padrão do Python para a
+leitura e escrita de arquivos separados por vírgula. Porém, devido às
+dificuldades do Python 2.7 para a leitura e uso de textos com codificação em
+Unicode, surgiram várias bibliotecas que vieram para suplantar os módulos da
+biblioteca padrão.
+
+Uma dessas bibliotecas é justamente o unicodecsv, que simplesmente faz o
+tratamento de textos em Unicode para que não ocorra erros na leitura e escrita
+desses arquivos com a codificação Unicode. \cite{unicodecsv}
+
+Ela foi escolhida pois, além de atender perfeitamente essa demanda, ela tem
+uma grande facilidade no seu uso, pois a sua interface e idêntica ao módulo
+csv padrão do Python
 
 \subsubsection{Flask-Security}
 
-dasdasdasds
+O Flask-Security é a integração de uma série de bibliotecas do Flask
+relacionadas ao controle de acesso de usuários com o objetivo de facilitar a
+implementação desse tipo de sistema. \cite{flasksecurity}
+
+Apesar de sua baixa flexibilidade, o Flask-Security foi escolhido para ser
+usado no controle de acesso pois ele atendia plenamente as necessidades do
+projeto na questão de gerenciamento de usuários e controle de acesso.
 
 
 \subsection{Java}
 
-dasdasdasds
+A linguagem de programação Java foi lançada em 1995, e, desde o início de seu
+desenvolvimento em 1993 ela foi especificada para ser “independente de plataformas,
+porém segura o suficiente para atravessar redes e poderosa o suficiente para
+substituir código nativo”. \cite{java}
+
+O Java teve as mais diversas aplicações, sendo usado para applets para a Web,
+para programas desktop, para serviços em servidores, para aplicações Web e até
+rodando em sistemas embarcados. Essa última aplicação provavelmente
+possibilitando a implementação do sistema operacional para smartphones Android.
+
+O Java foi utilizado para a implantação do aplicativo Android do Cidade
+Iluminada pois é a linguagem que o sistema operacional Android usa
+nativamente para as aplicações, tornando assim o desenvolvimento do aplicativos
+de acordo com os padrões de desenvolvimento Android.
+
 
 \subsubsection{Android}
 
-dasdasdasds
+O sistema operacional Android foi lançado pela Google no ano de 2007, e no ano
+de 2008 foi lançado uma API para os desenvolvedores. Desde o seu lançamento,
+este sistema operacional obteve grande popularidade em seu uso, chegando a ter
+mais de 89\% do mercado brasileiro no primeiro trimestre de 2015, segundo o site
+Kantar Worldpanel ComTech. [4]
+
+A Google provê uma API de fácil manipulação, com código fonte aberto baseada em
+Java para incentivar e simplificar o desenvolvimento de aplicações, o que tem
+sido uma boa estratégia já que o número de aplicativos disponíveis no Android
+Market chegou a 1.6 milhões no último semestre de 2015.
+
+O sucesso do Android no mercado brasileiro, que segundo a pesquisa do site The
+Statistics Portal, o market share do sistema operacional chegou a mais de
+77\% no primeiro semestre de 2015[18], e a facilidade de desenvolvimento foram
+os principais motivos da escolha do uso deste para o desenvolvimento do
+aplicativo Cidade Iluminada.
 
 \subsubsection{GSON}
 
-dasdasdasds
+GSON é uma biblioteca do Google para a serialização e deserialização de objetos
+Java arbitrários. O objetivo desta biblioteca, além de prover essas conversões,
+é trabalhar com objetos que o programador não necessariamente tem o código-fonte
+disponível, mantendo uma interface simples (métodos fromJson e toJson) para
+quando for precisar converter de e para JSON. [33]
+
+A biblioteca foi utilizada pois ela atende a necessidade principal de tratar
+JSON mas ainda sendo relativamente fácil de utilizar e configurar as classes
+que precisam dessa conversão.
 
 \subsubsection{Joda-Time}
 
-dasdasdasds
+A biblioteca Joda-Time tem como objetivo prover facilidades para o programador Java
+manipular objetos de data e tempo, tendo em vista que a biblioteca padrão do Java
+deixa a desejar no aspecto de facilidade de uso.
+
+Ela foi utilizada para a geração de timestamps em UTC para marcar o envio das
+requisições do aplicativo e para gerar os nomes de arquivos das fotos tiradas
+pelo aplicativo. A biblioteca Joda-Time foi escolhida para substituir a
+biblioteca padrão do Java nas suas proximas versões.[34]
 
 \subsubsection{Retrofit}
 
-dasdasdasds
+A biblioteca Retrofit tem como objetivo disponibilizar ferramentas para que se
+possa definir APIs REST como interfaces Java para serem então usadas no código
+da aplicação sem maiores dificuldades. Além disso, ela disponibiliza modos de
+fazer requisições síncronas ou assíncronas, dependendo das necessidades de cada
+aplicação.[35]
+
+A biblioteca Retrofit foi utilizada devido a sua facilidade de utilização e
+adaptação à API já definida do trabalho. Houve uma primeira tentativa de
+implementação utilizando a biblioteca Unirest, mas devido a dificuldades de
+compilação da biblioteca para utilização no ecossistema Android a Unirest foi
+substituida pela Retrofit.[36]
 
 \subsubsection{Sugar}
 
-dasdasdasds
+Sugar é uma biblioteca que tem como objetivo de ser uma ORM especificamente para
+aplicações Android, tendo uma interface por objetos e classes com o banco de dados
+SQLite do dispositivo. Além disso, ela tem a pretensão de ser simples de usar e
+simples de configurar. Alem disso, ela possui suporte à migraçoes de banco
+automáticas.[37]
+
+O Sugar foi escolhido justamente devido a sua simplicidade tanto na configuração
+quanto no seu uso dentro do codigo.
 
 \subsection{JavaScript}
 
-dasdasdasds
+JavaScript é uma linguagem dinâmica, funcional e orientada a objetos, suas
+aplicações são distribuídas somente em forma de código fonte, e é executada em
+todos os navegadores modernos com poucas ou nenhuma diferença de plataforma.
+Isso é especialmente importante nos dias atuais pois até mesmo smartphones têm
+o seu próprio navegador, abrindo então uma nova plataforma inteira de aplicações
+
+Em 1994, foi fundada uma empresa chamada Netscape, e um dos principais objetivos
+dela foi a exploração da Web nascente, e sua então nova necessidade de serem
+disponibilizadas páginas dinâmicas. Um exemplo disso foi a necessidade de
+validação de formulários: O usuário teria que preencher todo o formulário,
+enviá-lo e então receber o retorno do servidor se falhou ou não. Em 1995, em uma
+parceria com a Sun, a Netscape decidiu que esta nova linguagem teria que ter uma
+sintaxe parecida com a liguagem Java, descartando assim a liguagem Python
+(entre outras) como candidatas para ser implementadas em seu navegador.
+
+Brendan Eich foi contratado para implementar a liguagem Scheme no navegador,
+porém, por causa dessa decisão da Netscape, ele acabou implementando a liguagem
+que seria conhecida como JavaScript (o nome oficial é ECMAScript) em 10 dias. [8]
+
+Apesar de seu surgimento rápido, a linguagem foi passando por várias alterações
+que a deixam muito mais poderosa e mais em linha com as necessidades atuais de
+desenvolvimento para a Web moderna.
+
+O JavaScript foi escolhido para a implementação de páginas Web dinâmicas no
+projeto principalmente pelo fator de ele ser suportado pelos principais
+navegadores existentes no mercado, como o Mozilla Firefox, o Google Chrome e o
+Internet Explorer, sendo os dois primeiros softwares livres para a utilização em
+ambientes pessoais ou corporativos.
+
 
 \subsubsection{JSON}
 
-dasdasdasds
+JSON (JavaScript Object Notation) é um formato para guardar e transmitir dados
+em formato de texto . JSON descoberto e formalizado por Douglas Crockford em
+2001. [37] Desde então vem ganhando popularidade como um formato de troca de
+dados entre aplicações web. Existem bibliotecas para a leitura do formato JSON
+para a maioria das linguagens de programação, além do suporte praticamente
+nativo no JavaScript e Python.
+
+O JSON foi escolhido como método de troca de dados pois ele tem suporte
+praticamente nativo em JavaScript e Python, além de ser mais eficiente em termos
+de quantidade de bytes enviados do que XML para envio de dados mais simples.
 
 \subsubsection{AngularJS}
 
-dasdasdasds
+AngularJS é um framework do tipo MVC (Model-View-Controller) JavaScript que
+tem como objetivo facilitar o desenvolvimento web, estendendo e adaptando o
+HTML para melhorar a experiência de desenvolvimento de páginas Web altamente
+dinâmicas. Esta framework foi criada em 2009[11] por  Miško Hevery e Adam
+Abrons, e é open-source.
+
+O framework foi utilizado na criação da página de controle dos protocolos
+vindos da aplicação Android, sendo parte fundamental da implementação do módulo
+de tempo real desta página.
+
+O AngularJS foi escolhido devido a sua grande capacidade de facilitar o
+desenvolvimento e manutenção de páginas Web altamente interativos.
 
 \subsubsection{JQuery}
 
-dasdasdasds
+JQuery é uma biblioteca JavaScript que tem como objetivo principal facilitar a 4
+seleção e manipulação de documentos HTML e o controle de eventos nas páginas.
+Isso possibilita a criação de páginas interativas em JavaScript com muito menos
+dificuldades. Além disso, o JQuery disponibiliza uma API única para todos os
+navegadores principais. [38]
+
+O JQuery foi utilizado em várias das páginas da parte de gerenciamento de
+protocolos e serviços, pois ela se tornou uma peça fundamental para o
+desenvolvimento Web moderno. Das páginas utilizadas, destaca-se a página de
+criação de Ordens de Serviço, onde a parte de seleção de postes foi
+implementada em JQuery.
 
 
 \subsection{Representational State Transfer (REST)}
 
-dasdasdasds
+O REST é um estilo de arquitetura para aplicações Web proposta por Roy Thomas
+Fielding em sua dissertação de PhD. [39] Esta tese tinha como objetivo de,
+além de propor esse tipo de arquitetura, avaliar se serviços disponíveis na Web
+até então seguiam os quesitos seguintes:
 
+* Cliente-Servidor: A aplicação teria que manter independentemente suas
+implementação de clientes (interface gráfica, por exemplo) da implementação dos
+serviços oferecidos por ela (banco de dados, por exemplo)
+
+* Sem estado: Isso significa que, a cada requisição enviada para o servidor,
+esta teria que incluir todos os dados para que a própria seja entendida,
+sem que o servidor precise depender de informações que por ventura ele possa
+ter armazenado anteriormente.
+
+* Cacheável: Cada resposta a uma requisição tem que deixar explícito se é
+permitido guardar a resposta em um cache no cliente. A ideia é que, se o
+cliente precisar refazer uma requisição equivalente, esta requisição deveria
+utilizar o cache ao invés de ser enviada para o servidor.
+
+* Interface uniforme: De acordo com Fielding em sua dissertação, é a
+característica fundamental que aplicações REST têm de implementar. Ela
+consiste em padronizar todos os componentes para que as implementações de
+clientes e serviços sejam simplificados.
+
+* Sistema em camadas: Cada componente deve não conhecer ou depender de
+componentes de que este componente não precise interagir. A principal vantagem,
+de acordo com Fielding, é que o sistema em camadas pode ser usado para
+encapsular clientes e serviços legados
+
+* “Code-on-demand”: A aplicação REST teria que oferecer um conjunto de recursos
+que viriam como código a ser executado no cliente. Este código seria como uma
+interface mínima da aplicação para o cliente consumir. A principal vantagem de
+implementar o Code-on-demand seria que, a parte básica da API não precisaria
+ser reimplementada pelo cliente. É o único quesito opcional para que uma
+interface fosse considerada como REST.
 
 \section{Desenvolvimento}
 
-dasdasdasds
+O desenvolvimento do trabalho pode ser separado em duas fases ou períodos
+distintos, sendo estes o desenvolvimento do aplicativo para smartphones Android
+e o sistema de gerenciamento dos protocolos deste, e o desenvolvimento do
+sistema de gerenciamento de pontos de iluminação e de seus serviços e chamados.
 
 
 \subsection{Aplicativo Android e seu sistema de gerenciamento}
 
-dasdasdasds
+Para o desenvolvimento do aplicativo para smartphones Android e seu sistema de
+gerenciamento, foram aplicadas os métodos Agile de desenvolvimento Scrum e Kanban.
+
+As atividades a serem cumpridas foram determinadas no início do projeto, e
+foram divididas em três categorias, e priorizadas dependendo da importância de
+cada atividade para o cumprimento do projeto.
+
+Em relação à execução das atividades, elas foram divididas em 5 “sprints”, que
+foi um período de 14 dias em que as atividades selecionadas para fazer parte
+do sprint teriam que ser cumpridas. Para determinar quais atividades entrariam
+em cada sprint, foi usado primeiramente o critério da prioridade de cada
+atividade, e secundariamente, o tempo estimado para o término da atividade.
+
 
 \subsubsection{Backlog de atividades}
 
-dasdasdasds
+O backlog de atividades é o repositório inicial das atividades, e onde cada
+atividade foi posta em uma das três categorias de desenvolvimento, App,
+Webservice e Site Secretaria. Além disso, cada atividade recebeu uma pontuação
+de 1 a 15, que determinava a prioridade daquela atividade. 1 é a atividade
+mais prioritária.
+
+\begin{table}[htbp]
+    \caption{Tabela de definição das atividades.}
+    \label{tabela-atividades}
+    \begin{center}
+        \begin{tabular}{|p{5cm}|p{4cm}|p{5cm}|}
+            \hline
+            8 - Tela Principal & 7 - Incluir protocolos & 1 - Criar Banco de Dados \\
+            9 - Incluir protocolos anônimos & 13 - Consultar protocolos & 2 - Página inicial \\
+            10 - Cadastro de usuário & 14 - Listar protocolos & 3 - Cadastro de usuário \\
+            11 - Incluir protocolos cadastrados & & 4 - Controle de acesso \\
+            12 - Gravar off-line protocolos para envio posterior & & 5 - Visualizar protocolos \\
+            15 - Listar protocolos & & 6 - Mudar status protocolos \\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+% \begin{table}
+%     \center
+%     \begin{tabular}{|p{1.4cm}|p{1cm}|p{3cm}|}
+%         \hline
+%         \textbf{App} & \textbf{Webservice} & \textbf{Site Secretaria} \\
+%         \hline
+
+
+
+
+
+
+%         \hline
+%     \end{tabular}
+% \end{table}
 
 \subsubsection{Definição dos Sprints}
 
-dasdasdasds
+Um sprint é um período previamente acordado pelo time Agile onde o sistema é de
+fato implementado. Este período pode variar de acordo com cada equipe, mesmo em
+equipes dentro da mesma organização ou empresa.
+
+Para o desenvolvimento do sistema de gerenciamento dos protocolos e do aplicativo
+Android, cada sprint teve duração de 14 dias, onde foram escolhidos várias
+atividades de acordo com os critérios da sua prioridade de implementação e sua
+facilidade de implementação dada a situação que o projeto se encontrava.
+
+* Sprint I:
+O primeiro sprint foi feito a modelagem e a implementação do banco de dados,
+assim como o layout e a wireframe do ambiente web.
+
+* Sprint II:
+Nesta segunda etapa foi feita a criação do layout e padronização da interface
+do ambiente web. Também foram implementados os serviços de criação e inclusão
+dos protocolos.
+
+* Sprint III:
+Implementação das telas do aplicativo Android, e do fluxo principal de telas,
+também como a funcionalidade de ativar a câmera do aparelho, também foi
+implementado uma funcionalidade que busca automaticamente a localização do
+aparelho que está enviando o reporte
+
+* Sprint IV:
+Este sprint foi focado na implementação das funcionalidades do aplicativo como
+o cadastro do usuário, tela de configurações e status dos protocolos enviados
+
+* Sprint V:
+No último sprint foram acertado os últimos detalhes do aplicativo, como
+gravação dos protocolos off-line para envio posterior, busca do status do
+protocolo e foi finalizado o design da aplicação.
 
 \subsubsection{Apresentação para a Secretaria de Obras}
 
-dasdasdasds
+Após a finalização da primeira versão do aplicativo e do ambiente web do
+projeto “Cidade Iluminada”, fomos convidados a apresentar nossa solução para o
+Secretário de Obras de São José dos Campos, o senhor Rene Mina Vernice e sua
+equipe, na data de 14 de Setembro de 2015.
 
+Inicialmente, a ideia do aplicativo não foi bem aceita, pois foi alegado que
+isso geraria ainda mais trabalho para os funcionários responsáveis por
+recolher as denuncias relacionadas a iluminação pública. Apesar disso, o
+conceito do ambiente web para gerenciamento foi bem recebido, pois eles
+enfrentam muitas dificuldades administrando os chamados já existente.
 
 \subsection{Sistema de gerenciamento de pontos de iluminação de ordens de serviço}
 
-dasdasdasds
+Como segunda fase do trabalho, foi definido que seria desenvolvido um ambiente
+onde os funcionários da Secretaria de Obras pudessem fazer o gerenciamento de
+protocolos e ordens de serviço.
 
 \subsubsection{Entrevista inicial ao cliente}
 
-dasdasdasds
+Anteriormente a primeira entrevista, foi realizada uma apresentação do conceito
+do projeto para o Secretário de Obras Renê Vernice e outros integrantes da
+equipe. O conceito do projeto foi não bem aceito por todos, pois a Secretaria
+de Obras não atenderia os chamados abertos pelo aplicativo. Foi acordado que o
+projeto seguiria, caso fossem feitas algumas modificações que ajudassem na
+organização dos serviços realizados nos pontos de iluminação.
+
+Posteriormente, foi feita uma reunião com a assistente do Secretário, a senhora
+Cintia Firmino para entendermos melhor o funcionamento do processo atual.
+
+1). Como é o processo atual?
+Processo de atualização feito a partir da coleta manual do sistema 156, e
+colocado numa planilha para o tratamento de pedidos duplicados e separação
+dos casos por zona e bairro.
+
+2) Como vocês recebem as chamadas dos postes com defeitos?
+Os chamados vêm do sistema 156, ou por memorando de Vereadores que tem
+prioridade, não possui um canal personalizado apenas para eles vem do
+sistema 156 (156 possui resposta programada)
+
+3). Como é feita a ordem de serviço?
+A ordem de serviço é feita pelo Excel, separando os chamados por zona,
+bairro e rua. E após isso esta planilha é enviada para a empresa URBAM por
+e-mail.
+
+4). Vocês acham que é o melhor processo? Como poderia melhorar?
+O processo poderia melhorar se os protocolos já chegassem a nós separados pela
+região, sem duplicidade, com a data, sem a necessidade de analisar todos os
+pedidos que vem do 156
+
+5). Qual seria o processo ideal?
+Receber os protocolos separados pela região, bairro e rua, sem duplicidade.
+Responder ao munícipe automaticamente.
+
+6). Vocês separam os postes por tipos? Quais tipos?
+Temos dois tipos, a iluminação ornamental, e a iluminação de vias.
+
+7). Como vocês agrupam postes da mesma rua? Vocês têm uma base de dados de
+endereços?
+Os postes são agrupados em até 10 números da mesma rua. Há problemas
+também em verificar os endereços das praças e vielas pois tem mais de um
+endereço, além de algumas praças e vielas não constarem na pesquisa do Google.
+Isso afeta tamém a troca de làmpadas ornamentais.
+
+8). Vocês agrupam as situações das pendências (resolvida, não resolvida,
+enviada para serviço, etc.)? Se não, como seria o ideal?
+Sim, por planilha, quando uma ordem de serviço e é mandada, os pedidos são
+retirados de uma planilha e colocadas em outra sinalizando que foram mandados
+e estamos esperando a resposta da URBAM.
+
+9). Vocês agrupam os tipos de serviços das pendências (troca de lâmpada,
+troca de reator, etc.)? Se não, como seria o ideal?
+Existem 3 tipos de serviços que nós justo com a URBAM, a troca de lâmpada, a
+troca de reator, e a troca da fotocélula.
+
+O que será trocado é analisado um a um, pela URBAM que depois reporta o que
+foi trocado.
+
+10). Como é feita a identificação de cada poste dentro de uma rua? Pelo
+número aproximado da casa?
+Ainda não existe um sistema de identificação no momento.
+
+11). Existe algum código para identificar os postes? Se não, o código ideal
+deve informar o quê?
+Não existe, é pelo número da casa mais próxima ao poste.
+
+12). Vocês atualizam informações sobre cada ocorrência após o retorno da
+ordem de serviço? Se sim, o que vocês atualizam?
+Sim, a URBAM retorna uma planilha com as tarefas executadas e o que foi
+trocado, e após, estas informações são colocadas numa planilha chamada
+“Executados”, e depois é respondido para o munícipe no 156.
+
 
 \subsubsection{Requisitos do sistema}
 
-dasdasdasds
+Quando pensamos em qualidade de software, o foco está em entender os requisitos
+estabelecidos para assim evitar, ou minimizar a insatisfação do cliente final.
+Segundo Carvalho, Tavares [14] “A demanda por qualidade tem estimulado a
+comunidade de software para o desenvolvimento de modelos que conduzam a
+qualidade dos sistemas. Existe uma forte ligação entre requisitos e qualidade.”
+
+Em um sistema computacional, os requisitos definem o escopo e os serviços que o
+sistema deve oferecer, assim como as restrições que são aplicáveis a suas
+operações.
+
+De acordo com as respostas levantadas na reunião com a Cíntia, foram então levantados os seguintes requisitos funcionais:
+
+RF01: O sistema deverá fazer a coleta automática dos protocolos no sistema do 156
+direcionados para a secretaria de obras.
+RF02: O sistema deverá fazer essa coleta e, de acordo com a informação de cada
+protocolo, separar em bairros e regiões corretas para cada endereço.
+RF03: O sistema deverá fazer a coleta sem adicionar protocolos em duplicidade.
+Dois ou mais protocolos em duplicidade se caracterizam por se referirem ao
+mesmo ponto de iluminação pública, tendo em vista que os postes são agrupados
+logicamente de 10 em 10 metros na rua. Por exemplo, se um protocolo se referir
+a um poste no número 10 da rua, e outro protocolo se referir a um poste no número
+12 da rua, isso seria o mesmo poste.
+RF04: O sistema deverá tentar ligar a cada protocolo a um poste, caso isso falhe,
+os sistemas devem permitir que o usuário faça essa correção manualmente.
+RF05: O sistema deverá gerar a ordem de serviço em formato de planilha com,
+no máximo 50 pendências. Na geração da ordem de serviço, o sistema deverá
+dar preferência em agrupar protocolos do mesmo bairro e da mesma região da cidade.
+RF06: O sistema deverá permitir a atualização da situação de execução e qual foi
+o tipo de manutenção realizada de cada protocolo das ordens de serviço.
+RF07: O sistema deverá identificar as ordens de serviço que foram executadas para
+que o munícipe seja alertado.
+RF08: O sistema deverá permitir que se faça buscas na base de postes e protocolos.
 
 
 
