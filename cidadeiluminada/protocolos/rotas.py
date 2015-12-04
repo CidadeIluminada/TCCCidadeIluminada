@@ -11,6 +11,7 @@ from flask import request, abort, redirect, url_for, jsonify, send_file, flash, 
 from flask.ext.admin import Admin, expose, AdminIndexView
 from flask.ext.admin.actions import action
 from flask.ext.admin.model import typefmt, InlineFormAdmin
+from flask.ext.admin.contrib.fileadmin import FileAdmin
 from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
 from flask.ext.admin.form.widgets import Select2Widget
@@ -144,15 +145,18 @@ class IndexView(AdminIndexView):
         return self.render('admin/index_urbam.html', **ordens_servico)
 
 
-class _ModelView(ModelView):
-
-    category = None
-
-    column_type_formatters = default_formatters
+class SecretariaAcessibleMixin():
 
     def is_accessible(self):
         has_secretaria = current_user.has_role('secretaria')
         return current_user.is_authenticated() and has_secretaria
+
+
+class _ModelView(SecretariaAcessibleMixin, ModelView):
+
+    category = None
+
+    column_type_formatters = default_formatters
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('name', self.name)
@@ -614,17 +618,35 @@ class RoleView(_UserModelsView):
     form_excluded_columns = ['users']
 
 
+class PlanilhaUploadView(SecretariaAcessibleMixin, FileAdmin):
+    can_delete_dirs = False
+    can_mkdir = False
+    can_rename = False
+    can_delete = False
+
+    allowed_extensions = [u'xlsx']
+
+    @action(u'importar_protocolos', u'Importar Protocolos')
+    def importar_protocolos(self, filenames):
+        return redirect(url_for('.index'))
+
+
 def init_app(app):
     config = {
         'url': '/',
     }
     imv = ItemManutencaoView()
+    file_upload_path = os.path.join(app.instance_path, u'storage')
+    if not os.path.isdir(file_upload_path):
+        os.makedirs(file_upload_path)
     views = [
         # endereco
         RegiaoView(),
         BairroView(),
         LogradouroView(),
         # protocolos
+        PlanilhaUploadView(base_path=file_upload_path, name=u'Upload de planilha de protocolos',
+                           category=u'Protocolos'),
         ProtocoloView(),
         PosteView(imv),
         imv,  # Retirar em prod
