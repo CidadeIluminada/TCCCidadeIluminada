@@ -11,47 +11,71 @@
 {% endblock %}
 
 {% block body %}
-    <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal fade" tabindex="-1" role="dialog" id="definirPosteModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Modal title</h4>
+                    <h4 class="modal-title">Definir poste</h4>
                 </div>
                 <div class="modal-body">
-                    {# {% if protocolo['erro_tipo'] == 'poste' %}
-                        <form>
-                            <select name="poste" class="select-block">
-                                <option>(Novo poste nº {{ protocolo['numero'] }})</option>
-                                {% for poste in protocolo['postes'] %}
+                    <form>
+                        <div class="form-group">
+                            <label for="poste">
+                                Vincular ao poste
+                            </label>
+                            <select name="poste" class="select-block" id="poste">
+                                <option>
+                                    xxx (Criar novo poste)
+                                </option>
+                                {# {% for poste in [protocolo['postes']] %}
                                     <option value="{{ poste.id }}">{{ poste.numero }}</option>
-                                {% endfor %}
+                                {% endfor %} #}
                             </select>
-                            <button type="submit" class="btn btn-primary btn-block btn-xs">
-                                Vincular poste
-                            </button>
-                        </form>
-                    {% elif protocolo['erro_tipo'] == 'baixa_certeza' %}
-                        <form>
-                            <label>
-                                Bairro:
-                                <select name="bairro" class="select-block">
-                                </select>
-                            </label>
-                            <label>
-                                Logradouro:
-                                <select name="logradouro" class="select-block">
-                                </select>
-                            </label>
-                            <button type="submit" class="btn btn-primary btn-block btn-xs">
-                                Vincular endereço
-                            </button>
-                        </form>
-                    {% endif %} #}
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            Definir poste
+                        </button>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="definirEnderecoModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Definir endereço</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="">
+                        <div class="form-group">
+                            <label for="bairro">
+                                Bairro:
+                            </label>
+                            <select name="bairro" class="form-control" id="bairro">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="logradouro">
+                                Logradouro:
+                            </label>
+                            <select name="logradouro" class="form-control" id="logradouro">
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            Definir endereço
+                        </button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Fechar
+                    </button>
                 </div>
             </div>
         </div>
@@ -94,14 +118,14 @@
         </thead>
         <tbody>
             {% for protocolo in protocolos %}
-                <tr>
+                <tr data-cod-protocolo="{{ protocolo['cod_protocolo'] }}">
                     <td>
                         {% if protocolo['id'] %}
-                            <span class="glyphicon glyphicon-ok-circle"></span>
+                            <span class="glyphicon glyphicon-ok-circle text-primary"></span>
                         {% elif protocolo['erro_tipo'] == 'logradouro_nao_encontrado' %}
-                            <span class="glyphicon glyphicon-ban-circle"></span>
+                            <span class="glyphicon glyphicon-ban-circle text-danger"></span>
                         {% else %}
-                            <span class="glyphicon glyphicon-warning-sign"></span>
+                            <span class="glyphicon glyphicon-warning-sign text-warning"></span>
                         {% endif %}
                     </td>
                     <td>
@@ -145,10 +169,16 @@
                     </td>
                     <td>
                         {% if protocolo['poste_id'] %}
-                            <a target="_blank" href="{{ url_for('poste.edit_view', id=protocolo['poste_id']) }}">Ver poste</a>
+                            <a target="_blank" href="{{ url_for('poste.edit_view', id=protocolo['poste_id']) }}">
+                                Ver poste
+                            </a>
+                        {% elif protocolo['erro_tipo'] == 'poste' %}
+                            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#definirPosteModal">
+                                Definir Poste
+                            </button>
                         {% else %}
-                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                                Launch demo modal
+                            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#definirEnderecoModal">
+                                Definir Endereço
                             </button>
                         {% endif %}
                     </td>
@@ -164,7 +194,7 @@
     <script type="text/javascript">
         'use_strict'
         $(function() {
-            $('bairro')
+            $('select').select2()
         })
     </script>
 {% endblock %}
