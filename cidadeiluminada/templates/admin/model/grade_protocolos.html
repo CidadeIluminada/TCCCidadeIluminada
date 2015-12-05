@@ -19,15 +19,12 @@
                     <h4 class="modal-title">Definir poste</h4>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="poste_form">
                         <div class="form-group">
-                            <label for="poste">
+                            <label for="poste_select">
                                 Vincular ao poste
                             </label>
-                            <select name="poste" class="select-block" id="poste">
-                                <option>
-                                    xxx (Criar novo poste)
-                                </option>
+                            <select name="poste" class="select-block" id="poste_select">
                                 {# {% for poste in [protocolo['postes']] %}
                                     <option value="{{ poste.id }}">{{ poste.numero }}</option>
                                 {% endfor %} #}
@@ -119,7 +116,7 @@
         <tbody>
             {% for protocolo in protocolos %}
                 <tr data-cod-protocolo="{{ protocolo['cod_protocolo'] }}">
-                    <td>
+                    <td data-status="true">
                         {% if protocolo['id'] %}
                             <span class="glyphicon glyphicon-ok-circle text-primary"></span>
                         {% elif protocolo['erro_tipo'] == 'logradouro_nao_encontrado' %}
@@ -167,13 +164,18 @@
                     <td>
                         {{ protocolo['numero'] }}
                     </td>
-                    <td>
+                    <td data-links="true">
                         {% if protocolo['poste_id'] %}
                             <a target="_blank" href="{{ url_for('poste.edit_view', id=protocolo['poste_id']) }}">
                                 Ver poste
                             </a>
                         {% elif protocolo['erro_tipo'] == 'poste' %}
-                            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#definirPosteModal">
+                            <button type="button" class="btn btn-primary btn-block"
+                                    data-toggle="modal" data-target="#definirPosteModal"
+                                    data-logradouro-id="{{ protocolo['logradouro_ci'].id }}"
+                                    data-numero="{{ protocolo['numero'] }}"
+                                    data-criacao="{{ protocolo['criacao'].strftime('%Y-%m-%d') }}"
+                                    data-cod-protocolo="{{ protocolo['cod_protocolo'] }}">
                                 Definir Poste
                             </button>
                         {% else %}
@@ -194,7 +196,59 @@
     <script type="text/javascript">
         'use_strict'
         $(function() {
-            $('select').select2()
+            $('#poste_form').submit(function(e) {
+                e.preventDefault();
+                var form = $(this);
+                $.post("{{ url_for('poste.vincular_protocolo') }}", {
+                    'poste_id': form.find('select').val(),
+                    'cod_protocolo': form.data('cod_protocolo'),
+                    'criacao': form.data('criacao'),
+                    'logradouro_id': form.data('logradouro_id'),
+                    'numero': form.data('numero'),
+                }, function(data) {
+                    protocolo = data.payload.protocolo;
+                    var row = $('tr[data-cod-protocolo=' + protocolo.cod_protocolo + ']');
+
+                    var a = $('<a>');
+                    a.attr('target', '_blank').attr('href', "/poste/edit/?id=" + protocolo.poste.id).text('Ver poste');
+                    row.find('td[data-links=true]').html(a);
+
+                    var checkmark = $('<span>');
+                    checkmark.addClass('glyphicon glyphicon-ok-circle text-primary');
+                    row.find('td[data-status=true]').html(checkmark);
+                    $('#definirPosteModal').modal('hide');
+                });
+            });
+            $('#definirPosteModal').on('show.bs.modal', function(e) {
+                var button = $(e.relatedTarget);
+
+                var logradouro_id = button.data('logradouro-id');
+                var numero = button.data('numero');
+                var cod_protocolo = button.data('cod-protocolo');
+                var criacao = button.data('criacao');
+
+                var option_novo = $('<option>');
+                option_novo.text(numero + ' (Novo poste)').attr('value', 0).attr('selected', 'selected');
+
+                var form = $(this).find('form')
+                var select = form.find('select');
+                select.html('');
+                select.append(option_novo);
+
+                $.get("{{ url_for('poste.logradouro') }}", {logradouro_id: logradouro_id}, function(data) {
+                    var postes = data.payload.postes;
+                    $.each(postes, function(i, poste) {
+                        var element = $('<option>');
+                        element.text(poste.numero).attr('value', poste.id);
+                        select.append(element);
+                    });
+                });
+
+                form.data('numero', numero);
+                form.data('cod_protocolo', cod_protocolo);
+                form.data('criacao', criacao);
+                form.data('logradouro_id', logradouro_id);
+            });
         })
     </script>
 {% endblock %}

@@ -69,7 +69,9 @@ class Poste(db.Model, JSONSerializationMixin):
         return u'{} - Número {}'.format(self.logradouro, self.numero)
 
 
-class Protocolo(db.Model):
+class Protocolo(db.Model, JSONSerializationMixin):
+    _serialize_ignore_fields = [u'item_manutencao']
+    _serialize_properties = ['poste']
     # AKA Protocolo 156
     id = Column(Integer, primary_key=True)
     cod_protocolo = Column(String(255))
@@ -80,6 +82,10 @@ class Protocolo(db.Model):
 
     item_manutencao_id = Column(Integer, ForeignKey('item_manutencao.id'))
     item_manutencao = relationship('ItemManutencao', backref='protocolos')
+
+    @property
+    def poste(self):
+        return self.item_manutencao.poste
 
     def __init__(self, poste, *args, **kwargs):
         super(Protocolo, self).__init__(*args, **kwargs)

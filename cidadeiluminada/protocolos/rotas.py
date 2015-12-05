@@ -326,6 +326,38 @@ class PosteView(_ModelView):
         self._template_args['get_item_manutencao_value'] = self.item_manutencao_view.get_list_value
         return super(PosteView, self).edit_view()
 
+    @expose(u'/logradouro/')
+    def logradouro(self):
+        logradouro_id = request.args.get(u'logradouro_id')
+        postes_logradouro = self.model.query.filter_by(logradouro_id=logradouro_id).all()
+        return jsonify({
+            u'payload': {
+                u'postes': postes_logradouro,
+            }
+        })
+
+    @expose(u'/vincular_protocolo/', methods=[u'POST'])
+    def vincular_protocolo(self):
+        poste_id = int(request.form[u'poste_id'])
+        cod_protocolo = request.form[u'cod_protocolo']
+        criacao = datetime.strptime(request.form[u'criacao'], u'%Y-%m-%d')
+        if poste_id:
+            poste = Poste.query.get(poste_id)
+        else:
+            logradouro_id = int(request.form[u'logradouro_id'])
+            numero = int(request.form[u'numero'])
+            poste = Poste(logradouro_id=logradouro_id, numero=numero)
+            db.session.add(poste)
+        protocolo = Protocolo(poste=poste, cod_protocolo=cod_protocolo, criacao=criacao)
+        db.session.add(protocolo)
+        db.session.commit()
+        return jsonify({
+            u'payload': {
+                u'protocolo': protocolo,
+            }
+        })
+        pass
+
 
 class ProtocoloView(_ModelView):
     model = Protocolo
@@ -651,6 +683,7 @@ class PlanilhaUploadView(SecretariaAcessibleMixin, FileAdmin):
             workbook = load_workbook(filename=filename)
             sheet_protocolos = self._get_protocolos_from_book(workbook)
             protocolos.extend(sheet_protocolos)
+        protocolos = protocolos[:10]
         logradouros = Logradouro.query.all()
         self._processa_protocolos(protocolos, logradouros)
         return self.render(u'admin/model/grade_protocolos.html', protocolos=protocolos,
@@ -663,7 +696,6 @@ class PlanilhaUploadView(SecretariaAcessibleMixin, FileAdmin):
             row = result.first()
             protocolo[u'id'] = None
             if row:
-                # print row[u'similaridade'], row[u'logradouro'], protocolo[u'logradouro']
                 logradouro = logradouros_cache[row[u'logradouro']]
                 similaridade = row[u'similaridade']
                 protocolo[u'similaridade'] = similaridade
