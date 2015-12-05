@@ -103,9 +103,6 @@
                     Bairro Sistema
                 </th>
                 <th>
-                    Grau de certeza
-                </th>
-                <th>
                     Número
                 </th>
                 <th>
@@ -149,14 +146,6 @@
                         {% set bairro_ci = protocolo['bairro_ci'] %}
                         {% if bairro_ci %}
                             {{ bairro_ci.nome }}
-                        {% else %}
-                            -
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% set similaridade = protocolo['similaridade'] %}
-                        {% if similaridade %}
-                            {{ '{:.0f}'.format(similaridade * 100) }}%
                         {% else %}
                             -
                         {% endif %}

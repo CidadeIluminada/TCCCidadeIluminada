@@ -548,7 +548,8 @@ class OrdemServicoView(_ModelView):
                 abort(400)
             query = self.item_manutencao_query().filter(Poste.id.in_(postes_id))
             count = query.count()
-            if count <= 0 or count > 50:
+            # if count <= 0 or count > 50:
+            if count <= 0:
                 abort(400)
             self.itens_manutencao_adicionar = query.all()
         return super(OrdemServicoView, self).create_view()
@@ -701,9 +702,9 @@ class PlanilhaUploadView(SecretariaAcessibleMixin, FileAdmin):
                 protocolo[u'similaridade'] = similaridade
                 protocolo[u'logradouro_ci'] = logradouro
                 protocolo[u'bairro_ci'] = logradouro.bairro
-                if similaridade <= .5:
-                    protocolo[u'erro_tipo'] = u'baixa_certeza'
-                    continue
+                # if similaridade <= .5:
+                #     protocolo[u'erro_tipo'] = u'baixa_certeza'
+                #     continue
                 poste_q = Poste.query.filter_by(logradouro=logradouro)
                 poste = poste_q.filter_by(numero=protocolo[u'numero']).first()
                 if not poste:
