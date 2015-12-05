@@ -81,6 +81,18 @@ class Protocolo(db.Model):
     item_manutencao_id = Column(Integer, ForeignKey('item_manutencao.id'))
     item_manutencao = relationship('ItemManutencao', backref='protocolos')
 
+    def __init__(self, poste, *args, **kwargs):
+        super(Protocolo, self).__init__(*args, **kwargs)
+        item_manutencao = None
+        for _item_manutencao in poste.itens_manutencao:
+            if _item_manutencao.aberto:
+                item_manutencao = _item_manutencao
+                break
+        if not item_manutencao:
+            item_manutencao = ItemManutencao(poste=poste)
+            db.session.add(item_manutencao)
+        item_manutencao.protocolos.append(self)
+
 
 class Servico(db.Model):
     # Association

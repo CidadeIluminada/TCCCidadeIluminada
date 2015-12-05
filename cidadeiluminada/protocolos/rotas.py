@@ -6,7 +6,6 @@ from datetime import datetime, date, timedelta
 from StringIO import StringIO
 from tempfile import mkstemp
 
-
 from flask import request, abort, redirect, url_for, jsonify, send_file, flash, json
 from flask.ext.admin import Admin, expose, AdminIndexView
 from flask.ext.admin.actions import action
@@ -16,6 +15,8 @@ from flask.ext.admin.contrib.sqla import ModelView
 from flask.ext.admin.contrib.sqla.fields import QuerySelectField
 from flask.ext.admin.form.widgets import Select2Widget
 from flask.ext.security import current_user, login_required, roles_accepted, roles_required
+from sqlalchemy import text
+from openpyxl import load_workbook
 from xhtml2pdf import pisa
 from wtforms.validators import Required
 
@@ -337,6 +338,7 @@ class ProtocoloView(_ModelView):
     named_filter_urls = True
 
     can_delete = False
+    can_create = False
 
     form_excluded_columns = ['item_manutencao']
     edit_template = 'admin/model/edit_protocolo.html'
@@ -361,20 +363,6 @@ class ProtocoloView(_ModelView):
     form_widget_args = {
         u'criacao': form_widget_formats[u'datetime'],
     }
-
-    def on_model_change(self, form, protocolo, is_created):
-        if is_created:
-            poste = form.poste.data
-            item_manutencao = None
-            for _item_manutencao in poste.itens_manutencao:
-                if _item_manutencao.aberto:
-                    item_manutencao = _item_manutencao
-                    break
-            if not item_manutencao:
-                item_manutencao = ItemManutencao(poste=poste)
-                db.session.add(item_manutencao)
-            item_manutencao.protocolos.append(protocolo)
-            db.session.commit()
 
     @expose('/edit/', methods=('GET', 'POST'))
     def edit_view(self):
@@ -624,11 +612,93 @@ class PlanilhaUploadView(SecretariaAcessibleMixin, FileAdmin):
     can_rename = False
     can_delete = False
 
+    protocolo_sheet_name = u'SituacaoProtocolo 1 '
+
     allowed_extensions = [u'xlsx']
+
+    def _get_protocolos_from_book(self, workbook):
+        sheet = workbook.get_sheet_by_name(self.protocolo_sheet_name)
+        protocolos = []
+        for row in sheet.iter_rows():
+            value = row[0].value
+            if not value or (isinstance(value, basestring) and
+                            (u'Período' in value or
+                             u'RELATÓRIO' in value or
+                             u'Protocolo' in value)):
+                continue
+            cod_protocolo = row[0].value
+            logradouro_parts = row[4].value.rsplit(u',', 1)
+            logradouro, numero = logradouro_parts[0], int(logradouro_parts[1])
+            protocolos.append({
+                u'cod_protocolo': cod_protocolo,
+                u'criacao': row[1].value,
+                u'logradouro': logradouro,
+                u'numero': numero,
+                u'bairro': row[5].value,
+            })
+        return protocolos
 
     @action(u'importar_protocolos', u'Importar Protocolos')
     def importar_protocolos(self, filenames):
-        return redirect(url_for('.index'))
+        return redirect(url_for('.grade_protocolos', filenames=filenames))
+
+    @expose(u'/grade_protocolos/')
+    def grade_protocolos(self):
+        filenames = request.args.getlist(u'filenames')
+        protocolos = []
+        for filename in filenames:
+            filename = os.path.join(self.base_path, filename)
+            workbook = load_workbook(filename=filename)
+            sheet_protocolos = self._get_protocolos_from_book(workbook)
+            protocolos.extend(sheet_protocolos)
+        logradouros = Logradouro.query.all()
+        self._processa_protocolos(protocolos, logradouros)
+        return self.render(u'admin/model/grade_protocolos.html', protocolos=protocolos,
+                           logradouros=logradouros)
+
+    def _processa_protocolos(self, protocolos, logradouros):
+        logradouros_cache = {logradouro.logradouro: logradouro for logradouro in logradouros}
+        for protocolo in protocolos:
+            result = self._similarity_query(protocolo[u'logradouro'])
+            row = result.first()
+            protocolo[u'id'] = None
+            if row:
+                # print row[u'similaridade'], row[u'logradouro'], protocolo[u'logradouro']
+                logradouro = logradouros_cache[row[u'logradouro']]
+                similaridade = row[u'similaridade']
+                protocolo[u'similaridade'] = similaridade
+                protocolo[u'logradouro_ci'] = logradouro
+                protocolo[u'bairro_ci'] = logradouro.bairro
+                if similaridade <= .5:
+                    protocolo[u'erro_tipo'] = u'baixa_certeza'
+                    continue
+                poste_q = Poste.query.filter_by(logradouro=logradouro)
+                poste = poste_q.filter_by(numero=protocolo[u'numero']).first()
+                if not poste:
+                    if protocolo[u'numero'] == 0:
+                        poste = Poste(logradouro=logradouro, numero=0)
+                        db.session.add(poste)
+                    else:
+                        protocolo[u'erro_tipo'] = 'poste'
+                        protocolo[u'postes'] = poste_q
+                _protocolo = None
+                if poste:
+                    protocolo[u'poste_id'] = poste.id
+                    _protocolo = Protocolo(cod_protocolo=protocolo[u'cod_protocolo'],
+                                           criacao=protocolo[u'criacao'], poste=poste)
+                    db.session.add(_protocolo)
+                db.session.commit()
+                if _protocolo:
+                    protocolo[u'id'] = _protocolo.id
+            else:
+                protocolo[u'erro_tipo'] = u'logradouro_nao_encontrado'
+
+    def _similarity_query(self, logradouro):
+        query = text(u'SELECT (similarity(logradouro.logradouro, :logradouro)) as similaridade,'
+                     ' logradouro.logradouro FROM logradouro WHERE logradouro.logradouro %'
+                     ' :logradouro ORDER BY similaridade DESC LIMIT 1;')
+        params = {u'logradouro': logradouro}
+        return db.session.execute(query, params)
 
 
 def init_app(app):

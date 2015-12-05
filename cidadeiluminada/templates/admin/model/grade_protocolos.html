@@ -1,0 +1,170 @@
+{% extends 'admin/master.html' %}
+{% import 'admin/lib.html' as lib with context %}
+
+{% block head %}
+    {{ lib.form_css() }}
+    <style type="text/css">
+        .select-block {
+            width: 100%;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    {# {% if protocolo['erro_tipo'] == 'poste' %}
+                        <form>
+                            <select name="poste" class="select-block">
+                                <option>(Novo poste nº {{ protocolo['numero'] }})</option>
+                                {% for poste in protocolo['postes'] %}
+                                    <option value="{{ poste.id }}">{{ poste.numero }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn btn-primary btn-block btn-xs">
+                                Vincular poste
+                            </button>
+                        </form>
+                    {% elif protocolo['erro_tipo'] == 'baixa_certeza' %}
+                        <form>
+                            <label>
+                                Bairro:
+                                <select name="bairro" class="select-block">
+                                </select>
+                            </label>
+                            <label>
+                                Logradouro:
+                                <select name="logradouro" class="select-block">
+                                </select>
+                            </label>
+                            <button type="submit" class="btn btn-primary btn-block btn-xs">
+                                Vincular endereço
+                            </button>
+                        </form>
+                    {% endif %} #}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2>Protocolos a importar</h2>
+    <table class="table table-striped table-bordered table-hover model-list">
+        <thead>
+            <tr>
+                <th>
+                    Situação
+                </th>
+                <th>
+                    Código Protocolo
+                </th>
+                <th>
+                    Criação
+                </th>
+                <th>
+                    Logradouro Lido
+                </th>
+                <th>
+                    Bairro lido
+                </th>
+                <th>
+                    Logradouro Sistema
+                </th>
+                <th>
+                    Bairro Sistema
+                </th>
+                <th>
+                    Grau de certeza
+                </th>
+                <th>
+                    Número
+                </th>
+                <th>
+                    Ações
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for protocolo in protocolos %}
+                <tr>
+                    <td>
+                        {% if protocolo['id'] %}
+                            <span class="glyphicon glyphicon-ok-circle"></span>
+                        {% elif protocolo['erro_tipo'] == 'logradouro_nao_encontrado' %}
+                            <span class="glyphicon glyphicon-ban-circle"></span>
+                        {% else %}
+                            <span class="glyphicon glyphicon-warning-sign"></span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ protocolo['cod_protocolo'] }}
+                    </td>
+                    <td>
+                        {{ protocolo['criacao'] | date_format }}
+                    </td>
+                    <td>
+                        {{ protocolo['logradouro'] }}
+                    </td>
+                    <td>
+                        {{ protocolo['bairro'] }}
+                    </td>
+                    <td>
+                        {% set logradouro_ci = protocolo['logradouro_ci'] %}
+                        {% if logradouro_ci %}
+                            {{ logradouro_ci.logradouro }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% set bairro_ci = protocolo['bairro_ci'] %}
+                        {% if bairro_ci %}
+                            {{ bairro_ci.nome }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% set similaridade = protocolo['similaridade'] %}
+                        {% if similaridade %}
+                            {{ '{:.0f}'.format(similaridade * 100) }}%
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ protocolo['numero'] }}
+                    </td>
+                    <td>
+                        {% if protocolo['poste_id'] %}
+                            <a target="_blank" href="{{ url_for('poste.edit_view', id=protocolo['poste_id']) }}">Ver poste</a>
+                        {% else %}
+                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                Launch demo modal
+                            </button>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block tail %}
+    {{ lib.form_js() }}
+    <script type="text/javascript">
+        'use_strict'
+        $(function() {
+            $('bairro')
+        })
+    </script>
+{% endblock %}
