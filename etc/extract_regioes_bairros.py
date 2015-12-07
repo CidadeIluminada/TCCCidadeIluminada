@@ -29,8 +29,6 @@ with open("regioes_bairros.txt", 'rb') as f:
         bairros = [_clean_bairro(bairro) for bairro in splitted]
         bairro_map[regiao].extend(bairros)
 
-del bairro_map[u'Região']
-
 for regiao, bairros in bairro_map.iteritems():
     for bairro in bairros:
         print ' '.join([regiao, bairro])
