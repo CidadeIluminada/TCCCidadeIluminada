@@ -850,7 +850,11 @@ enfrentam muitas dificuldades administrando os chamados já existente.
 
 \subsubsection{Fluxo de utilização do aplicativo}
 
-Segue ilustrações mostrando o fluxo de utilização do aplicativo Android.
+A seguir será descrito o fluxo principal de utilização do aplicativo Android para os munícipes.
+
+Para enviar uma solicitação pelo aplicativo, o usuário deve iniciar a aplicação (Figura
+\ref{android-tela-inicial}), e clicar em Abrir Chamado, na próxima tela (Figura
+\ref{android-tela-nova-chamada}) serão solicitados uma alguns dados sobre a chamada.
 
 \begin{figure}[!htbp]
  \centering
@@ -869,8 +873,10 @@ Segue ilustrações mostrando o fluxo de utilização do aplicativo Android.
   \end{minipage}
 \end{figure}
 
-\ref{android-tela-inicial} \ref{android-tela-nova-chamada}
-
+Primeiramente, deve-se tirar uma foto do poste defeituoso (Figura \ref{android-tela-nova-chamada-foto-poste}) e em
+seguida selecionar a localização na tela de seleção de endereço via GPS (Figura
+\ref{android-tela-gps}), assim o endereço é preenchido automaticamente (Figura
+\ref{android-tela-nova-chamada-endereco}).
 
 \begin{figure}[!htbp]
  \centering
@@ -889,7 +895,11 @@ Segue ilustrações mostrando o fluxo de utilização do aplicativo Android.
   \end{minipage}
 \end{figure}
 
-\ref{android-tela-nova-chamada-foto-poste} \ref{android-tela-gps}
+
+Após a coleta dos dados, o usuário deve clicar em enviar protocolo e logo a seguir, o aplicativo irá
+iniciar a transferência dos dados para o servidor (Figura \ref{android-tela-enviando}).
+
+\clearpage
 
 \begin{figure}[!htbp]
  \centering
@@ -908,39 +918,39 @@ Segue ilustrações mostrando o fluxo de utilização do aplicativo Android.
   \end{minipage}
 \end{figure}
 
-\ref{android-tela-nova-chamada-endereco} \ref{android-tela-enviando}
+Após enviado o usuário poderá escolher a opção de listar os protocolos enviados (Figura
+\ref{android-tela-lista-chamadas}) e checar o status do protocolo enviado (Figura
+\ref{android-tela-detalhes-chamada}).
 
 \begin{figure}[!htbp]
  \centering
   \begin{minipage}{0.4\textwidth}
     \centering
     \caption{\label{android-tela-lista-chamadas}Tela de lista de protocolos feitos}
-    \includegraphics[scale=0.1]{android/8.png}
+    \includegraphics[scale=0.1]{android/7.png}
     \legend{Fonte: Produzido pelos autores}
   \end{minipage}
   \hfill
   \begin{minipage}{0.4\textwidth}
     \centering
     \caption{\label{android-tela-detalhes-chamada}Tela de detalhes de protocolo}
-    \includegraphics[scale=0.1]{android/9.png}
+    \includegraphics[scale=0.1]{android/8.png}
     \legend{Fonte: Produzido pelos autores}
   \end{minipage}
 \end{figure}
 
-\ref{android-tela-lista-chamadas} \ref{android-tela-detalhes-chamada}
+O usuário também pode configurar a aplicação com o CEP padrão, e caso deseje mandar chamados em modo
+anônimo. Neste caso, o usuário deverá informar seu nome e e-mail para contato (Figura \ref{android-tela-preferencias}).
 
 \begin{figure}[!htbp]
  \centering
   \begin{minipage}{0.4\textwidth}
     \centering
     \caption{\label{android-tela-preferencias}Tela de configuração de preferências}
-    \includegraphics[scale=0.1]{android/7.png}
+    \includegraphics[scale=0.1]{android/9.png}
     \legend{Fonte: Produzido pelos autores}
   \end{minipage}
 \end{figure}
-
-\ref{android-tela-preferencias}
-Segue ilustrações mostrando o fluxo de utilização do aplicativo Android.
 
 \subsection{Sistema de gerenciamento de pontos de iluminação de ordens de serviço}
 
@@ -1040,9 +1050,10 @@ trocado, e após, estas informações são colocadas numa planilha chamada
 
 Quando pensamos em qualidade de software, o foco está em entender os requisitos
 estabelecidos para assim evitar, ou minimizar a insatisfação do cliente final.
-Segundo Carvalho, Tavares [14] “A demanda por qualidade tem estimulado a
+Segundo Carvalho, Tavares “A demanda por qualidade tem estimulado a
 comunidade de software para o desenvolvimento de modelos que conduzam a
 qualidade dos sistemas. Existe uma forte ligação entre requisitos e qualidade.”
+\cite{tematec}
 
 Em um sistema computacional, os requisitos definem o escopo e os serviços que o
 sistema deve oferecer, assim como as restrições que são aplicáveis a suas
@@ -1075,7 +1086,11 @@ que o munícipe seja alertado.
 
 \subsubsection{Fluxo de utilização do sistema de gerenciamento}
 
-Segue ilustrações mostrando o fluxo de utilização do sistema de gerenciamento.
+A seguir será descrito o fluxo principal de utilização do sistema de gerenciamento destinado à
+Secretaria Municipal de Obras de São José dos Campos.
+
+Para iniciar, o usuário faz o login no sistema e abre o menu Protocolos onde os protocolos estão listados, como
+mostrado na Figura \ref{site-tela-inicial}.
 
 \begin{figure}[!htbp]
  \centering
@@ -1084,8 +1099,17 @@ Segue ilustrações mostrando o fluxo de utilização do sistema de gerenciament
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-tela-inicial}
 \clearpage
+
+Para criar um novo protocolo, deve se clicar em Criar, onde será aberto o formulário de novo
+protocolo, como mostrado na Figura \ref{site-novo-protocolo}. Note as informações necessárias para
+se poder criar um novo protocolo, sendo a informação mais importante qual poste que o protocolo se
+refere (Figura \ref{site-seleciona-poste-protocolo}). Após a inserção, o protocolo será mostrado na lista inicial.
+
+Para editar um protocolo, na tela da lista de protocolos (Figura \ref{site-tela-inicial}) deve-se
+clicar no ícone em forma de lápis, no canto esquerdo da linha do protocolo que o usuário deseja editar,
+e será aberto o formulário idêntico ao formulário de criação, com os dados do protocolo selecionado
+disponíveis para edição.
 
 \begin{figure}[!htbp]
  \centering
@@ -1094,178 +1118,189 @@ Segue ilustrações mostrando o fluxo de utilização do sistema de gerenciament
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-novo-protocolo}
-
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-seleciona-poste}Lista de protocolos}
+ \caption{\label{site-seleciona-poste-protocolo}Selecionar postes}
  \includegraphics[scale=0.25]{site/3-seleciona_poste.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-seleciona-poste}
 \clearpage
+
+Ao associar o protocolo a um poste, essa associação pode ser confirmada através da lista de postes
+(Figura \ref{site-lista-poste}).
+
+Ao selecionar o poste que se deseja ver em detalhes, é mostrado todo o seu histórico de manutenção,
+como mostrado na Figura \ref{site-historico-manutencao}. A partir dessa visão, para cada item de
+manuteção do poste, pode estar associado um ou vários protocolos, como por exemplo na Figura
+\ref{site-protocolos-poste}.
 
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-lista-poste}Lista de protocolos}
+ \caption{\label{site-lista-poste}Lista de postes}
  \includegraphics[scale=0.25]{site/4-lista_postes.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-lista-poste}
-
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-historico-manutencao}Lista de protocolos}
+ \caption{\label{site-historico-manutencao}Histórico de manutenção do poste}
  \includegraphics[scale=0.25]{site/5-historico_manutencao_poste.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-historico-manutencao}
-\clearpage
-
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-protocolos-poste}Lista de protocolos}
+ \caption{\label{site-protocolos-poste}Protocolos associados ao poste}
  \includegraphics[scale=0.25]{site/6-protocolos_poste.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-protocolos-poste}
+\clearpage
+
+Para o usuário da Secretaria de Obras, no menu Principal é possível visualizar as Ordens de Serviço
+em aberto e também gerar novas Ordens de Serviço, como pode ser visto na Figura \ref{site-tela-secretaria}.
+
+Para gerar uma nova Ordem de Serviço, o usuário deverá clicar na região desejada, selecionar os
+bairros (Figura \ref{site-seleciona-bairro}) e, por fim, confirmar os postes com pendências, como
+mostrado na Figura \ref{site-seleciona-poste-ordem-servico}.
+
+Após selecionar todos os postes com pendências que se deseja adicionar na nova Ordem de Serviço, a
+Ordem de Serviço pode então ser finalmente criada ao clicar no botão de Gerar Ordem de Serviço. Assim
+uma nova Ordem de Serviço é gerada como mostrado na Figura \ref{site-os-gerada}.
 
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-tela-secretaria}Lista de protocolos}
+ \caption{\label{site-tela-secretaria}Tela principal da secretaria}
  \includegraphics[scale=0.25]{site/7-tela_secretaria.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-tela-secretaria}
-\clearpage
-
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-seleciona-bairro}Lista de protocolos}
+ \caption{\label{site-seleciona-bairro}Tela principal da secretaria com a região e bairro selecionado}
  \includegraphics[scale=0.25]{site/8-bairro.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-seleciona-bairro}
-
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-seleciona_poste}Lista de protocolos}
+ \caption{\label{site-seleciona-poste-ordem-servico}Postes da região oeste selecionados}
  \includegraphics[scale=0.25]{site/9-poste_selecionado.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-seleciona_poste}
-\clearpage
-
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-poste-selecionado}Lista de protocolos}
- \includegraphics[scale=0.25]{site/10-poste_selecionado-2.png}
- \legend{Fonte: Produzido pelos autores}
-\end{figure}
-
-\ref{site-poste-selecionado}
-
-\begin{figure}[!htbp]
- \centering
- \caption{\label{site-os-gerada}Lista de protocolos}
+ \caption{\label{site-os-gerada}Ordem de Serviço gerada}
  \includegraphics[scale=0.25]{site/11-os_gerada.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-os-gerada}
 \clearpage
+
+Tanto o usuário da Secretaria de Obras quanto o usuário da URBAM tem acesso ao PDF que será gerado,
+como mostrado na Figura \ref{site-pdf}. A finalidade do PDF é servir como apoio em campo para os
+operários da URBAM para melhor relatarem os serviços feitos e equipamentos utilizados.
+Esse PDF mostra uma grade com o endereço completo dos postes da Ordem de Serviço, bem como os
+equipamentos previamente cadastrados que podem ser utilizados. Além disso, esta grade possui um
+campo para o preenchimento do motivo de não realização do serviço, caso seja necessário.
 
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-pdf}Lista de protocolos}
+ \caption{\label{site-pdf}Lista de serviços da Ordem de Serviço}
  \includegraphics[scale=0.25]{site/12-pdf.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-pdf}
+\clearpage
+
+Assim que uma equipe de manutenção for despachada, o usuário da URBAM (Figura \ref{site-visao-urbam})
+deverá sinalizar este envio clicando no botão Enviar para serviço. Após isso, a Ordem de Serviço irá
+mudar de status para Em serviço, e estará disponível para que seja realizado o seu eventual
+fechamento (Figura \ref{site-servico-os}).
 
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-visao-urbam}Lista de protocolos}
+ \caption{\label{site-visao-urbam}Tela principal do usuário da URBAM}
  \includegraphics[scale=0.25]{site/13-urbam.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-visao-urbam}
-\clearpage
-
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-servico-os}Lista de protocolos}
+ \caption{\label{site-servico-os}Ordem de Serviço sinalizada como Em serviço}
  \includegraphics[scale=0.25]{site/14-servico_os.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-servico-os}
+\clearpage
+
+Para fechar uma Ordem de Serviço em aberto, o usuário da URBAM deverá clicar em Iniciar Fechamento,
+e então o usuário será redirecionado para a tela de fechamento (Figura \ref{site-fechamento-urbam}).
+Neste momento, etapa o usuário irá informar ao sistema se o serviço foi realizado, e o
+material utilizado, como a Figura \ref{site-material-e-motivo} mostra. Após o fechamento de todos os
+serviços, o status da Ordem de Serviço ficará como Feita, ilustrado na Figura \ref{site-os-feita}.
 
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-fechamento-urbam}Lista de protocolos}
+ \caption{\label{site-fechamento-urbam}Tela de fechamento de serviço da URBAM}
  \includegraphics[scale=0.25]{site/15-fechamento_urbam.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-fechamento-urbam}
-\clearpage
-
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-material-e-motivo}Lista de protocolos}
+ \caption{\label{site-material-e-motivo}Tela de fechamento preenchida}
  \includegraphics[scale=0.25]{site/16-material_e_motivo.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-material-e-motivo}
-
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-os-feita}Lista de protocolos}
+ \caption{\label{site-os-feita}Ordem de Serviço feita}
  \includegraphics[scale=0.25]{site/17-os_feita.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-os-feita}
 \clearpage
+
+Com a Ordem de Serviço Feita, o usuário da Secretaria deve confirmar o material utilizado em cada
+serviço realizado, além de conferir o motivo de alguns dos serviços não terem sido executados.
+
+Para confirmar uma Ordem de Serviço, o usuário da Secretaria deve abrir a página principal e procurar
+na lista de Ordens de Serviço Feitas a Ordem de Serviço que se deseja confirmar e clicar no link de
+Confirmar Serviços (Figura \ref{site-os-confirmacao}).
+
+Após isso, irá ser aberta uma tela similar à tela de fechamento de serviço da URBAM. Porém, para
+cada serviço irá ser mostrado o material utilizado ou o motivo de não realização do serviço
+(Figura \ref{site-os-confirmando}), um campo para o comentário por parte da Secretaria e um botão
+para confirmar o serviço.
+
+Assim que a Ordem de Serviço tiver com todos os serviços confirmados, a sua situação irá mudar para
+Feita, o que sinaliza que não é necessário mais nenhuma ação (Figura \ref{site-os-confirmada}).
 
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-os-confirmacao}Lista de protocolos}
+ \caption{\label{site-os-confirmacao}Lista de Ordem de Serviço feitas}
  \includegraphics[scale=0.25]{site/18-os_confirmacao.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-os-confirmacao}
-
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-os-confirmando}Lista de protocolos}
+ \caption{\label{site-os-confirmando}Confirmação da Ordem de Serviço}
  \includegraphics[scale=0.25]{site/19-os_confirmando.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-os-confirmando}
-\clearpage
-
 \begin{figure}[!htbp]
  \centering
- \caption{\label{site-os-confirmada}Lista de protocolos}
+ \caption{\label{site-os-confirmada}Ordem de Serviço confirmada}
  \includegraphics[scale=0.25]{site/20-os_confirmada.png}
  \legend{Fonte: Produzido pelos autores}
 \end{figure}
 
-\ref{site-os-confirmada}
 \clearpage
 
 % ---
