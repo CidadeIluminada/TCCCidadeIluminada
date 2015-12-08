@@ -5,6 +5,7 @@ import os
 from datetime import datetime, date, timedelta
 from StringIO import StringIO
 from tempfile import mkstemp
+from collections import Counter
 
 from flask import request, abort, redirect, url_for, jsonify, send_file, flash, json
 from flask.ext.admin import Admin, expose, AdminIndexView
@@ -684,14 +685,15 @@ class PlanilhaUploadView(SecretariaAcessibleMixin, FileAdmin):
             workbook = load_workbook(filename=filename)
             sheet_protocolos = self._get_protocolos_from_book(workbook)
             protocolos.extend(sheet_protocolos)
-        protocolos = protocolos[:10]
+        # protocolos = protocolos[:10]
         logradouros = Logradouro.query.all()
-        self._processa_protocolos(protocolos, logradouros)
+        contador_status = self._processa_protocolos(protocolos, logradouros)
         return self.render(u'admin/model/grade_protocolos.html', protocolos=protocolos,
-                           logradouros=logradouros)
+                           logradouros=logradouros, contador_status=contador_status)
 
     def _processa_protocolos(self, protocolos, logradouros):
         logradouros_cache = {logradouro.logradouro: logradouro for logradouro in logradouros}
+        contador_status = Counter(['ok', 'poste', 'logradouro'])
         for protocolo in protocolos:
             result = self._similarity_query(protocolo[u'logradouro'])
             row = result.first()
@@ -702,9 +704,6 @@ class PlanilhaUploadView(SecretariaAcessibleMixin, FileAdmin):
                 protocolo[u'similaridade'] = similaridade
                 protocolo[u'logradouro_ci'] = logradouro
                 protocolo[u'bairro_ci'] = logradouro.bairro
-                # if similaridade <= .5:
-                #     protocolo[u'erro_tipo'] = u'baixa_certeza'
-                #     continue
                 poste_q = Poste.query.filter_by(logradouro=logradouro)
                 poste = poste_q.filter_by(numero=protocolo[u'numero']).first()
                 if not poste:
@@ -714,17 +713,21 @@ class PlanilhaUploadView(SecretariaAcessibleMixin, FileAdmin):
                     else:
                         protocolo[u'erro_tipo'] = 'poste'
                         protocolo[u'postes'] = poste_q
+                        contador_status['poste'] += 1
                 _protocolo = None
                 if poste:
                     protocolo[u'poste_id'] = poste.id
                     _protocolo = Protocolo(cod_protocolo=protocolo[u'cod_protocolo'],
                                            criacao=protocolo[u'criacao'], poste=poste)
                     db.session.add(_protocolo)
+                    contador_status['ok'] += 1
                 db.session.commit()
                 if _protocolo:
                     protocolo[u'id'] = _protocolo.id
             else:
+                contador_status['logradouro'] += 1
                 protocolo[u'erro_tipo'] = u'logradouro_nao_encontrado'
+        return contador_status
 
     def _similarity_query(self, logradouro):
         query = text(u'SELECT (similarity(logradouro.logradouro, :logradouro)) as similaridade,'
