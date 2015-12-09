@@ -26,9 +26,15 @@ with open("regioes_bairros.txt", 'rb') as f:
     for row in r:
         regiao = row[0]
         splitted = _split_bairros(row[1])
-        bairros = [_clean_bairro(bairro) for bairro in splitted]
+        bairros = [_clean_bairro(bairro) for bairro in splitted if bairro]
         bairro_map[regiao].extend(bairros)
 
-for regiao, bairros in bairro_map.iteritems():
-    for bairro in bairros:
-        print ' '.join([regiao, bairro])
+with open('regioes_bairros.csv', 'wb') as outfile:
+    writer = csv.DictWriter(outfile, [u'Região', u'Bairro'])
+    writer.writeheader()
+    for regiao, bairros in bairro_map.iteritems():
+        for bairro in bairros:
+            writer.writerow({
+                u'Região': regiao,
+                u'Bairro': bairro,
+            })

@@ -1,0 +1,385 @@
+Região,Bairro
+Sudeste,Vila São Benedito
+Sudeste,Jardim Souto
+Sudeste,Residencial Cambuí
+Sudeste,Jardim da Granja
+Sudeste,Parque Santa Rita
+Sudeste,Chácaras São José
+Sudeste,Jardim Uirá
+Sudeste,Jardim Colorado
+Sudeste,Parque Martim Cererê
+Sudeste,Residencial Flamboyant
+Sudeste,Residencial Bell Park
+Sudeste,Sítio Bom Jesus
+Sudeste,Residencial São Francisco
+Sudeste,Altos do Uirá
+Sudeste,Jardim Santa Luzia
+Sudeste,Recanto dos Eucaliptos
+Sudeste,Jardim Santa Rosa
+Sudeste,Jardim Santa Julia
+Sudeste,Residencial Santa Rosa
+Sudeste,Putim
+Sudeste,Parque Santos Dumont
+Sudeste,Jardim do Lago
+Sudeste,Jardim São Leopoldo
+Sudeste,Jardim Santa Fé
+Sudeste,Jardim Santo Onofre
+Sudeste,Vila Iracema
+Sudeste,Vila Rica
+Sudeste,Jardim São Judas Tadeu
+Sudeste,Conjunto São Judas Tadeu
+Sudeste,Conjunto Habitacional Polícia Militar
+Sudeste,Residencial Jatobá
+Sudeste,Residencial Juritis
+Sudeste,Vila Adriana I
+Sudeste,Vila Adriana II
+Sudeste,Pernambucana de Cima
+Sudeste,Conjunto Residencial Nosso Teto
+Sudeste,Recanto das Jabuticabeiras 
+Sudeste,Recanto dos Nobres
+Sudeste,C.T.A.
+SFX,São Francisco Xavier
+SFX,Bairro dos Ferreiras
+Norte,Buquirinha
+Norte,Vila Paiva
+Norte,Jardim Boa Vista
+Norte,Jardim Santa Matilde
+Norte,Vila Cândida
+Norte,Vila São Geraldo
+Norte,Recanto Caetê
+Norte,Altos da Vila Paiva
+Norte,Conjunto Habitacional São Geraldo
+Norte,Alto da Ponte
+Norte,Jardim Maritéia
+Norte,Vila Leonídia
+Norte,Vila Nossa Senhora das Graças
+Norte,Vila Veneziani
+Norte,São Sebastião
+Norte,Vila Santarém
+Norte,Vila Sinhá
+Norte,Jardim Guimarães
+Norte,Vila Leila
+Norte,Vila Monte Alegre
+Norte,Vila Leila II
+Norte,Vila Unidos
+Norte,Chácara Oliveiras
+Norte,Chácara Miranda
+Norte,Minas Gerais
+Norte,Vila Dirce
+Norte,Jardim Altos de Santana
+Norte,Jardim Telespark
+Norte,Vila Machado
+Norte,Vila Alexandrina 
+Norte,Vila do Carmo
+Norte,Vila Dona
+Norte,Vila Esmeralda
+Norte,Vila Simone
+Norte,Vila do Pena
+Norte,Santana
+Norte,Jardim Anchieta
+Norte,Jardim Nova Paulicéia
+Norte,Vila Cristina
+Norte,Conjunto Residencial Nova Cristina
+Norte,Jardim Jaci
+Norte,Vila Rangel
+Norte,Vila Chiquinha
+Norte,Jardim Ouro Preto
+Norte,Vila Pasto Alto
+Norte,Vila César
+Norte,Vila Rossi
+Norte,Vila Zizinha
+Norte,Favela Vila Rhodia
+Norte,Vargem Grande
+Norte,Chácara Águas do Canindu
+Norte,Chácara Hawai
+Norte,Espelho D'Água
+Norte,Colinas do Parahyba
+Norte,Fazenda Jataí
+Sul,Parque Interlagos
+Sul,Pernambucana de Baixo
+Sul,Jardim Mesquita
+Sul,Terrinha
+Sul,Torrão de Ouro I
+Sul,Torrão de Ouro II
+Sul,Caramujo
+Sul,Torrão de Ouro
+Sul,Campo dos Alemães
+Sul,Parque dos Ipês
+Sul,Residencial Altos do Bosque
+Sul,Conjunto Habitacional Dom Pedro II
+Sul,Conjunto Residencial Papa João Paulo II
+Sul,Conjunto Habitacional Dom Pedro I
+Sul,Conjunto Habitacional Elmano F. Veloso
+Sul,Jardim Colonial
+Sul,Jardim Imperial
+Sul,Pinheirinho
+Sul,Capitingal
+Sul,Jardim República
+Sul,Jardim Nova República
+Sul,Vila das Flôres
+Sul,Jardim Santa Edwiges
+Sul,Jardim Dos Bandeirantes
+Sul,Jardim Cruzeiro do Sul
+Sul,Bosque dos Eucaliptos
+Sul,Quinta das Flores
+Sul,Jardim Estoril
+Sul,Jardim Madureira
+Sul,Jardim Del Rey
+Sul,Jardim Portugal
+Sul,Conjunto Residencial Primavera
+Sul,Jardim Satélite
+Sul,Residencial Jardins
+Sul,Floradas de São José
+Sul,Conjunto Residencial Cidade Jardim
+Sul,Jardim Anhembi
+Sul,Jardim América
+Sul,Residencial San Marino
+Sul,Jardim Paraíso
+Sul,Jardim Oriental
+Sul,Jardim do Céu
+Sul,Jardim Rosário
+Sul,Jardim Oriente
+Sul,Conjunto Residencial Sol Nascente
+Sul,Jardim Terras do Sul
+Sul,Jardim Sul
+Sul,Bosque dos Ipês
+Sul,Residencial Gazzo
+Sul,Cidade Morumbi
+Sul,Conjunto Residencial Morumbi
+Sul,Parque Residencial União
+Sul,Jardim Juliana
+Sul,Parque Industrial
+Sul,Conjunto Residencial Morada do Sol
+Sul,Conjunto Residencial Recanto Eucaliptos
+Sul,Conjunto Residencial 31 de Março
+Sul,Jardim das Azaléias
+Sul,Jardim Petrópolis
+Sul,Jardim Veneza
+Sul,Pq. Independência
+Sul,Conjunto Residencial Recanto Pinheiros
+Sul,Residencial De Ville
+Sul,Palmeiras de São José
+Sul,Jardim Vale do Sol
+Sul,Chácaras Reunidas
+Sul,Rio Comprido
+Sul,Vila Nova Conceição
+Sul,Jardim Aeroporto
+Sul,Vila das Acácias
+Sul,Vila Letônia
+Sul,Vila Nair
+Sul,Vila São Bento
+Sul,Vila Luchetti
+Sul,Xingu
+Sul,Projeto Torrão de Ouro
+Leste,Residencial Vista Linda
+Leste,Vila Industrial
+Leste,Jardim Ismênia
+Leste,Jardim Maracanã
+Leste,Jardim Olímpia
+Leste,Jardim Copacabana
+Leste,Jardim Brasília
+Leste,Jardim Universo
+Leste,Jardim São Jorge
+Leste,Vila Ester
+Leste,Vila Tesouro
+Leste,Chácara dos Eucaliptos
+Leste,Vila Patrícia
+Leste,Jardim Valparaíba
+Leste,Vila Tatetuba
+Leste,Conjunto Residencial Parque das Américas
+Leste,Conjunto Habitacional Intervale
+Leste,Conjunto Habitacional Vila Tatetuba
+Leste,Conjunto Residencial Planalto
+Leste,Conjunto Integração
+Leste,Martins Guimarães
+Leste,Fazenda Pilão Arcado
+Leste,Sol Nascente 
+Leste,Renascer I
+Leste,Renascer II
+Leste,Conjunto Residencial Jardim das Flores
+Leste,Terra Nova São José dos Campos
+Leste,Eugênio de Melo
+Leste,Jardim Ipê
+Leste,Fazenda Nossa Senhora da Conceição
+Leste,Fazenda Toninho Ferreira
+Leste,Jardim Itapuã
+Leste,Residencial Galo Branco
+Leste,Residencial Armando Moreira Righi
+Leste,Residencial da Ribeira
+Leste,Mantiqueira I
+Leste,Mantiqueira II
+Leste,Fazenda Taira
+Leste,Fazenda Honda
+Leste,Fazenda Takanashi
+Leste,Fazenda Vila Franca
+Leste,Fazenda Toninho Ferreira
+Leste,Jardim Santa Inês I
+Leste,Jardim Santa Inês III
+Leste,Conjunto Habitacional São José
+Leste,Jardim Coqueiro 
+Leste,Frei Galvão
+Leste,Jardim Castanheiras
+Leste,Jardim Paraíso do Sol
+Leste,Jardim Nova Michigan
+Leste,Chácara Araújo 
+Leste,Chácara Águas da Prata 
+Leste,Cajurú
+Leste,Residencial Dom Bosco
+Leste,Santa Helena 
+Leste,Jardim das Paineira I
+Leste,Jardim das Paineira II
+Leste,Mato Dentro
+Leste,Jardim San Rafael
+Leste,Chácara Nova Michigam II
+Leste,Chácara Nova Michigam III
+Leste,Chácara Nova Michigam IV 
+Leste,Parque Novo Horizonte
+Leste,Jardim Cerejeiras
+Leste,Parque Nova Esperança
+Leste,Capão Grosso
+Leste,Bica D'Água
+Leste,Chácara Capão Grosso I
+Leste,Castanheira II
+Leste,Morada do Fenix
+Leste,Santa Maria I Chácara Sitio Jatai
+Leste,Bom Retiro
+Leste,Capão Grosso II
+Leste,Ebenezer
+Leste,Chácara Majestic
+Leste,Morada do Sol
+Leste,Portal do Céu
+Leste,Primavera II
+Leste,Santa Rita
+Leste,Rec.dos Lagos
+Leste,Jardim Santa Lucia
+Leste,Cambucá
+Leste,Lucio de Oliveira Mota
+Leste,Bairrinho
+Leste,Nossa Senhora do Bom Retiro
+Leste,Bom Retiro
+Leste,Chácara Boa Esperança
+Leste,Chácara São Vicente
+Leste,Primavera I
+Leste,Santa Hermínia
+Leste,Sítio Encantado
+Leste,Vila Matilde
+Leste,Fazenda Bom Retiro
+Leste,Jardim São Vicente
+Leste,Jardim Nova Detroit
+Leste,Jardim Pararangaba
+Leste,Jardim Santa Inês II
+Leste,Mirante I
+Leste,Mirante II
+Leste,Jardim Americano
+Leste,Jardim Três José
+Leste,"Jardim Nova Florida, Residencial Ana Maria"
+Leste,Campos de São José
+Leste,Jardim Mariana
+Leste,Chácara Pousada do Vale
+Leste,Jardim Diamante
+Leste,Jardim Motorama
+Leste,Cidade Vista Verde
+Leste,Condomínio Floresta
+Leste,Vilaggio D'Antonini
+Leste,Conjunto Residencial JK
+Leste,Ressaca
+Leste,Jardim Mariana II
+Leste,Santa Cecília I
+Leste,Santa Cecília II
+Leste,"Maravilhas do Cajuru, Vila Monterey, Jardim Helena"
+Leste,Serrote
+Leste,Recanto do Vale
+Leste,Chácara Santa Luzia
+Centro,Vila São Paulo
+Centro,Vila Abel
+Centro,Jardim Bela Vista
+Centro,Vila Mascarenhas Ferraz
+Centro,Vila Santa Helena
+Centro,Vila Viaduto
+Centro,Vila Santos
+Centro,Vila Maria
+Centro,Vila Nova São José
+Centro,Vila Tupi
+Centro,Vila Guarani
+Centro,Vila Terezinha
+Centro,Vila Nova Guarani
+Centro,Vila Guarani
+Centro,Centro
+Centro,Vila Paganini
+Centro,Vila Santa Cruz II
+Centro,Jardim Matarazzo
+Centro,Vila Santa Luzia
+Centro,Jardim Santos Dumont
+Centro,Vila Santa Cruz I
+Centro,Favela Vila Nova Esperança
+Centro,Conjunto Residencial Monte Castelo
+Centro,Monte Castelo
+Centro,Jardim Frei Leopoldo
+Centro,Vila Progresso
+Centro,Vila Santa Cruz III
+Centro,Vila Guarani
+Centro,Jardim Paulista
+Centro,Vila Kennedy
+Centro,Jardim Jussara
+Centro,Residencial Martins Pereira
+Centro,Jardim Corinthians
+Centro,Vila São Pedro
+Centro,Jardim São José
+Centro,Jardim Augusta
+Centro,Jardim Oswaldo Cruz
+Centro,Jardim Vale Paraíso
+Centro,Vila Piratininga
+Centro,Jardim Topázio
+Centro,Jardim Bandeirantes
+Centro,Vila Cardoso
+Centro,Vila Ipiranga
+Centro,Jardim Paulista
+Centro,Vila Nove de Julho
+Centro,Vila Igualdade
+Centro,Vila Higienópolis
+Centro,Vila Paulo Setubal
+Centro,Vila Adyana
+Centro,Jardim São Dimas
+Centro,Jardim Aparecida
+Centro,Vila Sanches
+Centro,Vila Rubi
+Centro,Jardim Azevedo
+Centro,Vila Betânia
+Centro,Vila Zelfa
+Centro,Jardim Maringá
+Centro,Jardim Nossa Senhora Fátima
+Centro,Jardim Margareth
+Centro,Jardim Renata
+Centro,Jardim Santa Madalena
+Centro,Vila Luzia
+Centro,Vila Guaianazes
+Centro,Vila Icaraí
+Centro,Vila Jaci
+Centro,Chácara dos Eucaliptos
+Centro,Serimbura
+Centro,Bairro dos Pinheiros
+Centro,Residencial Esplanada do Sol
+Centro,Jardim Esplanada
+Centro,Jardim Esplanada II
+Centro,Jardim Nova América
+Centro,Jardim Nova Europa
+Centro,Vila Santa Rita
+Centro,Conjunto Habitacional Vale dos Pinheiros
+Centro,Jardim Apolo I
+Centro,Vila Ema
+Centro,Jardim Apolo II
+Oeste,Jardim das Indústrias
+Oeste,Jardim Alvorada
+Oeste,Jardim Por do Sol
+Oeste,Limoeiro
+Oeste,Jardim Colinas
+Oeste,Jardim Aquarius
+Oeste,Bosque Imperial
+Oeste,Residencial Sunset Park
+Oeste,Parque Residencial Aquarius
+Oeste,Jardim Altos do Esplanada
+Oeste,Jardim Cassiano Ricardo
+Oeste,Royal Park
+Oeste,Urbanova
+Oeste,Jaguariuna
+Oeste,Beira Rio
