@@ -30,11 +30,11 @@ with open("regioes_bairros.txt", 'rb') as f:
         bairro_map[regiao].extend(bairros)
 
 with open('regioes_bairros.csv', 'wb') as outfile:
-    writer = csv.DictWriter(outfile, [u'Região', u'Bairro'])
+    writer = csv.DictWriter(outfile, [u'regiao', u'bairro'])
     writer.writeheader()
     for regiao, bairros in bairro_map.iteritems():
         for bairro in bairros:
             writer.writerow({
-                u'Região': regiao,
-                u'Bairro': bairro,
+                u'regiao': regiao,
+                u'bairro': bairro,
             })
