@@ -9,7 +9,8 @@ Flask-Mail==0.9.1
 Flask-Principal==0.4.0
 Flask-Pusher==1.0.2
 Flask-Script==2.0.5
-git+https://github.com/ArthurPBressan/flask-security.git
+Flask-Security==1.7.5
+# git+https://github.com/ArthurPBressan/flask-security.git
 Flask-SQLAlchemy==2.0.0
 Flask-WTF==0.11.0
 Flask==0.10.1
@@ -18,3 +19,4 @@ raven[flask]==5.8.1
 requests==2.7.0
 WTForms-SQLAlchemy==0.1
 unicodecsv==0.14.1
+openpyxl==2.3.5
