@@ -25,9 +25,9 @@ def criar_usuarios():
 
 
 @manager.command
-def carregar_enderecos(regioes_filename, logradouros_filename, gerar_csv_logradouros=False):
+def carregar_enderecos(regioes_filename, logradouros_filename):
     carregar_regioes(regioes_filename)
-    carregar_logradouros(logradouros_filename, gerar_csv_logradouros)
+    carregar_logradouros(logradouros_filename)
 
 
 @manager.command
@@ -52,10 +52,9 @@ def carregar_regioes(filename):
 
 
 @manager.command
-def carregar_logradouros(filename, gerar_csv=False):
+def carregar_logradouros(filename):
     from cidadeiluminada.base import db
     from cidadeiluminada.protocolos.models import Bairro, Logradouro
-    rows = []
     with open(filename, 'r') as csvfile:
         csvreader = DictReader(csvfile)
         for row in csvreader:
@@ -75,12 +74,4 @@ def carregar_logradouros(filename, gerar_csv=False):
                 db.session.add(logradouro)
             if not logradouro.bairro:
                 logradouro.bairro = bairro
-            if gerar_csv:
-                rows.append(row)
     db.session.commit()
-    if not gerar_csv:
-        return
-    with open('enderecos_sjc.csv', 'w') as sjcfile:
-        csvwriter = DictWriter(sjcfile, ['rua', 'cep', 'bairro', 'cidade', 'uf'])
-        csvwriter.writeheader()
-        csvwriter.writerows(rows)
