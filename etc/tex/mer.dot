@@ -1,4 +1,6 @@
 // apt-get install graphviz
+//$ cat mer.dot | dot -Tsvg > mer.svg
+//$ cat mer.dot | dot -Tjpg > mer.jpg
 graph ci_mer {
     node [shape=box]; regiao; bairro; logradouro; poste; protocolo;
         item_manutencao; ordem_servico; equipamento;
@@ -38,7 +40,4 @@ graph ci_mer {
 
     equipamento -- e_h [label="n"];
     e_h -- preco_equipamento [label="1"];
-
-    //$ cat mer.dot | dot -Tsvg > mer.svg
-    //$ cat mer.dot | dot -Tjpg > mer.jpg
 }
