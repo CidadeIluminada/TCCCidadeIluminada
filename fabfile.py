@@ -6,10 +6,10 @@ from fabtools.python import virtualenv
 
 from fabric.api import env, sudo, cd, settings
 
-env.host_string = 'root@45.55.6.21'
+env.host_string = 'root@104.236.157.40'
 
 CIDADEILUMINADA_WORK_PATH = '/root/cidadeiluminada/'
-CIDADEILUMINADA_REPO_PATH = 'git@github.com:HardDiskD/TCCCidadeIluminada.git'
+CIDADEILUMINADA_REPO_PATH = 'git@github.com:CidadeIluminada/TCCCidadeIluminada.git'
 
 
 def teardown():

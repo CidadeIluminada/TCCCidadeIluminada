@@ -1,4 +1,4 @@
-fabric==1.10.1
+fabric==1.11.1
 fabtools==0.19.0
 git+https://github.com/ArthurPBressan/flask-admin@localized-datetimepicker
 Flask-Assets==0.10
