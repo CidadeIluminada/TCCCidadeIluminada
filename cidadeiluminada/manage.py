@@ -29,6 +29,19 @@ def carregar_regioes(filename):
     from cidadeiluminada.protocolos.models import Bairro, Regiao
     with open(filename, 'r') as csvfile:
         csvreader = DictReader(csvfile)
+        for row in csvreader:
+            regiao_ = row['regiao']
+            regiao = Regiao.query.filter_by(nome=regiao_).first()
+            if not regiao:
+                regiao = Regiao(nome=regiao)
+                db.session.add(regiao)
+            bairro_ = row['bairro']
+            bairro = Bairro.query.filter_by(nome=bairro_).first()
+            if not bairro:
+                bairro = Bairro(nome=bairro_)
+                db.session.add(bairro)
+            bairro.regiao = regiao
+    db.session.commit()
 
 
 @manager.command
