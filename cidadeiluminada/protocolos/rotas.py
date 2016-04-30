@@ -151,7 +151,7 @@ class SecretariaAcessibleMixin():
 
     def is_accessible(self):
         has_secretaria = current_user.has_role('secretaria')
-        return current_user.is_authenticated() and has_secretaria
+        return current_user.is_authenticated and has_secretaria
 
 
 class _ModelView(SecretariaAcessibleMixin, ModelView):
