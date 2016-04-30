@@ -23,6 +23,13 @@ def criar_usuarios():
                                roles=[secretaria_role])
     user_datastore.commit()
 
+
+@manager.command
+def carregar_enderecos(regioes_filename, logradouros_filename, gerar_csv_logradouros=False):
+    carregar_regioes(regioes_filename)
+    carregar_logradouros(logradouros_filename, gerar_csv_logradouros)
+
+
 @manager.command
 def carregar_regioes(filename):
     from cidadeiluminada.base import db
