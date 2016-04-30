@@ -62,4 +62,5 @@ def carregar_logradouros(filename, gerar_csv=False):
         return
     with open('enderecos_sjc.csv', 'w') as sjcfile:
         csvwriter = DictWriter(sjcfile, ['rua', 'cep', 'bairro', 'cidade', 'uf'])
+        csvwriter.writeheader()
         csvwriter.writerows(rows)
