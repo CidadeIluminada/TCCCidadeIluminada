@@ -65,8 +65,8 @@ def carregar_logradouros(filename, gerar_csv=False):
             bairro_ = row['bairro']
             bairro = Bairro.query.filter_by(nome=bairro_).first()
             if not bairro:
-                bairro = Bairro(nome=bairro_)
-                db.session.add(bairro)
+                print 'Bairro não encontrado:', bairro_
+                continue
             cep = row['cep']
             logradouro_ = row['rua']
             logradouro = Logradouro.query.filter_by(cep=cep).first()
