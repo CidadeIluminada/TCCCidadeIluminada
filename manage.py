@@ -15,5 +15,10 @@ manager.add_command('db', MigrateCommand)
 manager.add_command('runserver', Server())
 
 
+@manager.command
+def instance_path():
+    from flask import current_app
+    return current_app.instance_path
+
 if __name__ == '__main__':
     manager.run()
